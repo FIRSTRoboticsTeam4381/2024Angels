@@ -4,18 +4,49 @@
 
 package frc.robot.autos;
 
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import java.util.List;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public final class Autos {
-  /** Example static factory for an autonomous command. */
-  public static Command exampleAuto(ExampleSubsystem subsystem) {
-    return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
-  }
+  
+  // TODO register commands in subsystem constructores using NamedCommands.registerCommand()
+  // TODO use AutoBuilder.buildAutoChooser() to choose autos??
 
-  private Autos() {
-    throw new UnsupportedOperationException("This is a utility class!");
-  }
+    // TODO test of full auto
+    public static Command testAuto(){
+        return new PathPlannerAuto("TestAuto");
+    }
+
+    // TODO test of a single path
+    public static Command testPath(){
+        PathPlannerPath path = PathPlannerPath.fromPathFile("TestPath1");
+
+        return AutoBuilder.followPathWithEvents(path);
+    }
+
+    // TODO test of a path group
+    public static Command testPathGroup(){
+        List<PathPlannerPath> paths = PathPlannerAuto.getPathGroupFromAutoFile("TestAuto");
+        Command[] pathGroup = new Command[paths.size()];
+        for(int i = 0; i < pathGroup.length; i++){
+            pathGroup[i] = AutoBuilder.followPathWithEvents(paths.get(i));
+        }
+
+        return new SequentialCommandGroup(pathGroup);
+    }
+
+    /**
+     * Blank Autonomous to be used as default dashboard option
+     * @return Autonomous command
+     */
+    public static Command none(){
+        return Commands.none();
+    }
 }
