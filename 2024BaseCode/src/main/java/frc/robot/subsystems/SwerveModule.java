@@ -10,7 +10,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkRelativeEncoder.Type;
 
 import frc.lib.math.Conversions;
-import frc.lib.util.CTREModuleState;
 import frc.lib.util.LogOrDash;
 import frc.lib.util.SwerveModuleConstants;
 import frc.robot.Constants;
@@ -66,7 +65,7 @@ public class SwerveModule {
 
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop)
     {
-        desiredState = CTREModuleState.optimize(desiredState, getState().angle); //TODO does this need to be update for Rev?
+        desiredState = SwerveModuleState.optimize(desiredState, getState().angle); //TODO does this need to be update for Rev?
 
         if(isOpenLoop){
             double percentOutput = desiredState.speedMetersPerSecond / Constants.Swerve.maxSpeed;
