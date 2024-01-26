@@ -137,15 +137,15 @@ public class Shooter extends SubsystemBase {
     return new FunctionalCommand( () -> {
 
     }, () -> {
-      if (SHOOT_SPEED > shooter1.getEncoder().getVelocity()) {
+      if (SHOOT_SPEED > shooter1.getEncoder().getVelocity()) { // If the motor speed is not up to speed
         shooter1.set(1);
-      } else {
+      } else { // Else
         shooter1.set(0);
       }
 
-      if (SHOOT_SPEED > shooter2.getEncoder().getVelocity()) {
+      if (SHOOT_SPEED > shooter2.getEncoder().getVelocity()) { // Same but for 2nd shooter motor
         shooter2.set(1);
-      } else {
+      } else { // Else
         shooter2.set(0);
       }
     }, (isInterupted) -> {
