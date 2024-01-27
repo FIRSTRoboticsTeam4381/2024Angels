@@ -24,8 +24,6 @@ public class Shooter extends SubsystemBase {
   private CANSparkFlex shooter1;
   private CANSparkFlex shooter2;
 
-  private CANSparkMax pivot1;
-  private CANSparkMax pivot2;
 
   private final int SHOOT_SPEED = 123456789;
 
@@ -34,10 +32,6 @@ public class Shooter extends SubsystemBase {
     shooter1 = new CANSparkFlex(0, MotorType.kBrushless);
     shooter2 = new CANSparkFlex(0, MotorType.kBrushless);
 
-    pivot1 = new CANSparkMax(0, MotorType.kBrushless);
-    pivot2 = new CANSparkMax(0, MotorType.kBrushless);
-
-    pivot2.follow(pivot1, true);
   }
 
   public void configToFlash()
@@ -69,36 +63,6 @@ public class Shooter extends SubsystemBase {
             LogOrDash.checkRevError("shooter motor 2 BURN",
                 shooter2.burnFlash());
             Thread.sleep(1000);
-
-
-
-            // shooter pivot motor 1
-            LogOrDash.checkRevError("shooter pivot motor 1 clear",
-                pivot1.restoreFactoryDefaults());
-            
-            Thread.sleep(1000);
-
-            configShooterPivotMotor(pivot1);
-            LogOrDash.checkRevError("ShooterPivotLimitF1", pivot1.setSoftLimit(SoftLimitDirection.kForward, 123456789));
-            LogOrDash.checkRevError("ShooterPivotLimitR1", pivot1.setSoftLimit(SoftLimitDirection.kReverse, 0));
-
-            Thread.sleep(1000);
-            LogOrDash.checkRevError("shooter pivot motor 1 BURN",
-                pivot1.burnFlash());
-            Thread.sleep(1000);
-
-            // shooter pivot motor 2
-            LogOrDash.checkRevError("shooter pivot motor 2 clear",
-                pivot2.restoreFactoryDefaults());
-            
-            Thread.sleep(1000);
-
-            configShooterPivotMotor(pivot2);
-
-            Thread.sleep(1000);
-            LogOrDash.checkRevError("shooter pivot motor 2 BURN",
-                pivot2.burnFlash());
-            Thread.sleep(1000);
         }
 
         catch(InterruptedException e)
@@ -114,16 +78,6 @@ public class Shooter extends SubsystemBase {
       LogOrDash.checkRevError("shooter brakes", m.setIdleMode(IdleMode.kCoast));
 
       LogOrDash.checkRevError("shooter open loop ramp rate", m.setOpenLoopRampRate(0.2));
-
-    }
-
-    private void configShooterPivotMotor(CANSparkMax m)
-    {
-      LogOrDash.checkRevError("shooter pivot current limit", m.setSmartCurrentLimit(40));
-
-      LogOrDash.checkRevError("shooter pivot brakes", m.setIdleMode(IdleMode.kBrake));
-
-      LogOrDash.checkRevError("shooter pivot open loop ramp rate", m.setOpenLoopRampRate(0.1));
 
     }
 

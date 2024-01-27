@@ -18,24 +18,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.SparkMaxPosition;
 
-public class Amptake extends SubsystemBase 
+public class Intake extends SubsystemBase 
 {
   // Creates motors
-  CANSparkMax pivot1;
-  CANSparkMax pivot2;
   CANSparkMax intake;
-  CANSparkMax belt;
   DigitalInput breakbeam;
   
   
-  public Amptake() 
+  public Intake() 
   {
-    pivot1 = new CANSparkMax(0, MotorType.kBrushless);
-    pivot2 = new CANSparkMax(0, MotorType.kBrushless);
     intake = new CANSparkMax(0, MotorType.kBrushless);
-    belt = new CANSparkMax(0, MotorType.kBrushless);
-    pivot2.follow(pivot1);
-    pivot2.setInverted(true);
     breakbeam = new DigitalInput(0);
   }
 
@@ -69,24 +61,6 @@ public class Amptake extends SubsystemBase
       new WaitCommand(1),
       new InstantCommand(() -> intake.set(0))
     );
-  }
-
-  // Move the note to the shooter
-  public Command prepShooter()
-  {
-    return new InstantCommand(() -> belt.set(1));
-  }
-
-  // Move the pivot to a position
-  public Command pivotTo(int position)
-  {
-    return new SparkMaxPosition(pivot1, position, 0, 50, this);
-  }
-
-  // Move pivot
-  public Command ampPivot()
-  {
-    return new InstantCommand(() -> pivot1.set(1));
   }
   
   // Turn off the intake
