@@ -10,8 +10,11 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.LogOrDash;
+import frc.robot.commands.SparkMaxPosition;
 
 public class SPivot extends SubsystemBase {
   private CANSparkMax pivot1;
@@ -80,11 +83,28 @@ public class SPivot extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
-
-
   }
 
+  public Command JoystickControl(double joystickMove) { // JOYSTICK CONTROL FOR SHOOTER PIVOT
+    return new InstantCommand( () -> 
+      pivot1.set(joystickMove),
+      this
+    );
+  }
 
+  public Command sPivotTo(int position) { // Set position for later commands
+    return new SparkMaxPosition(pivot1, position, 0, 50, this);
+  }
 
+  public Command pivotToShoot() { // GO TO SHOOT POSITION
+    return new InstantCommand(
+     () -> sPivotTo(2)
+    );
+  }
+
+   public Command pivotBack() { // GO BACK TO REGULAR POSITION (0)
+    return new InstantCommand(
+     () -> sPivotTo(0)
+    );
+  }
 }
