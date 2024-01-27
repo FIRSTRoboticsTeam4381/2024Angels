@@ -19,6 +19,7 @@ public class TeleopSwerve extends Command{
 
     private Swerve s_Swerve;
     private CommandPS4Controller controller;
+    private CommandPS4Controller controller2;
 
     private final Field2d m_field = new Field2d();
     private Pose2d startPose = new Pose2d(Units.inchesToMeters(177), Units.inchesToMeters(214), Rotation2d.fromDegrees(0));
@@ -29,11 +30,12 @@ public class TeleopSwerve extends Command{
      * @param controller PS4 controller
      * @param openLoop True
      */
-    public TeleopSwerve(Swerve s_Swerve, CommandPS4Controller controller, boolean openLoop){
+    public TeleopSwerve(Swerve s_Swerve, CommandPS4Controller controller, CommandPS4Controller controller2, boolean openLoop){
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
         this.controller = controller;
+        this.controller = controller2;
         this.openLoop = openLoop;
 
         SmartDashboard.putData("Field", m_field);
@@ -44,7 +46,7 @@ public class TeleopSwerve extends Command{
     public void execute(){
         double yAxis = -controller.getLeftY();
         double xAxis = -controller.getLeftX();
-        double rAxis = -controller.getRightX();
+        double rAxis = -controller2.getRightX();
 
         /* Deadbands */
         yAxis = (Math.abs(yAxis) < Constants.stickDeadband) ? 0 : yAxis;

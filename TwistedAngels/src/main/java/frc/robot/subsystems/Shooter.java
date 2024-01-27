@@ -21,17 +21,17 @@ import frc.lib.util.LogOrDash;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
-  private CANSparkFlex shooter1;
-  private CANSparkFlex shooter2;
+  public CANSparkFlex shooter1;
+  public CANSparkFlex shooter2;
 
 
-  private final int SHOOT_SPEED = 123456789;
+  public final int SHOOT_SPEED = 123456789;
 
   /** Creates a new Shooter. */
   public Shooter() {
     shooter1 = new CANSparkFlex(0, MotorType.kBrushless);
     shooter2 = new CANSparkFlex(0, MotorType.kBrushless);
-
+    shooter2.setInverted(true);
   }
 
   public void configToFlash()
@@ -87,7 +87,7 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public Command spinUp() {
+  public Command shooterReady() {
     return new FunctionalCommand( () -> {
 
     }, () -> {
@@ -103,7 +103,8 @@ public class Shooter extends SubsystemBase {
         shooter2.set(0);
       }
     }, (isInterupted) -> {
-
+      shooter1.set(0);
+      shooter2.set(0);
     }, () -> {
       return false;
     }, this);

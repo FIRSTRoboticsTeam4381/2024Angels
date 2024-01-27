@@ -20,8 +20,9 @@ import frc.robot.commands.SparkMaxPosition;
 
 public class APivot extends SubsystemBase {
   
-  CANSparkMax pivot1;
-  CANSparkMax pivot2;
+  public CANSparkMax pivot1;
+  public CANSparkMax pivot2;
+  public int upPosition;
 
   public APivot() 
   {
@@ -29,6 +30,7 @@ public class APivot extends SubsystemBase {
     pivot2 = new CANSparkMax(0, MotorType.kBrushless);
     pivot2.follow(pivot1);
     pivot2.setInverted(true);
+    
   }
 
   public void configToFlash()
@@ -98,7 +100,9 @@ public class APivot extends SubsystemBase {
 
   public Command pivotUp()
   {
-    return new InstantCommand(() -> pivotTo(1));
+    return new InstantCommand(() -> pivotTo(upPosition)
+    );
+    
   }
 
   public Command pivotDown()

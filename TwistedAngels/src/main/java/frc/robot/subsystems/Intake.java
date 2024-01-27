@@ -17,12 +17,15 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.SparkMaxPosition;
+import frc.robot.subsystems.Shooter;
+import frc.robot.commands.ShootingMode;
 
 public class Intake extends SubsystemBase 
 {
   // Creates motors
   CANSparkMax intake;
   DigitalInput breakbeam;
+  ShootingMode shooterMode;
   
   
   public Intake() 
@@ -41,8 +44,7 @@ public class Intake extends SubsystemBase
       (isInterupted) -> intake.set(0),
       breakbeam::get
     ,this);
-  }
-
+  } 
   // Spit out a ring out the front 
   public Command spitOut()
   {
@@ -53,7 +55,7 @@ public class Intake extends SubsystemBase
     );
   }
 
-  // When the amp pivots are up it is used to place in amp
+  // When the amp pivots are up it is used to place in amp 
   public Command inAmp()
   {
     return new SequentialCommandGroup(
@@ -62,6 +64,18 @@ public class Intake extends SubsystemBase
       new InstantCommand(() -> intake.set(0))
     );
   }
+
+  // Putting on belt to shoot
+  public Command toShoot()
+  {
+    
+      return new SequentialCommandGroup(
+        new InstantCommand(() -> intake.set(0.3)),
+        new WaitCommand(1),
+        new InstantCommand(() -> intake.set(0))
+      );
+  }
+  
   
   // Turn off the intake
   public Command off()
