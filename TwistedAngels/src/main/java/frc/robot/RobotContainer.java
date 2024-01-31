@@ -63,7 +63,7 @@ public class RobotContainer {
         shooter = new Shooter();
         sPivot = new SPivot();
         leds = new LEDs();
-        shooterMode = new ShootingMode(s_Swerve, sPivot, shooter);
+        shooterMode = new ShootingMode(driver, specialist);
 
         aPivot.setDefaultCommand(aPivot.joystickMove(specialist::getLeftY));
         sPivot.setDefaultCommand(sPivot.joystickControl(specialist::getRightY));
@@ -94,7 +94,7 @@ public class RobotContainer {
         zeroSwerve
             .onTrue(new InstantCommand(() -> s_Swerve.zeroGyro(0))
             .alongWith(new InstantCommand(() -> s_Swerve.resetOdometry(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0))))));
-        driver.cross().onTrue(new InstantCommand(() -> new ShootingMode(s_Swerve, sPivot, shooter)));
+        driver.cross().onTrue(shooterMode);
         specialist.R2().onTrue(intake.toShoot().unless(shooter::readyShoot).withName("shoot"));
         specialist.L1().onTrue(intake.inAmp().unless(aPivot::isDown).withName("scoreInAmp"));
     }

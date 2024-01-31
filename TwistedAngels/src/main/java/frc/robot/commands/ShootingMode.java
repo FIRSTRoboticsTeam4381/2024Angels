@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import frc.robot.subsystems.Shooter;
@@ -12,48 +13,13 @@ import frc.robot.subsystems.SPivot;
 import frc.robot.subsystems.Swerve;
 import frc.robot.RobotContainer;
 
-public class ShootingMode extends Command {
-  Swerve swerveDrive;
-  SPivot pivot;
-  Shooter shooter;
-  RobotContainer robotContainer;
-  CommandPS4Controller controller;
+public class ShootingMode extends ParallelRaceGroup {
+  
 
-
-  public ShootingMode(Swerve mainDrive, SPivot sPivot, Shooter shooter) 
+  public ShootingMode(CommandPS4Controller driver, CommandPS4Controller specialist) 
   {
-    swerveDrive = mainDrive;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(mainDrive, sPivot, shooter);
+    addCommands(RobotContainer.shooter.shooterReady(), (new TeleopSwerve(RobotContainer.s_Swerve, driver::getLeftY, driver::getLeftX, specialist::getRightX, true, driver::getR2Axis)));
+    setName("shooterMode");
   }
 
-
-  @Override
-  public void initialize() 
-  {
-    shooter.shooterReady();
-    //swerveDrive.setDefaultCommand(new TeleopSwerve(swerveDrive, robotContainer.driver, robotContainer.specialist, true));
-  }
-
-  @Override
-  public void execute() 
-  {
-   
-    
-
-  }
-
-
-  @Override
-  public void end(boolean interrupted) 
-  {
-    //swerveDrive.setDefaultCommand(new TeleopSwerve(swerveDrive, robotContainer.driver, robotContainer.driver, true));
-  }
-
- 
-  @Override
-  public boolean isFinished() 
-  {
-    return false;
-  }
 }
