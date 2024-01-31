@@ -29,8 +29,8 @@ public class APivot extends SubsystemBase {
 
   public APivot() 
   {
-    pivot1 = new CANSparkMax(0, MotorType.kBrushless);
-    pivot2 = new CANSparkMax(0, MotorType.kBrushless);
+    pivot1 = new CANSparkMax(51, MotorType.kBrushless);
+    pivot2 = new CANSparkMax(52, MotorType.kBrushless);
     pivot2.follow(pivot1);
     pivot2.setInverted(true);
     SmartDashboard.putData(this);

@@ -30,8 +30,8 @@ public class Shooter extends SubsystemBase {
 
   /** Creates a new Shooter. */
   public Shooter() {
-    shooter1 = new CANSparkMax(0, MotorType.kBrushless);
-    shooter2 = new CANSparkMax(0, MotorType.kBrushless);
+    shooter1 = new CANSparkMax(53, MotorType.kBrushless);
+    shooter2 = new CANSparkMax(54, MotorType.kBrushless);
     shooter2.setInverted(true);
     SmartDashboard.putData(this);
   }

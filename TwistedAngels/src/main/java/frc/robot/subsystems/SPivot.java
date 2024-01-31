@@ -27,8 +27,8 @@ public class SPivot extends SubsystemBase {
 
   /** Creates a new SPivot. */
   public SPivot() {
-    pivot1 = new CANSparkMax(0, MotorType.kBrushless);
-    pivot2 = new CANSparkMax(0, MotorType.kBrushless);
+    pivot1 = new CANSparkMax(55, MotorType.kBrushless);
+    pivot2 = new CANSparkMax(56, MotorType.kBrushless);
     pivot2.follow(pivot1, true);
     SmartDashboard.putData(this);
   }

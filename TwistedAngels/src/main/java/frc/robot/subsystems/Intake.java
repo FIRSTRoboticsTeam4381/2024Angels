@@ -30,7 +30,7 @@ public class Intake extends SubsystemBase
   
   public Intake() 
   {
-    intake = new CANSparkMax(0, MotorType.kBrushless);
+    intake = new CANSparkMax(50, MotorType.kBrushless);
     breakbeam = new DigitalInput(0);
     SmartDashboard.putData(this);
   }
