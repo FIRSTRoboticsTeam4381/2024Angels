@@ -7,6 +7,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import java.util.function.Supplier;
+
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -22,7 +25,7 @@ public class APivot extends SubsystemBase {
   
   public CANSparkMax pivot1;
   public CANSparkMax pivot2;
-  public int upPosition;
+  public final int UP_POSITION = 1;
 
   public APivot() 
   {
@@ -30,7 +33,7 @@ public class APivot extends SubsystemBase {
     pivot2 = new CANSparkMax(0, MotorType.kBrushless);
     pivot2.follow(pivot1);
     pivot2.setInverted(true);
-    
+    SmartDashboard.putData(this);
   }
 
   public void configToFlash()
@@ -85,38 +88,40 @@ public class APivot extends SubsystemBase {
   }
 
 
-  public Command joystickMove(Double joystickM)
+  public Command joystickMove(Supplier<Double> joystickM)
   {
     return new InstantCommand(() -> 
-    pivot1.set(joystickM)
+    pivot1.set(joystickM.get())
     ,this
-    );
+    ).withName("joystickMove").repeatedly();
   }
 
   public Command pivotTo(int position)
   {
-    return new SparkMaxPosition(pivot1, position, 0, 50, this);
+    return new SparkMaxPosition(pivot1, position, 0, 50, this).withName("pivotTo");
   }
 
   public Command pivotUp()
   {
-    return new InstantCommand(() -> pivotTo(upPosition)
-    );
+    return new InstantCommand(() -> pivotTo(UP_POSITION)).withName("pivotUp");
     
   }
 
   public Command pivotDown()
   {
-    return new InstantCommand(() -> pivotTo(0));
+    return new InstantCommand(() -> pivotTo(0)).withName("pivotDown");
   }
 
-
+  public boolean isDown() {
+    return pivot1.getEncoder().getPosition() < UP_POSITION * 0.9;
+  }
 
 
 
 
   @Override
   public void periodic() {
-    //LogOrDash.logNumber("Pivot 1 Position", pivot1.getEncoder());
+    LogOrDash.sparkMaxDiagnostics("aPivot/pivot1", pivot1);
+    LogOrDash.sparkMaxDiagnostics("aPivot/pivot2", pivot2);
   }
 }

@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,8 +20,12 @@ public class TeleopSwerve extends Command{
     private boolean openLoop;
 
     private Swerve s_Swerve;
-    private CommandPS4Controller controller;
-    private CommandPS4Controller controller2;
+    //private CommandPS4Controller controller;
+    //private CommandPS4Controller controller2;
+    private Supplier<Double> forward;
+    private Supplier<Double> leftright;
+    private Supplier<Double> rotate;
+    private Supplier<Double> slow;
 
     private final Field2d m_field = new Field2d();
     private Pose2d startPose = new Pose2d(Units.inchesToMeters(177), Units.inchesToMeters(214), Rotation2d.fromDegrees(0));
@@ -30,13 +36,15 @@ public class TeleopSwerve extends Command{
      * @param controller PS4 controller
      * @param openLoop True
      */
-    public TeleopSwerve(Swerve s_Swerve, CommandPS4Controller controller, CommandPS4Controller controller2, boolean openLoop){
+    public TeleopSwerve(Swerve s_Swerve, Supplier<Double> forward, Supplier<Double> leftright, Supplier<Double> rotate, boolean openLoop, Supplier<Double> slow){
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
-        this.controller = controller;
-        this.controller = controller2;
+        this.forward = forward;
+        this.leftright = leftright;
+        this.rotate = rotate;
         this.openLoop = openLoop;
+        this.slow = slow;
 
         SmartDashboard.putData("Field", m_field);
         m_field.setRobotPose(startPose);
@@ -44,9 +52,9 @@ public class TeleopSwerve extends Command{
 
     @Override
     public void execute(){
-        double yAxis = -controller.getLeftY();
-        double xAxis = -controller.getLeftX();
-        double rAxis = -controller2.getRightX();
+        double yAxis = -forward.get();
+        double xAxis = -leftright.get();
+        double rAxis = -rotate.get();
 
         /* Deadbands */
         yAxis = (Math.abs(yAxis) < Constants.stickDeadband) ? 0 : yAxis;
@@ -54,7 +62,7 @@ public class TeleopSwerve extends Command{
         rAxis = (Math.abs(rAxis) < Constants.stickDeadband) ? 0 : rAxis;
 
         /* Slow Trigger */
-        double slowdown = 1 - (controller.getR2Axis() < Constants.stickDeadband ? 0 : controller.getR2Axis());
+        double slowdown = 1 - (slow.get() < Constants.stickDeadband ? 0 : slow.get());
         yAxis *= slowdown;
         xAxis *= slowdown;
         rAxis *= slowdown;

@@ -5,11 +5,15 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import java.util.function.Supplier;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,6 +30,7 @@ public class SPivot extends SubsystemBase {
     pivot1 = new CANSparkMax(0, MotorType.kBrushless);
     pivot2 = new CANSparkMax(0, MotorType.kBrushless);
     pivot2.follow(pivot1, true);
+    SmartDashboard.putData(this);
   }
 
 
@@ -82,29 +87,30 @@ public class SPivot extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    LogOrDash.sparkMaxDiagnostics("sPivot/pivot1", pivot1);
+    LogOrDash.sparkMaxDiagnostics("sPivot/pivot2", pivot2);    
   }
 
-  public Command JoystickControl(double joystickMove) { // JOYSTICK CONTROL FOR SHOOTER PIVOT
+  public Command joystickControl(Supplier<Double> joystickMove) { // JOYSTICK CONTROL FOR SHOOTER PIVOT
     return new InstantCommand( () -> 
-      pivot1.set(joystickMove),
+      pivot1.set(joystickMove.get()),
       this
-    );
+    ).withName("JoystickControl").repeatedly();
   }
 
   public Command sPivotTo(int position) { // Set position for later commands
-    return new SparkMaxPosition(pivot1, position, 0, 50, this);
+    return new SparkMaxPosition(pivot1, position, 0, 50, this).withName("sPivotTo");
   }
 
   public Command pivotToShoot() { // GO TO SHOOT POSITION
     return new InstantCommand(
      () -> sPivotTo(2)
-    );
+    ).withName("pivotToShoot");
   }
 
    public Command pivotBack() { // GO BACK TO REGULAR POSITION (0)
     return new InstantCommand(
      () -> sPivotTo(0)
-    );
+    ).withName("pivotBack");
   }
 }

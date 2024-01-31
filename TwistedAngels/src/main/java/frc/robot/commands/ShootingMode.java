@@ -32,7 +32,7 @@ public class ShootingMode extends Command {
   public void initialize() 
   {
     shooter.shooterReady();
-    swerveDrive.setDefaultCommand(new TeleopSwerve(swerveDrive, robotContainer.driver, robotContainer.specialist, true));
+    //swerveDrive.setDefaultCommand(new TeleopSwerve(swerveDrive, robotContainer.driver, robotContainer.specialist, true));
   }
 
   @Override
@@ -47,7 +47,7 @@ public class ShootingMode extends Command {
   @Override
   public void end(boolean interrupted) 
   {
-    swerveDrive.setDefaultCommand(new TeleopSwerve(swerveDrive, robotContainer.driver, robotContainer.driver, true));
+    //swerveDrive.setDefaultCommand(new TeleopSwerve(swerveDrive, robotContainer.driver, robotContainer.driver, true));
   }
 
  

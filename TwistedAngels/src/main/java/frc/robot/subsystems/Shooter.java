@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,17 +22,18 @@ import frc.lib.util.LogOrDash;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
-  public CANSparkFlex shooter1;
-  public CANSparkFlex shooter2;
+  public CANSparkMax shooter1;
+  public CANSparkMax shooter2;
 
 
   public final int SHOOT_SPEED = 123456789;
 
   /** Creates a new Shooter. */
   public Shooter() {
-    shooter1 = new CANSparkFlex(0, MotorType.kBrushless);
-    shooter2 = new CANSparkFlex(0, MotorType.kBrushless);
+    shooter1 = new CANSparkMax(0, MotorType.kBrushless);
+    shooter2 = new CANSparkMax(0, MotorType.kBrushless);
     shooter2.setInverted(true);
+    SmartDashboard.putData(this);
   }
 
   public void configToFlash()
@@ -71,7 +73,7 @@ public class Shooter extends SubsystemBase {
         }
     }
 
-    private void configShooterMotor(CANSparkFlex m)
+    private void configShooterMotor(CANSparkMax m)
     {
       LogOrDash.checkRevError("shooter current limit", m.setSmartCurrentLimit(70));
 
@@ -84,7 +86,8 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    LogOrDash.sparkMaxDiagnostics("shooter/shooter1", shooter1);
+    LogOrDash.sparkMaxDiagnostics("shooter/shooter2", shooter2);
   }
 
   public Command shooterReady() {
@@ -107,8 +110,12 @@ public class Shooter extends SubsystemBase {
       shooter2.set(0);
     }, () -> {
       return false;
-    }, this);
+    }, this).withName("shooterReady");
     
+  }
+
+  public boolean readyShoot() {
+    return shooter1.getEncoder().getVelocity() < SHOOT_SPEED * 0.95;
   }
 
 

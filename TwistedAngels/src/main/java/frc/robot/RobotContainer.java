@@ -56,7 +56,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, IO devices, and commands. */
     public RobotContainer(){
-        s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, driver, true));
+        s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver::getLeftY, driver::getLeftX, driver::getRightX, true, driver::getR2Axis));
         aPivot = new APivot();
         intake = new Intake();
         hang = new Hang();
@@ -92,7 +92,8 @@ public class RobotContainer {
             .onTrue(new InstantCommand(() -> s_Swerve.zeroGyro(0))
             .alongWith(new InstantCommand(() -> s_Swerve.resetOdometry(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0))))));
         driver.cross().onTrue(new InstantCommand(() -> new ShootingMode(s_Swerve, sPivot, shooter)));
-        if (shooter.shooter1.getEncoder().getVelocity() >= shooter.SHOOT_SPEED){ specialist.R2().onTrue(intake.toShoot()); }
+        specialist.R2().onTrue(intake.toShoot().unless(shooter::readyShoot));
+        specialist.L1().onTrue(intake.inAmp().unless(aPivot::isDown));
     }
 
     /**
