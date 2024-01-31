@@ -24,7 +24,7 @@ public class ShootingMode extends Command {
   {
     swerveDrive = mainDrive;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(mainDrive, pivot, shooter);
+    addRequirements(mainDrive, sPivot, shooter);
   }
 
 

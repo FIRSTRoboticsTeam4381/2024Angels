@@ -13,6 +13,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public final class Autos {
   
@@ -21,14 +22,16 @@ public final class Autos {
 
     // TODO test of full auto
     public static Command testAuto(){
-        return new PathPlannerAuto("TestAuto");
+        //return new PathPlannerAuto("TestAuto");
+        return new WaitCommand(1);
     }
 
     // TODO test of a single path
     public static Command testPath(){
-        PathPlannerPath path = PathPlannerPath.fromPathFile("TestPath1");
+        //PathPlannerPath path = PathPlannerPath.fromPathFile("TestPath1");
 
-        return AutoBuilder.followPathWithEvents(path);
+        //return AutoBuilder.followPathWithEvents(path);
+        return new WaitCommand(1);
     }
 
     // TODO test of a path group

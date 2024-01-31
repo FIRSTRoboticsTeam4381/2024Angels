@@ -50,9 +50,9 @@ public class Intake extends SubsystemBase
   public Command spitOut()
   {
     return new SequentialCommandGroup(
-      new InstantCommand(() -> intake.set(-1)),
+      new InstantCommand(() -> intake.set(-1), this),
       new WaitCommand(1),
-      new InstantCommand(() -> intake.set(0))
+      new InstantCommand(() -> intake.set(0), this)
     ).withName("spitOut");
   }
 
@@ -60,9 +60,9 @@ public class Intake extends SubsystemBase
   public Command inAmp()
   {
     return new SequentialCommandGroup(
-      new InstantCommand(() -> intake.set(1)),
+      new InstantCommand(() -> intake.set(1), this),
       new WaitCommand(1),
-      new InstantCommand(() -> intake.set(0))
+      new InstantCommand(() -> intake.set(0), this)
     ).withName("inAmp");
   }
 
@@ -70,9 +70,9 @@ public class Intake extends SubsystemBase
   public Command toShoot()
   {
     return new SequentialCommandGroup(
-      new InstantCommand(() -> intake.set(0.3)),
+      new InstantCommand(() -> intake.set(0.3), this),
       new WaitCommand(1),
-      new InstantCommand(() -> intake.set(0))
+      new InstantCommand(() -> intake.set(0), this)
     ).withName("toShoot");
   }
   
@@ -80,7 +80,7 @@ public class Intake extends SubsystemBase
   // Turn off the intake
   public Command off()
   {
-    return new InstantCommand(() -> intake.set(0)).withName("off");
+    return new InstantCommand(() -> intake.set(0), this).withName("off");
   }
   @Override
   public void periodic() 
