@@ -93,7 +93,7 @@ public class RobotContainer {
         zeroSwerve
             .onTrue(new InstantCommand(() -> s_Swerve.zeroGyro(0))
             .alongWith(new InstantCommand(() -> s_Swerve.resetOdometry(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0))))));
-        driver.cross().onTrue(shooterMode);
+        driver.cross().toggleOnTrue(shooterMode);
         specialist.R2().onTrue(intake.toShoot().unless(shooter::readyShoot).withName("shoot"));
         specialist.L1().onTrue(intake.inAmp().unless(aPivot::isDown).withName("scoreInAmp"));
     }
