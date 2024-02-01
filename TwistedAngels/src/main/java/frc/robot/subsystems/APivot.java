@@ -121,7 +121,7 @@ public class APivot extends SubsystemBase {
 
   @Override
   public void periodic() {
-    LogOrDash.sparkMaxDiagnostics("aPivot/pivot1", pivot1);
-    LogOrDash.sparkMaxDiagnostics("aPivot/pivot2", pivot2);
+    LogOrDash.sparkDiagnostics("aPivot/pivot1", pivot1);
+    LogOrDash.sparkDiagnostics("aPivot/pivot2", pivot2);
   }
 }

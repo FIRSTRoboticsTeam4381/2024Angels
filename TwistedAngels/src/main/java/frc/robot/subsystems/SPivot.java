@@ -87,8 +87,8 @@ public class SPivot extends SubsystemBase {
 
   @Override
   public void periodic() {
-    LogOrDash.sparkMaxDiagnostics("sPivot/pivot1", pivot1);
-    LogOrDash.sparkMaxDiagnostics("sPivot/pivot2", pivot2);    
+    LogOrDash.sparkDiagnostics("sPivot/pivot1", pivot1);
+    LogOrDash.sparkDiagnostics("sPivot/pivot2", pivot2);    
   }
 
   public Command joystickControl(Supplier<Double> joystickMove) { // JOYSTICK CONTROL FOR SHOOTER PIVOT

@@ -85,6 +85,6 @@ public class Intake extends SubsystemBase
   @Override
   public void periodic() 
   {
-    LogOrDash.sparkMaxDiagnostics("intake/motor", intake);
+    LogOrDash.sparkDiagnostics("intake/motor", intake);
   }
 }

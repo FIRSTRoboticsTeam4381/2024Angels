@@ -86,8 +86,8 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    LogOrDash.sparkMaxDiagnostics("shooter/shooter1", shooter1);
-    LogOrDash.sparkMaxDiagnostics("shooter/shooter2", shooter2);
+    LogOrDash.sparkDiagnostics("shooter/shooter1", shooter1);
+    LogOrDash.sparkDiagnostics("shooter/shooter2", shooter2);
   }
 
   public Command shooterReady() {

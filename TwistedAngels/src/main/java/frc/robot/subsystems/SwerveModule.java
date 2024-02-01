@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class SwerveModule {
     public int moduleNumber;
     private CANSparkMax mAngleMotor;
-    private CANSparkMax mDriveMotor;
+    private CANSparkFlex mDriveMotor;
 
     private SparkAbsoluteEncoder absoluteEncoder;
 
@@ -42,7 +42,7 @@ public class SwerveModule {
         //configAngleMotor();
 
         /* Drive Motor Config */
-        mDriveMotor = new CANSparkMax(moduleConstants.driveMotorID, MotorType.kBrushless);
+        mDriveMotor = new CANSparkFlex(moduleConstants.driveMotorID, MotorType.kBrushless);
         //configDriveMotor();
 
         /* Angle Encoder Config */
@@ -207,8 +207,8 @@ public class SwerveModule {
         LogOrDash.logNumber("swerve/m" + moduleNumber + "/angle/setpoint", desiredAngle);
         LogOrDash.logNumber("swerve/m" + moduleNumber + "/drive/setpoint", lastSpeed);
         
-        LogOrDash.sparkMaxDiagnostics("swerve/m" + moduleNumber + "/angle", mAngleMotor);
-        LogOrDash.sparkMaxDiagnostics("swerve/m" + moduleNumber + "/drive", mDriveMotor);
+        LogOrDash.sparkDiagnostics("swerve/m" + moduleNumber + "/angle", mAngleMotor);
+        LogOrDash.sparkDiagnostics("swerve/m" + moduleNumber + "/drive", mDriveMotor);
 
         LogOrDash.logNumber("swerve/m"+moduleNumber+"/angle/raw_analog", absoluteEncoder.getPosition());
     }
