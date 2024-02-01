@@ -74,9 +74,9 @@ public class RobotContainer {
         // Add autonomous options to chooser
         m_AutoChooser.setDefaultOption("None", Autos.none());
         // TODO m_AutoChooser.addOption("PathPlanner Example", Autos.exampleAuto());
-        m_AutoChooser.addOption("Test", Autos.testPath());
+        m_AutoChooser.addOption("Test", Autos.testAuto());
 
-        SmartDashboard.putData(m_AutoChooser);
+        SmartDashboard.putData("Choose Auto:", m_AutoChooser);
 
         // Button to turn on/off sending debug data to the dashboard
         SmartDashboard.putData("Toggle Debug Dashboards", LogOrDash.toggleDashboard());

@@ -1,7 +1,10 @@
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -11,7 +14,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -24,6 +30,10 @@ public class Swerve extends SubsystemBase{
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro; //TODO may not use
+
+    private final Field2d field = new Field2d();
+    private Pose2d startPose = new Pose2d(Units.inchesToMeters(177), Units.inchesToMeters(214), Rotation2d.fromDegrees(0));
+
 
     public Swerve(){
         gyro = new Pigeon2(Constants.Swerve.pigeonID, "DriveTrain"); //TODO remove
@@ -46,9 +56,37 @@ public class Swerve extends SubsystemBase{
             this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::drive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
             Constants.Swerve.holonomicConfig,
-            () -> {return DriverStation.getAlliance().get() == DriverStation.Alliance.Blue;},
+            () -> {
+                    Optional<Alliance> alliance = DriverStation.getAlliance();
+                    if(alliance.isPresent()) {
+                        return alliance.get() == Alliance.Red;
+                    }
+                    return false;
+                },
             this // Reference to this subsystem to set requirements
         );
+
+        // Setup position logging
+        SmartDashboard.putData("Field", field);
+        //m_field.setRobotPose(startPose);
+
+        // Logging callback for current robot pose
+        PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
+            // Do whatever you want with the pose here
+            field.setRobotPose(pose);
+        });
+
+        // Logging callback for target robot pose
+        PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
+            // Do whatever you want with the pose here
+            field.getObject("target").setPose(pose);
+        });
+
+        // Logging callback for the active path, this is sent as a list of poses
+        PathPlannerLogging.setLogActivePathCallback((poses) -> {
+            // Do whatever you want with the poses here
+            field.getObject("path").setPoses(poses);
+        });
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop){
@@ -195,6 +233,8 @@ public class Swerve extends SubsystemBase{
         LogOrDash.logNumber("Gyro Roll", gyro.getRoll());
         LogOrDash.logNumber("Gyro Yaw", gyro.getYaw());
         LogOrDash.logString("XY Coord", "(" + getPose().getX() + ", " + getPose().getY() + ")");
+
+        field.setRobotPose(getPose());
     }
 
     public Command configToFlash(){

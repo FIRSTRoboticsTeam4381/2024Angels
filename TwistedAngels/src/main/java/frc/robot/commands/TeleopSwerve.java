@@ -27,9 +27,7 @@ public class TeleopSwerve extends Command{
     private Supplier<Double> rotate;
     private Supplier<Double> slow;
 
-    private final Field2d m_field = new Field2d();
-    private Pose2d startPose = new Pose2d(Units.inchesToMeters(177), Units.inchesToMeters(214), Rotation2d.fromDegrees(0));
-
+    
     /*
      * Driver Control command
      * @param s_Swerve Swerve subsystem
@@ -46,8 +44,6 @@ public class TeleopSwerve extends Command{
         this.openLoop = openLoop;
         this.slow = slow;
 
-        SmartDashboard.putData("Field", m_field);
-        m_field.setRobotPose(startPose);
     }
 
     @Override
@@ -71,8 +67,6 @@ public class TeleopSwerve extends Command{
         translation = new Translation2d(yAxis, xAxis).times(Constants.Swerve.maxSpeed);
         rotation = rAxis * Constants.Swerve.maxAngularVelocity;
         s_Swerve.drive(translation, rotation, true, openLoop);
-
-        m_field.setRobotPose(s_Swerve.getPose());
 
     }
 }
