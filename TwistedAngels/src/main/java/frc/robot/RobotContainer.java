@@ -23,6 +23,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ShootingMode;
@@ -89,13 +91,21 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
     private void configureButtonBindings(){
-        // Button to reset swerve odometry and angle
+        // Button to reset swerve odometry and anglesssss
         zeroSwerve
             .onTrue(new InstantCommand(() -> s_Swerve.zeroGyro(0))
             .alongWith(new InstantCommand(() -> s_Swerve.resetOdometry(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0))))));
         driver.cross().toggleOnTrue(shooterMode);
-        specialist.R2().onTrue(intake.toShoot().unless(shooter::readyShoot).withName("shoot"));
+        specialist.R2().onTrue(new SequentialCommandGroup (
+             intake.toShoot(),
+             new WaitCommand(1.5),
+             new InstantCommand( () -> shooter.getCurrentCommand().cancel()),
+             sPivot.pivotBack()
+             ).unless(shooter::readyShoot).withName("shoot"));
         specialist.L1().onTrue(intake.inAmp().unless(aPivot::isDown).withName("scoreInAmp"));
+
+        specialist.povUp().onTrue(aPivot.pivotUp().withName("aPivotUp"));
+        specialist.povDown().onTrue(aPivot.pivotDown().withName("aPivotDown"));
     }
 
     /**
