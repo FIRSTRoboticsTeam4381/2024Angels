@@ -1,8 +1,11 @@
-# 2024 Twisted Angels
+IDs:
 
-Code for the 2024 Twisted Angels robot.
-
-Features:
-- Uses Rev Neos for rotation and Neo Vortexes for drive
-- PathPlanner autonomous
-- Designed for use with standard PS4 controllers
+Intake = 50
+APivot1 = 51
+APivot2 = 52
+Shooter1 = 53
+Shooter2 = 54
+SPivot1 = 55
+SPivot2 = 56
+Hang1 = 57
+Hang2 = 58
