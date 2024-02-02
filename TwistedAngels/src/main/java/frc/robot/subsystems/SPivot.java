@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import java.util.function.Supplier;
 
 import com.revrobotics.CANSparkMax;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
@@ -34,6 +35,8 @@ public class SPivot extends SubsystemBase {
 
     // Button to turn on/off sending debug data to the dashboard
     SmartDashboard.putData("Burn SPivot Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+    NamedCommands.registerCommand("sPivotToShoot", pivotToShoot());
+    NamedCommands.registerCommand("sPivotBack", pivotBack());
   }
 
 

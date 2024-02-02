@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import java.util.function.Supplier;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -37,6 +38,8 @@ public class APivot extends SubsystemBase {
 
     // Button to turn on/off sending debug data to the dashboard
     SmartDashboard.putData("Burn APivot Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+    NamedCommands.registerCommand("aPivotUp", pivotUp());
+    NamedCommands.registerCommand("aPivotDown", pivotDown());
   }
 
   public void configToFlash()
@@ -127,6 +130,6 @@ public class APivot extends SubsystemBase {
     LogOrDash.sparkDiagnostics("aPivot/pivot1", pivot1);
     LogOrDash.sparkDiagnostics("aPivot/pivot2", pivot2);
     LogOrDash.logNumber("aPivot/pivot1/position", pivot1.getEncoder().getPosition());
-    LogOrDash.logNumber("aPivot/pivot2/position", pivot2.getEncoder().getPosition());
+    LogOrDash.logNumber("aPivot/pivot2/-position", pivot2.getEncoder().getPosition());
   }
 }

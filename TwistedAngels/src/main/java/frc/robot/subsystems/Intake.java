@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkFlex;
@@ -39,6 +40,10 @@ public class Intake extends SubsystemBase
 
      // Button to turn on/off sending debug data to the dashboard
     SmartDashboard.putData("Burn Intake Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+    NamedCommands.registerCommand("pickup", pickup());
+    NamedCommands.registerCommand("inAmp", inAmp());
+    NamedCommands.registerCommand("toShoot", toShoot());
+    NamedCommands.registerCommand("off", off());
   }
 
   public void configToFlash()

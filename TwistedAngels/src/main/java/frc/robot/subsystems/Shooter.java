@@ -9,6 +9,7 @@ import java.util.concurrent.DelayQueue;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -38,6 +39,7 @@ public class Shooter extends SubsystemBase {
 
     // Button to turn on/off sending debug data to the dashboard
     SmartDashboard.putData("Burn Shooter Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+    NamedCommands.registerCommand("shooterReady", shooterReady());
   }
 
   public void configToFlash()
