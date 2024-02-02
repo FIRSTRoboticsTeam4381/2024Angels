@@ -33,7 +33,7 @@ public class SPivot extends SubsystemBase {
     SmartDashboard.putData(this);
 
     // Button to turn on/off sending debug data to the dashboard
-    SmartDashboard.putData("Burn SPivot Settings",  new InstantCommand(() -> configToFlash()));
+    SmartDashboard.putData("Burn SPivot Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
   }
 
 
