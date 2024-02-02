@@ -105,14 +105,10 @@ public class SPivot extends SubsystemBase {
   }
 
   public Command pivotToShoot() { // GO TO SHOOT POSITION
-    return new InstantCommand(
-     () -> sPivotTo(2)
-    ).withName("pivotToShoot");
+    return sPivotTo(2).withName("pivotToShoot");
   }
 
    public Command pivotBack() { // GO BACK TO REGULAR POSITION (0)
-    return new InstantCommand(
-     () -> sPivotTo(0)
-    ).withName("pivotBack");
+    return sPivotTo(0).withName("pivotBack");
   }
 }
