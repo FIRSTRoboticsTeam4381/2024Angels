@@ -118,6 +118,6 @@ public class Intake extends SubsystemBase
   public void periodic() 
   {
     LogOrDash.sparkDiagnostics("intake/motor", intake);
-    LogOrDash.logNumber("intake_velocity", intake.getEncoder().getVelocity());
+    LogOrDash.logNumber("intake/intake_velocity", intake.getEncoder().getVelocity());
   }
 }
