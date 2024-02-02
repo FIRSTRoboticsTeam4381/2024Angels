@@ -92,6 +92,8 @@ public class SPivot extends SubsystemBase {
   public void periodic() {
     LogOrDash.sparkDiagnostics("sPivot/pivot1", pivot1);
     LogOrDash.sparkDiagnostics("sPivot/pivot2", pivot2);    
+    LogOrDash.logNumber("pivot1_position", pivot1.getEncoder().getPosition());
+    LogOrDash.logNumber("pivot2_position", pivot2.getEncoder().getPosition());
   }
 
   public Command joystickControl(Supplier<Double> joystickMove) { // JOYSTICK CONTROL FOR SHOOTER PIVOT
@@ -106,14 +108,10 @@ public class SPivot extends SubsystemBase {
   }
 
   public Command pivotToShoot() { // GO TO SHOOT POSITION
-    return new InstantCommand(
-     () -> sPivotTo(2)
-    ).withName("pivotToShoot");
+    return sPivotTo(2).withName("pivotToShoot");
   }
 
    public Command pivotBack() { // GO BACK TO REGULAR POSITION (0)
-    return new InstantCommand(
-     () -> sPivotTo(0)
-    ).withName("pivotBack");
+    return sPivotTo(0).withName("pivotBack");
   }
 }

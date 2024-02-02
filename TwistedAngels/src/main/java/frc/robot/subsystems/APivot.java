@@ -106,13 +106,13 @@ public class APivot extends SubsystemBase {
 
   public Command pivotUp()
   {
-    return new InstantCommand(() -> pivotTo(UP_POSITION)).withName("pivotUp");
+    return pivotTo(UP_POSITION).withName("pivotUp");
     
   }
 
   public Command pivotDown()
   {
-    return new InstantCommand(() -> pivotTo(0)).withName("pivotDown");
+    return pivotTo(0).withName("pivotDown");
   }
 
   public boolean isDown() {
@@ -126,5 +126,7 @@ public class APivot extends SubsystemBase {
   public void periodic() {
     LogOrDash.sparkDiagnostics("aPivot/pivot1", pivot1);
     LogOrDash.sparkDiagnostics("aPivot/pivot2", pivot2);
+    LogOrDash.logNumber("pivot1_position", pivot1.getEncoder().getPosition());
+    LogOrDash.logNumber("pivot2_position", pivot2.getEncoder().getPosition());
   }
 }
