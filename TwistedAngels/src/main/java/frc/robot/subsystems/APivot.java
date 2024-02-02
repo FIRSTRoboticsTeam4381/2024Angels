@@ -103,13 +103,13 @@ public class APivot extends SubsystemBase {
 
   public Command pivotUp()
   {
-    return new InstantCommand(() -> pivotTo(UP_POSITION)).withName("pivotUp");
+    return pivotTo(UP_POSITION).withName("pivotUp");
     
   }
 
   public Command pivotDown()
   {
-    return new InstantCommand(() -> pivotTo(0)).withName("pivotDown");
+    return pivotTo(0).withName("pivotDown");
   }
 
   public boolean isDown() {
