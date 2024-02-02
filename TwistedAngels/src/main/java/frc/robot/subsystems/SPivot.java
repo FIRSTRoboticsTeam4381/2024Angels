@@ -92,8 +92,8 @@ public class SPivot extends SubsystemBase {
   public void periodic() {
     LogOrDash.sparkDiagnostics("sPivot/pivot1", pivot1);
     LogOrDash.sparkDiagnostics("sPivot/pivot2", pivot2);    
-    LogOrDash.logNumber("sPivot/pivot1/pivot1_position", pivot1.getEncoder().getPosition());
-    LogOrDash.logNumber("sPivot/pivot2/pivot2_position", pivot2.getEncoder().getPosition());
+    LogOrDash.logNumber("sPivot/pivot1/position", pivot1.getEncoder().getPosition());
+    LogOrDash.logNumber("sPivot/pivot2/position", pivot2.getEncoder().getPosition());
   }
 
   public Command joystickControl(Supplier<Double> joystickMove) { // JOYSTICK CONTROL FOR SHOOTER PIVOT

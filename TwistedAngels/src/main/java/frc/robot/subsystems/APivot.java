@@ -126,7 +126,7 @@ public class APivot extends SubsystemBase {
   public void periodic() {
     LogOrDash.sparkDiagnostics("aPivot/pivot1", pivot1);
     LogOrDash.sparkDiagnostics("aPivot/pivot2", pivot2);
-    LogOrDash.logNumber("aPivot/pivot2/pivot1_position", pivot1.getEncoder().getPosition());
-    LogOrDash.logNumber("aPivot/pivot2/pivot2_position", pivot2.getEncoder().getPosition());
+    LogOrDash.logNumber("aPivot/pivot1/position", pivot1.getEncoder().getPosition());
+    LogOrDash.logNumber("aPivot/pivot2/position", pivot2.getEncoder().getPosition());
   }
 }
