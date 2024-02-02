@@ -87,6 +87,9 @@ public class Swerve extends SubsystemBase{
             // Do whatever you want with the poses here
             field.getObject("path").setPoses(poses);
         });
+
+          // Button to turn on/off sending debug data to the dashboard
+          SmartDashboard.putData("Burn Swerve Settings", configToFlash());
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop){

@@ -34,6 +34,9 @@ public class APivot extends SubsystemBase {
     pivot2.follow(pivot1);
     pivot2.setInverted(true);
     SmartDashboard.putData(this);
+
+    // Button to turn on/off sending debug data to the dashboard
+    SmartDashboard.putData("Burn APivot Settings",  new InstantCommand(() -> configToFlash()));
   }
 
   public void configToFlash()
@@ -72,7 +75,7 @@ public class APivot extends SubsystemBase {
 
       catch(InterruptedException e)
       {
-          DriverStation.reportError("Main thread interrupted while flashing swerve module!", e.getStackTrace());
+          DriverStation.reportError("Main thread interrupted while flashing Amp Pivot!", e.getStackTrace());
       }
   }
   

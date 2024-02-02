@@ -31,6 +31,9 @@ public class SPivot extends SubsystemBase {
     pivot2 = new CANSparkMax(56, MotorType.kBrushless);
     pivot2.follow(pivot1, true);
     SmartDashboard.putData(this);
+
+    // Button to turn on/off sending debug data to the dashboard
+    SmartDashboard.putData("Burn SPivot Settings",  new InstantCommand(() -> configToFlash()));
   }
 
 
@@ -70,7 +73,7 @@ public class SPivot extends SubsystemBase {
 
       catch(InterruptedException e)
       {
-          DriverStation.reportError("Main thread interrupted while flashing swerve module!", e.getStackTrace());
+          DriverStation.reportError("Main thread interrupted while flashing Shooter Pivot!", e.getStackTrace());
       }
   }
   

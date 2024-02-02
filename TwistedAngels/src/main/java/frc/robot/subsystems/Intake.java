@@ -4,12 +4,15 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import frc.lib.util.LogOrDash;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -33,6 +36,35 @@ public class Intake extends SubsystemBase
     intake = new CANSparkMax(50, MotorType.kBrushless);
     breakbeam = new DigitalInput(0);
     SmartDashboard.putData(this);
+
+     // Button to turn on/off sending debug data to the dashboard
+    SmartDashboard.putData("Burn Intake Settings",  new InstantCommand(() -> configToFlash()));
+  }
+
+  public void configToFlash()
+  {
+      try
+      {
+          // intake motor config
+          LogOrDash.checkRevError("intake motor clear",
+              intake.restoreFactoryDefaults());
+          
+          Thread.sleep(1000);
+
+          LogOrDash.checkRevError("amp pivot current limit", intake.setSmartCurrentLimit(40));
+
+          LogOrDash.checkRevError("amp pivot brakes", intake.setIdleMode(IdleMode.kBrake));
+
+          Thread.sleep(1000);
+          LogOrDash.checkRevError("intake motor BURN",
+              intake.burnFlash());
+          Thread.sleep(1000);
+      }
+
+      catch(InterruptedException e)
+      {
+          DriverStation.reportError("Main thread interrupted while flashing intake!", e.getStackTrace());
+      }
   }
 
   // Intake on

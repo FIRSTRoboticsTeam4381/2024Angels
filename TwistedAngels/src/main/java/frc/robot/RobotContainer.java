@@ -80,8 +80,6 @@ public class RobotContainer {
 
         SmartDashboard.putData("Choose Auto:", m_AutoChooser);
 
-        // Button to turn on/off sending debug data to the dashboard
-        SmartDashboard.putData("Burn Spark Settings", s_Swerve.configToFlash());
     }
 
     /**
