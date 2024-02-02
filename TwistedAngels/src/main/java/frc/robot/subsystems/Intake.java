@@ -38,7 +38,7 @@ public class Intake extends SubsystemBase
     SmartDashboard.putData(this);
 
      // Button to turn on/off sending debug data to the dashboard
-    SmartDashboard.putData("Burn Intake Settings",  new InstantCommand(() -> configToFlash()));
+    SmartDashboard.putData("Burn Intake Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
   }
 
   public void configToFlash()
