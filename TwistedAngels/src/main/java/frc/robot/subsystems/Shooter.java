@@ -92,8 +92,8 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     LogOrDash.sparkDiagnostics("shooter/shooter1", shooter1);
     LogOrDash.sparkDiagnostics("shooter/shooter2", shooter2);
-    LogOrDash.logNumber("shooter1_velocity", shooter1.getEncoder().getVelocity());
-    LogOrDash.logNumber("shooter2_velocity", shooter2.getEncoder().getVelocity());
+    LogOrDash.logNumber("shooter/shooter1/shooter1_velocity", shooter1.getEncoder().getVelocity());
+    LogOrDash.logNumber("shooter/shooter2/shooter2_velocity", shooter2.getEncoder().getVelocity());
   }
 
   public Command shooterReady() {
