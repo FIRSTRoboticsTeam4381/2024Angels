@@ -16,6 +16,8 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
@@ -52,6 +54,8 @@ public class RobotContainer {
     public static SPivot sPivot;
     public static LEDs leds;
     public static ShootingMode shooterMode;
+    public static AddressableLED led1;
+    public static AddressableLEDBuffer ledBuffer1;
 
     //Auto Chooser
     SendableChooser<Command> m_AutoChooser = new SendableChooser<>();
@@ -66,6 +70,9 @@ public class RobotContainer {
         sPivot = new SPivot();
         leds = new LEDs();
         shooterMode = new ShootingMode(driver, specialist);
+        led1 = new AddressableLED(0);
+        ledBuffer1 = new AddressableLEDBuffer(10);
+
 
         aPivot.setDefaultCommand(aPivot.joystickMove(specialist::getLeftY));
         sPivot.setDefaultCommand(sPivot.joystickControl(specialist::getRightY));
