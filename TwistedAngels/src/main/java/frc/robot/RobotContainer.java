@@ -69,6 +69,7 @@ public class RobotContainer {
 
         aPivot.setDefaultCommand(aPivot.joystickMove(specialist::getLeftY));
         sPivot.setDefaultCommand(sPivot.joystickControl(specialist::getRightY));
+        hang.setDefaultCommand(hang.hangTriggers(specialist::getL2Axis, specialist::getR2Axis));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -94,7 +95,7 @@ public class RobotContainer {
             .onTrue(new InstantCommand(() -> s_Swerve.zeroGyro(0))
             .alongWith(new InstantCommand(() -> s_Swerve.resetOdometry(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0))))));
         driver.cross().toggleOnTrue(shooterMode);
-        specialist.R2().onTrue(new SequentialCommandGroup (
+        specialist.R1().onTrue(new SequentialCommandGroup (
              intake.toShoot(),
              new WaitCommand(1.5),
              new InstantCommand( () -> shooter.getCurrentCommand().cancel()),
