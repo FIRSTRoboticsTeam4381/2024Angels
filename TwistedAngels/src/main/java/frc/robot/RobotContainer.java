@@ -70,7 +70,7 @@ public class RobotContainer {
         sPivot = new SPivot();
         leds = new LEDs();
         shooterMode = new ShootingMode(driver, specialist);
-        led1 = new AddressableLED(0);
+        //led1 = new AddressableLED(2);
         ledBuffer1 = new AddressableLEDBuffer(10);
 
 
@@ -132,6 +132,10 @@ public class RobotContainer {
             } try {
                 shooter.getCurrentCommand().cancel();
             } catch(NullPointerException e) {
+                //nothing
+            } try {
+                hang.getCurrentCommand().cancel();
+            }catch(NullPointerException e) {
                 //nothing
             }
         }));
