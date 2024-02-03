@@ -13,12 +13,13 @@ import frc.robot.subsystems.SPivot;
 import frc.robot.subsystems.Swerve;
 import frc.robot.RobotContainer;
 
+
 public class ShootingMode extends ParallelRaceGroup {
   
 
   public ShootingMode(CommandPS4Controller driver, CommandPS4Controller specialist) 
   {
-    addCommands(RobotContainer.shooter.shooterReady(), (new TeleopSwerve(RobotContainer.s_Swerve, driver::getLeftY, driver::getLeftX, specialist::getRightX, true, driver::getR2Axis)));
+    addCommands(RobotContainer.shooter.shooterReady(), (new TeleopSwerve(RobotContainer.s_Swerve, driver::getLeftY, driver::getLeftX, specialist::getRightX, true, driver::getR2Axis)), new ShootingLEDs(RobotContainer.shooter, RobotContainer.leds, RobotContainer.ledBuffer1, RobotContainer.led1));
     setName("shooterMode");
   }
 

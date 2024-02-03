@@ -25,17 +25,17 @@ public class LEDs extends SubsystemBase {
   }
 
   // This is the good rainbow
-  public Command rainbow() {
+  public Command rainbow(AddressableLEDBuffer ledStrip) {
 
     return new InstantCommand(() -> {
-      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
-        m_ledBuffer.setHSV(i, hue, 255, 128);
+      for (var i = 0; i < ledStrip.getLength(); i++) {
+        final var hue = (m_rainbowFirstPixelHue + (i * 180 / ledStrip.getLength())) % 180;
+        ledStrip.setHSV(i, hue, 255, 128);
       }
 
       m_rainbowFirstPixelHue += 3;
       m_rainbowFirstPixelHue %= 180;
-      m_led.setData(m_ledBuffer);
+      m_led.setData(ledStrip);
     
       
     },this).repeatedly().ignoringDisable(true);
@@ -43,47 +43,47 @@ public class LEDs extends SubsystemBase {
   }
 
   // The darker blue for the moving pattern
-  public Command dark_blue_animated() {
+  public Command dark_blue_animated(AddressableLEDBuffer ledStrip) {
     return new InstantCommand(() -> {
-      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      for (var i = 0; i < ledStrip.getLength(); i++) {
 
-        final var hue = (m_rainbowFirstPixelHue + (i * 225 / m_ledBuffer.getLength())) % 225;
+        final var hue = (m_rainbowFirstPixelHue + (i * 225 / ledStrip.getLength())) % 225;
   
-        m_ledBuffer.setHSV(i, 110,225, hue);
+        ledStrip.setHSV(i, 110,225, hue);
       }
 
       m_rainbowFirstPixelHue += 3;
       m_rainbowFirstPixelHue %= 225;
-      m_led.setData(m_ledBuffer);
+      m_led.setData(ledStrip);
     
       
     },this).repeatedly();
 
   }
 
-  public Command green() {
+  public Command green(AddressableLEDBuffer ledStrip) {
     return new InstantCommand(() -> {
-      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      for (var i = 0; i < ledStrip.getLength(); i++) {
         // Sets the specified LED to the HSV values for green
-        m_ledBuffer.setHSV(i, 60, 255, 255);
+        ledStrip.setHSV(i, 60, 255, 255);
     }
     
-    m_led.setData(m_ledBuffer);
+    m_led.setData(ledStrip);
     },this);
   }
 
-  public Command orange_animated() {
+  public Command orange_animated(AddressableLEDBuffer ledStrip) {
     return new InstantCommand(() -> {
-      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      for (var i = 0; i < ledStrip.getLength(); i++) {
 
-        final var hue = (m_rainbowFirstPixelHue + (i * 225 / m_ledBuffer.getLength())) % 225;
+        final var hue = (m_rainbowFirstPixelHue + (i * 225 / ledStrip.getLength())) % 225;
   
-        m_ledBuffer.setHSV(i, 5,255, hue);
+        ledStrip.setHSV(i, 5,255, hue);
       }
 
       m_rainbowFirstPixelHue += 3;
       m_rainbowFirstPixelHue %= 225;
-      m_led.setData(m_ledBuffer);
+      m_led.setData(ledStrip);
     
       
     },this).repeatedly();
