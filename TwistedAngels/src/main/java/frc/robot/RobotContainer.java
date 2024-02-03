@@ -104,6 +104,29 @@ public class RobotContainer {
 
         specialist.povUp().onTrue(aPivot.pivotUp().withName("aPivotUp"));
         specialist.povDown().onTrue(aPivot.pivotDown().withName("aPivotDown"));
+
+        specialist.circle().toggleOnTrue(intake.pickup().withName("pickup"));
+        specialist.cross().onTrue(intake.spitOut().withName("spitOut"));
+
+        specialist.PS().onTrue(new InstantCommand(() -> { // Cancel all commands
+            try {
+                intake.getCurrentCommand().cancel();
+            } catch(NullPointerException e) {
+                //nothing
+            } try {
+                aPivot.getCurrentCommand().cancel();
+            } catch(NullPointerException e) {
+                //nothing
+            } try {
+                sPivot.getCurrentCommand().cancel();
+            } catch(NullPointerException e) {
+                //nothing
+            } try {
+                shooter.getCurrentCommand().cancel();
+            } catch(NullPointerException e) {
+                //nothing
+            }
+        }));
     }
 
     /**

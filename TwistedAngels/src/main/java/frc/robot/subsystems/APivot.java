@@ -20,13 +20,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.LogOrDash;
+import frc.robot.RobotContainer;
 import frc.robot.commands.SparkMaxPosition;
 
 public class APivot extends SubsystemBase {
   
   public CANSparkMax pivot1;
   public CANSparkMax pivot2;
-  public final int UP_POSITION = 1;
+  public final int UP_POSITION = 1000;
 
   public APivot() 
   {
@@ -97,7 +98,19 @@ public class APivot extends SubsystemBase {
   public Command joystickMove(Supplier<Double> joystickM)
   {
     return new InstantCommand(() -> 
-    pivot1.set(joystickM.get())
+    {
+      double joystickValue = -joystickM.get();
+      if (joystickValue < 0 && !isDownSafe()) { // Checking if it is safe for the pivot to move
+        pivot1.set(0);
+      } else if (joystickValue > 0 && !isUpSafe()) {
+        pivot1.set(0);
+      } else if (0.1 > Math.abs(joystickValue) ) {
+        pivot1.set(0);
+      } else {
+        pivot1.set(joystickValue);
+      }
+      
+    }
     ,this
     ).withName("joystickMove").repeatedly();
   }
@@ -109,20 +122,30 @@ public class APivot extends SubsystemBase {
 
   public Command pivotUp()
   {
-    return pivotTo(UP_POSITION).withName("pivotUp");
-    
+      return pivotTo(UP_POSITION).withName("pivotUp");
   }
 
   public Command pivotDown()
   {
-    return pivotTo(0).withName("pivotDown");
+     return pivotTo(0).withName("pivotDown");
   }
 
   public boolean isDown() {
-    return pivot1.getEncoder().getPosition() < UP_POSITION * 0.9;
+      return pivot1.getEncoder().getPosition() < UP_POSITION * 0.9; 
   }
 
+  public boolean isDownSafe() {
+      return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() < 5 || pivot1.getEncoder().getPosition() > 444;
+  }
 
+  public boolean isUpSafe() {
+      return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() > 444;
+  }
+
+  public boolean isDanger() {
+      double p = pivot1.getEncoder().getPosition();  
+      return 444 > p && 5 < p;
+  }
 
 
   @Override
@@ -131,5 +154,13 @@ public class APivot extends SubsystemBase {
     LogOrDash.sparkDiagnostics("aPivot/pivot2", pivot2);
     LogOrDash.logNumber("aPivot/pivot1/position", pivot1.getEncoder().getPosition());
     LogOrDash.logNumber("aPivot/pivot2/-position", pivot2.getEncoder().getPosition());
+
+    if (pivot1.getAppliedOutput() > 0 && !isUpSafe()) { 
+      this.getCurrentCommand().cancel();
+      pivot1.set(0);
+    } else if (pivot1.getAppliedOutput() < 0 && !isDownSafe()) {
+      this.getCurrentCommand().cancel();
+      pivot1.set(0);
+    }
   }
 }

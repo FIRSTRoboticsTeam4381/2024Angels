@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.LogOrDash;
+import frc.robot.RobotContainer;
 import frc.robot.commands.SparkMaxPosition;
 
 public class SPivot extends SubsystemBase {
@@ -97,12 +98,27 @@ public class SPivot extends SubsystemBase {
     LogOrDash.sparkDiagnostics("sPivot/pivot2", pivot2);    
     LogOrDash.logNumber("sPivot/pivot1/position", pivot1.getEncoder().getPosition());
     LogOrDash.logNumber("sPivot/pivot2/position", pivot2.getEncoder().getPosition());
+
+    pivot1.getAppliedOutput();
+    if (pivot1.getAppliedOutput() > 0 && !isUpSafe()) {
+      this.getCurrentCommand().cancel();
+      pivot1.set(0);
+    }
   }
 
   public Command joystickControl(Supplier<Double> joystickMove) { // JOYSTICK CONTROL FOR SHOOTER PIVOT
     return new InstantCommand( () -> 
-      pivot1.set(joystickMove.get()),
-      this
+    {
+      double joystickValue = -joystickMove.get();
+      if (joystickValue > 0 && !isUpSafe()) {
+        pivot1.set(0);
+      } else if (0.1 > Math.abs(joystickValue) ) {
+        pivot1.set(0);
+      } else {
+        pivot1.set(joystickValue);
+      }
+    }
+      ,this
     ).withName("JoystickControl").repeatedly();
   }
 
@@ -117,4 +133,14 @@ public class SPivot extends SubsystemBase {
    public Command pivotBack() { // GO BACK TO REGULAR POSITION (0)
     return sPivotTo(0).withName("pivotBack");
   }
+
+  public boolean isUpSafe() {
+      return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() > 444;
+  }
+  
+  public boolean isDanger() {
+    double p = pivot1.getEncoder().getPosition();  
+    return 5 < p;
+  }
+
 }
