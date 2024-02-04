@@ -11,12 +11,15 @@ import com.revrobotics.REVLibError;
 import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.hal.PowerDistributionFaults;
+import edu.wpi.first.hal.PowerDistributionStickyFaults;
 import edu.wpi.first.util.datalog.BooleanLogEntry;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
@@ -165,7 +168,7 @@ public class LogOrDash {
 
         // Record faults and sticky faults
         logString(prefix+"/faults", decodeSparkMaxFaults(s.getFaults()));
-        logString(prefix+"/faults", decodeSparkMaxFaults(s.getStickyFaults()));
+        logString(prefix+"/stickyfaults", decodeSparkMaxFaults(s.getStickyFaults()));
         
     }
 
@@ -199,5 +202,60 @@ public class LogOrDash {
         }
 
         return faults;
+    }
+
+
+    /**
+     * Logs diagnostic information about the Power Distribution Panel, such as blown fuses.
+     * This does not log channel current, overall current or voltage because those are automatically
+     * logged by having the PDP on the SmartDashboard.
+     * @param pdp The Power Distribution Panel to log
+     */
+    public static void logPDPData(PowerDistribution pdp) {
+        // Some stats that aren't auto-logged
+        logNumber("pdp/temperature", pdp.getTemperature());
+        logNumber("pdp/watts", pdp.getTotalPower());
+        logNumber("pdp/joules", pdp.getTotalEnergy());
+        
+        // General faults
+        String f = "";
+        PowerDistributionFaults faults = pdp.getFaults();
+        if(faults.Brownout)
+            f += "Brownout, ";
+        if(faults.CanWarning)
+            f += "CAN Error, ";
+        if(faults.HardwareFault)
+            f += "Hardware Failure, ";
+
+        logString("pdp/faults", f);
+
+        // Sticky faults
+        f = "";
+        PowerDistributionStickyFaults stickies = pdp.getStickyFaults();
+        if(stickies.Brownout)
+            f += "Brownout, ";
+        if(stickies.CanWarning)
+            f += "CAN Error, ";
+        if(stickies.CanBusOff)
+            f += "CAN Offline, ";
+        if(stickies.HasReset)
+            f += "Rebooted, ";
+
+        logString("pdp/sticky", f);
+
+        // Blown fuses
+        f = "";
+        String s = "";
+        for(int j=0; j<pdp.getNumChannels(); j++)
+        {
+            if(faults.getBreakerFault(j))
+                f += j+", ";
+
+            if(stickies.getBreakerFault(j))
+                s += j+", ";
+        }
+
+        logString("pdp/blownfuses", f);
+        logString("pdp/stickyfuses", s);
     }
 }
