@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 
 import com.revrobotics.CANSparkMax;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
@@ -18,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.util.LogOrDash;
 import frc.robot.RobotContainer;
 import frc.robot.commands.SparkMaxPosition;
@@ -38,6 +40,9 @@ public class SPivot extends SubsystemBase {
     SmartDashboard.putData("Burn SPivot Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
     NamedCommands.registerCommand("sPivotToShoot", pivotToShoot());
     NamedCommands.registerCommand("sPivotBack", pivotBack());
+
+    LogOrDash.setupSysIDTests(new SysIdRoutine.Config(),
+     new CANSparkBase[]{pivot1}, new CANSparkBase[]{pivot1, pivot2}, this);
   }
 
 
