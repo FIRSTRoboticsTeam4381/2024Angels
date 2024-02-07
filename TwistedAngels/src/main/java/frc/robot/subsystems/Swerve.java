@@ -15,13 +15,18 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.lib.util.DriftCorrection;
 import frc.lib.util.LogOrDash;
 import frc.robot.Constants;
@@ -90,6 +95,9 @@ public class Swerve extends SubsystemBase{
 
           // Button to turn on/off sending debug data to the dashboard
           SmartDashboard.putData("Burn Swerve Settings", configToFlash());
+
+
+          setupSysIDTests();
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop){
@@ -248,4 +256,34 @@ public class Swerve extends SubsystemBase{
             }
         }, this).ignoringDisable(true);
     }
+
+
+    private void setupSysIDTests() {
+
+        SysIdRoutine routine = new SysIdRoutine(
+                new SysIdRoutine.Config(),
+                new SysIdRoutine.Mechanism(
+                    (v) -> {
+                        for(int j = 0; j < mSwerveMods.length; j++)
+                        {
+                            mSwerveMods[j].setVoltage(v.in(edu.wpi.first.units.Units.Volts));
+                        }
+                    }, 
+                    (log) ->
+                    {
+                        for(int j = 0; j < mSwerveMods.length; j++)
+                        {
+                            mSwerveMods[j].logSysIDData(log);
+                        }
+                    }, 
+                    this)
+            );
+
+            SmartDashboard.putData("SysID/drive/dyn_f", routine.dynamic(Direction.kForward));
+            SmartDashboard.putData("SysID/drive/dyn_r", routine.dynamic(Direction.kReverse));
+            SmartDashboard.putData("SysID/drive/quas_f", routine.dynamic(Direction.kForward));
+            SmartDashboard.putData("SysID/drive/quas_r", routine.dynamic(Direction.kReverse));
+
+    }
+
 }

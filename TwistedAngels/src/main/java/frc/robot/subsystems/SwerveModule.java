@@ -17,7 +17,12 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 
 public class SwerveModule {
     public int moduleNumber;
@@ -211,5 +216,21 @@ public class SwerveModule {
         LogOrDash.sparkDiagnostics("swerve/m" + moduleNumber + "/drive", mDriveMotor);
 
         LogOrDash.logNumber("swerve/m"+moduleNumber+"/angle/raw_analog", absoluteEncoder.getPosition());
+    }
+
+
+    // Stuff for SysID drivetrain tests
+    public void setVoltage(double v)
+    {
+        mAngleMotor.getPIDController().setReference(0, ControlType.kPosition);
+        mDriveMotor.setVoltage(v);
+    }
+
+    public void logSysIDData(SysIdRoutineLog log)
+    {
+        log.motor("m"+moduleNumber).voltage(
+            edu.wpi.first.units.Units.Volts.of(mDriveMotor.getAppliedOutput() * RobotController.getBatteryVoltage())
+            ).linearVelocity(edu.wpi.first.units.Units.MetersPerSecond.of(mDriveMotor.getEncoder().getVelocity()))
+            .linearPosition(edu.wpi.first.units.Units.Meters.of(mDriveMotor.getEncoder().getPosition()));
     }
 }
