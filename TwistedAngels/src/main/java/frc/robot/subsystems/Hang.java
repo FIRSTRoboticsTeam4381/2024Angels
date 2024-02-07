@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkMax;
 
 import java.util.function.Supplier;
 
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;

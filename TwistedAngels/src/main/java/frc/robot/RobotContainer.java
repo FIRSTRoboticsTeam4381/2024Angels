@@ -101,7 +101,7 @@ public class RobotContainer {
     private void configureButtonBindings(){
         // Button to reset swerve odometry and anglesssss
         zeroSwerve
-            .onTrue(new InstantCommand(() -> s_Swerve.zeroGyro(0))
+            .onTrue(new InstantCommand(() -> s_Swerve.zeroGyro())
             .alongWith(new InstantCommand(() -> s_Swerve.resetOdometry(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0))))));
         driver.cross().toggleOnTrue(shooterMode);
         specialist.R1().onTrue(new SequentialCommandGroup (
