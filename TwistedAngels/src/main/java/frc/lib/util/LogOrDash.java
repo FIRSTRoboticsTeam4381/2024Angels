@@ -13,6 +13,9 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.hal.PowerDistributionFaults;
 import edu.wpi.first.hal.PowerDistributionStickyFaults;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.util.datalog.BooleanLogEntry;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
@@ -20,9 +23,13 @@ import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 /** Add your docs here. */
 public class LogOrDash {
@@ -257,5 +264,41 @@ public class LogOrDash {
 
         logString("pdp/blownfuses", f);
         logString("pdp/stickyfuses", s);
+    }
+
+
+    public static void setupSysIDTests(CANSparkBase[] toSetVoltage, CANSparkBase[] toLog, Subsystem s)
+    {
+       setupSysIDTests(new SysIdRoutine.Config(), toSetVoltage, toLog, s);
+    }
+
+    public static void setupSysIDTests(SysIdRoutine.Config c, CANSparkBase[] toSetVoltage, CANSparkBase[] toLog, Subsystem s)
+    {
+         SysIdRoutine routine = new SysIdRoutine(
+            new SysIdRoutine.Config(),
+            new SysIdRoutine.Mechanism(
+                (v) -> {
+                    for(int j = 0; j < toSetVoltage.length; j++)
+                    {
+                        toSetVoltage[j].setVoltage(v.in(Units.Volts));
+                    }
+                }, 
+                (log) ->
+                {
+                    for(int j = 0; j < toLog.length; j++)
+                    {
+                        log.motor("m"+j).voltage(
+                        Units.Volts.of(   toLog[j].getAppliedOutput() * RobotController.getBatteryVoltage())
+                        ).linearVelocity(Units.MetersPerSecond.of(toLog[j].getEncoder().getVelocity()))
+                        .linearPosition(Units.Meters.of(toLog[j].getEncoder().getPosition()));
+                    }
+                }, 
+                s)
+        );
+
+        SmartDashboard.putData("SysID/"+s.getName()+"/dyn_f", routine.dynamic(Direction.kForward));
+        SmartDashboard.putData("SysID/"+s.getName()+"/dyn_r", routine.dynamic(Direction.kReverse));
+        SmartDashboard.putData("SysID/"+s.getName()+"/quas_f", routine.dynamic(Direction.kForward));
+        SmartDashboard.putData("SysID/"+s.getName()+"/quas_r", routine.dynamic(Direction.kReverse));
     }
 }
