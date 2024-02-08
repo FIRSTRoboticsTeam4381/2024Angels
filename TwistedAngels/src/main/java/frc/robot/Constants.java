@@ -26,22 +26,22 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double stickDeadband = 0.1;
 
-    public static final int NEO_TICKS_PER_REV = 42; //TODO
+    public static final int NEO_TICKS_PER_REV = 7168; 
 
     public static final class Swerve{
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(23); //TODO
-        public static final double wheelBase = Units.inchesToMeters(23); //TODO
+        public static final double trackWidth = Units.inchesToMeters(24.75); 
+        public static final double wheelBase = Units.inchesToMeters(18.75); 
         public static final double wheelDiameter = Units.inchesToMeters(4);
         public static final double wheelCircumference = wheelDiameter * Math.PI;
 
         public static final double openLoopRamp = 0.25;
         public static final double closedLoopRamp = 0.0;
 
-        public static final double driveGearRatio = (6.75 / 1.0); //TODO
-        public static final double angleGearRatio = (150.0/7.0 / 1.0); //TODO
+        public static final double driveGearRatio = (7.695 / 1.0); 
+        public static final double angleGearRatio = (150.0/7.0 / 1.0); 
 
         public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
             new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
@@ -87,7 +87,7 @@ public final class Constants {
         public static final double driveKA = (0.27 / 12);
 
         /* Swerve Profiling Values */
-        public static final double maxSpeed = 4.97; //meters per second
+        public static final double maxSpeed = 6; //meters per second
         public static final double maxAngularVelocity = 11.5;
 
         /* Neutral Modes */
