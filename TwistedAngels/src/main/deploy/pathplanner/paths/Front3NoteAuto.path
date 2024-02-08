@@ -49,15 +49,15 @@
     {
       "anchor": {
         "x": 2.347442010320151,
-        "y": 5.544029880008788
+        "y": 5.509594911807273
       },
       "prevControl": {
         "x": 2.347442010320151,
-        "y": 5.578464848207584
+        "y": 5.544029880006069
       },
       "nextControl": {
         "x": 2.347442010320151,
-        "y": 5.005862993009397
+        "y": 4.971428024807882
       },
       "isLocked": false,
       "linkedName": null
@@ -227,7 +227,7 @@
     },
     {
       "name": "Shoot3",
-      "waypointRelativePos": 4.9,
+      "waypointRelativePos": 5.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -296,7 +296,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 21.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
