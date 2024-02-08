@@ -55,7 +55,7 @@ public class APivot extends SubsystemBase {
       try
       {
           
-          // shooter pivot motor 1
+          // amp pivot motor 1
           LogOrDash.checkRevError("amp pivot motor 1 clear",
               pivot1.restoreFactoryDefaults());
           
@@ -70,7 +70,7 @@ public class APivot extends SubsystemBase {
               pivot1.burnFlash());
           Thread.sleep(1000);
 
-          // shooter pivot motor 2
+          // amp pivot motor 2
           LogOrDash.checkRevError("amp pivot motor 2 clear",
               pivot2.restoreFactoryDefaults());
           

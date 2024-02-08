@@ -64,7 +64,7 @@ public class Hang extends SubsystemBase {
       try
       {
           
-          // shooter pivot motor 1
+          // hook motor 1
           LogOrDash.checkRevError("hook motor 1 clear",
               hook1.restoreFactoryDefaults());
           
@@ -79,7 +79,7 @@ public class Hang extends SubsystemBase {
               hook1.burnFlash());
           Thread.sleep(1000);
 
-          // shooter pivot motor 2
+          // hook motor 2
           LogOrDash.checkRevError("hook motor 2 clear",
               hook2.restoreFactoryDefaults());
           
