@@ -43,7 +43,7 @@ public class Intake extends SubsystemBase
     NamedCommands.registerCommand("pickup", pickup());
     NamedCommands.registerCommand("inAmp", inAmp());
     NamedCommands.registerCommand("toShoot", toShoot());
-    NamedCommands.registerCommand("off", off());
+    NamedCommands.registerCommand("intakeOff", off());
   }
 
   public void configToFlash()

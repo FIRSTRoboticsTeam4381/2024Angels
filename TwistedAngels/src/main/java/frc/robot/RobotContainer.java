@@ -85,6 +85,7 @@ public class RobotContainer {
         m_AutoChooser.setDefaultOption("None", Autos.none());
         // TODO m_AutoChooser.addOption("PathPlanner Example", Autos.exampleAuto());
         m_AutoChooser.addOption("Test", Autos.testAuto());
+        m_AutoChooser.addOption("3NoteFront", Autos.Front3Note());
 
         SmartDashboard.putData("Choose Auto:", m_AutoChooser);
 
