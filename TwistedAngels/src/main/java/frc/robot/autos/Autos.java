@@ -52,4 +52,9 @@ public final class Autos {
     public static Command none(){
         return Commands.none();
     }
+
+    // Gets the 3 notes in the front after shooting one
+    public static Command Front3Note(){
+        return new PathPlannerAuto("Front3NoteAuto");
+    }
 }
