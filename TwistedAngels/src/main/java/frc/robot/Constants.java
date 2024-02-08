@@ -123,22 +123,22 @@ public final class Constants {
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
 
+        /* Back Left Module - Module 2 */
+        public static final class Mod2{
+            public static final int driveMotorID = 40;
+            public static final int angleMotorID = 41;
+            public static final int canCoderID = 42; //TODO remove?
+            public static final double angleOffset = 0; //TODO
+            public static final SwerveModuleConstants constants = 
+                new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+        }
+
         /* Back Right Module - Module 3 */
         public static final class Mod3{
             public static final int driveMotorID = 30;
             public static final int angleMotorID = 31;
             public static final int canCoderID = 32; //TODO remove?
             public static final double angleOffset = 0; // TODO
-            public static final SwerveModuleConstants constants = 
-                new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
-        }
-
-        /* Back Right Module - Module 2 */
-        public static final class Mod2{
-            public static final int driveMotorID = 40;
-            public static final int angleMotorID = 41;
-            public static final int canCoderID = 42; //TODO remove?
-            public static final double angleOffset = 0; //TODO
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
