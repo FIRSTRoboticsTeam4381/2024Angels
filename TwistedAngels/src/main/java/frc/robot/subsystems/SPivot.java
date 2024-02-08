@@ -38,6 +38,8 @@ public class SPivot extends SubsystemBase {
 
     // Button to turn on/off sending debug data to the dashboard
     SmartDashboard.putData("Burn SPivot Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+
+    // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("sPivotToShoot", pivotToShoot());
     NamedCommands.registerCommand("sPivotBack", pivotBack());
 
@@ -111,6 +113,7 @@ public class SPivot extends SubsystemBase {
     }
   }
 
+  // Basic Joystick control for the Shooter Pivot
   public Command joystickControl(Supplier<Double> joystickMove) { // JOYSTICK CONTROL FOR SHOOTER PIVOT
     return new InstantCommand( () -> 
     {
@@ -127,22 +130,27 @@ public class SPivot extends SubsystemBase {
     ).withName("JoystickControl").repeatedly();
   }
 
+  // Make the shooter pivot go to a position
   public Command sPivotTo(int position) { // Set position for later commands
     return new SparkMaxPosition(pivot1, position, 0, 50, this).withName("sPivotTo");
   }
 
-  public Command pivotToShoot() { // GO TO SHOOT POSITION
-    return sPivotTo(2).withName("pivotToShoot");
+  // Pivot to shooting position
+  public Command pivotToShoot() {
+    return sPivotTo(2).withName("pivotToShoot"); // Actual position is unknown as of 2/8/24
   }
 
-   public Command pivotBack() { // GO BACK TO REGULAR POSITION (0)
+  // GO BACK TO REGULAR POSITION (0)
+  public Command pivotBack() {
     return sPivotTo(0).withName("pivotBack");
   }
 
+  // Seeing if going up is safe
   public boolean isUpSafe() {
       return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() > 444;
   }
-  
+
+  // If not safe don't move  
   public boolean isDanger() {
     double p = pivot1.getEncoder().getPosition();  
     return 5 < p;

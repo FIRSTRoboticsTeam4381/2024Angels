@@ -109,7 +109,8 @@ public class Hang extends SubsystemBase {
     LogOrDash.checkRevError("Hook open loop ramp rate", m.setOpenLoopRampRate(0.1));
 
   }
-
+  
+  // Move the hang to "position" position
   public Command hangTo(int position) { // Set position for later commands
     return new SparkMaxPosition(hook1, position, 0, 50, this).withName("hangTo");
   }

@@ -40,6 +40,8 @@ public class Intake extends SubsystemBase
 
      // Button to turn on/off sending debug data to the dashboard
     SmartDashboard.putData("Burn Intake Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+
+    // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("pickup", pickup());
     NamedCommands.registerCommand("inAmp", inAmp());
     NamedCommands.registerCommand("toShoot", toShoot());
@@ -120,6 +122,7 @@ public class Intake extends SubsystemBase
     return new InstantCommand(() -> intake.set(0), this).withName("off");
   }
   @Override
+  
   public void periodic() 
   {
     LogOrDash.sparkDiagnostics("intake/motor", intake);

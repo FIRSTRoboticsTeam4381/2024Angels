@@ -41,6 +41,8 @@ public class APivot extends SubsystemBase {
 
     // Button to turn on/off sending debug data to the dashboard
     SmartDashboard.putData("Burn APivot Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+
+    // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("aPivotUp", pivotUp());
     NamedCommands.registerCommand("aPivotDown", pivotDown());
 
@@ -99,7 +101,7 @@ public class APivot extends SubsystemBase {
 
   }
 
-
+  // Basic Joystick movement for the amp pivot
   public Command joystickMove(Supplier<Double> joystickM)
   {
     return new InstantCommand(() -> 
@@ -120,33 +122,40 @@ public class APivot extends SubsystemBase {
     ).withName("joystickMove").repeatedly();
   }
 
+  // Pivot the amp pivot to a positon
   public Command pivotTo(int position)
   {
     return new SparkMaxPosition(pivot1, position, 0, 50, this).withName("pivotTo");
   }
 
+  // Amp pivot up position
   public Command pivotUp()
   {
       return pivotTo(UP_POSITION).withName("pivotUp");
   }
 
+  // Amp pivot down position
   public Command pivotDown()
   {
      return pivotTo(0).withName("pivotDown");
   }
 
+  // Seeing if the pivot is down
   public boolean isDown() {
       return pivot1.getEncoder().getPosition() < UP_POSITION * 0.9; 
   }
 
+  // Seeing if going down is safe with no collison
   public boolean isDownSafe() {
       return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() < 5 || pivot1.getEncoder().getPosition() > 444;
   }
 
+  // Seeing if going up is safe with no collison
   public boolean isUpSafe() {
       return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() > 444;
   }
 
+  // If this is true then it should not go into a position of collison
   public boolean isDanger() {
       double p = pivot1.getEncoder().getPosition();  
       return 444 > p && 5 < p;
@@ -160,6 +169,7 @@ public class APivot extends SubsystemBase {
     LogOrDash.logNumber("aPivot/pivot1/position", pivot1.getEncoder().getPosition());
     LogOrDash.logNumber("aPivot/pivot2/-position", pivot2.getEncoder().getPosition());
 
+    // Cancels any movement if it is not safe
     if (pivot1.getAppliedOutput() > 0 && !isUpSafe()) { 
       this.getCurrentCommand().cancel();
       pivot1.set(0);

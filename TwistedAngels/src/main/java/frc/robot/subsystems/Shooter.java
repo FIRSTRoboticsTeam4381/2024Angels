@@ -39,6 +39,8 @@ public class Shooter extends SubsystemBase {
 
     // Button to turn on/off sending debug data to the dashboard
     SmartDashboard.putData("Burn Shooter Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+
+    // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("shooterReady", shooterReady());
   }
 
@@ -98,6 +100,7 @@ public class Shooter extends SubsystemBase {
     LogOrDash.logNumber("shooter/shooter2/velocity", shooter2.getEncoder().getVelocity());
   }
 
+  // Make the shooter get ready and spun up
   public Command shooterReady() {
     return new FunctionalCommand( () -> {
 
@@ -122,6 +125,7 @@ public class Shooter extends SubsystemBase {
     
   }
 
+  // It is ready to shoot when true
   public boolean readyShoot() {
     return shooter1.getEncoder().getVelocity() < SHOOT_SPEED * 0.95;
   }

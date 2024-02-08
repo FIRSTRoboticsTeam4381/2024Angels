@@ -74,8 +74,7 @@ public class RobotContainer {
         shooterMode = new ShootingMode(driver, specialist);
         //led1 = new AddressableLED(2);
         ledBuffer1 = new AddressableLEDBuffer(10);
-
-
+        
         aPivot.setDefaultCommand(aPivot.joystickMove(specialist::getLeftY));
         sPivot.setDefaultCommand(sPivot.joystickControl(specialist::getRightY));
         hang.setDefaultCommand(hang.hangTriggers(specialist::getL2Axis, specialist::getR2Axis));
