@@ -19,8 +19,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -70,7 +72,7 @@ public class RobotContainer {
         sPivot = new SPivot();
         leds = new LEDs();
         shooterMode = new ShootingMode(driver, specialist);
-        led1 = new AddressableLED(0);
+        //led1 = new AddressableLED(2);
         ledBuffer1 = new AddressableLEDBuffer(10);
 
 
@@ -100,7 +102,7 @@ public class RobotContainer {
     private void configureButtonBindings(){
         // Button to reset swerve odometry and anglesssss
         zeroSwerve
-            .onTrue(new InstantCommand(() -> s_Swerve.zeroGyro(0))
+            .onTrue(new InstantCommand(() -> s_Swerve.zeroGyro())
             .alongWith(new InstantCommand(() -> s_Swerve.resetOdometry(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0))))));
         driver.cross().toggleOnTrue(shooterMode);
         specialist.R1().onTrue(new SequentialCommandGroup (
@@ -113,6 +115,33 @@ public class RobotContainer {
 
         specialist.povUp().onTrue(aPivot.pivotUp().withName("aPivotUp"));
         specialist.povDown().onTrue(aPivot.pivotDown().withName("aPivotDown"));
+
+        specialist.circle().toggleOnTrue(intake.pickup().withName("pickup"));
+        specialist.cross().onTrue(intake.spitOut().withName("spitOut"));
+
+        specialist.PS().onTrue(new InstantCommand(() -> { // Cancel all commands
+            try {
+                intake.getCurrentCommand().cancel();
+            } catch(NullPointerException e) {
+                //nothing
+            } try {
+                aPivot.getCurrentCommand().cancel();
+            } catch(NullPointerException e) {
+                //nothing
+            } try {
+                sPivot.getCurrentCommand().cancel();
+            } catch(NullPointerException e) {
+                //nothing
+            } try {
+                shooter.getCurrentCommand().cancel();
+            } catch(NullPointerException e) {
+                //nothing
+            } try {
+                hang.getCurrentCommand().cancel();
+            }catch(NullPointerException e) {
+                //nothing
+            }
+        }));
     }
 
     /**

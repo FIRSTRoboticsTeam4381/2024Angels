@@ -11,15 +11,25 @@ import com.revrobotics.REVLibError;
 import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.hal.PowerDistributionFaults;
+import edu.wpi.first.hal.PowerDistributionStickyFaults;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.util.datalog.BooleanLogEntry;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.util.datalog.StringLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 /** Add your docs here. */
 public class LogOrDash {
@@ -165,7 +175,7 @@ public class LogOrDash {
 
         // Record faults and sticky faults
         logString(prefix+"/faults", decodeSparkMaxFaults(s.getFaults()));
-        logString(prefix+"/faults", decodeSparkMaxFaults(s.getStickyFaults()));
+        logString(prefix+"/stickyfaults", decodeSparkMaxFaults(s.getStickyFaults()));
         
     }
 
@@ -199,5 +209,96 @@ public class LogOrDash {
         }
 
         return faults;
+    }
+
+
+    /**
+     * Logs diagnostic information about the Power Distribution Panel, such as blown fuses.
+     * This does not log channel current, overall current or voltage because those are automatically
+     * logged by having the PDP on the SmartDashboard.
+     * @param pdp The Power Distribution Panel to log
+     */
+    public static void logPDPData(PowerDistribution pdp) {
+        // Some stats that aren't auto-logged
+        logNumber("pdp/temperature", pdp.getTemperature());
+        logNumber("pdp/watts", pdp.getTotalPower());
+        logNumber("pdp/joules", pdp.getTotalEnergy());
+        
+        // General faults
+        String f = "";
+        PowerDistributionFaults faults = pdp.getFaults();
+        if(faults.Brownout)
+            f += "Brownout, ";
+        if(faults.CanWarning)
+            f += "CAN Error, ";
+        if(faults.HardwareFault)
+            f += "Hardware Failure, ";
+
+        logString("pdp/faults", f);
+
+        // Sticky faults
+        f = "";
+        PowerDistributionStickyFaults stickies = pdp.getStickyFaults();
+        if(stickies.Brownout)
+            f += "Brownout, ";
+        if(stickies.CanWarning)
+            f += "CAN Error, ";
+        if(stickies.CanBusOff)
+            f += "CAN Offline, ";
+        if(stickies.HasReset)
+            f += "Rebooted, ";
+
+        logString("pdp/sticky", f);
+
+        // Blown fuses
+        f = "";
+        String s = "";
+        for(int j=0; j<pdp.getNumChannels(); j++)
+        {
+            if(faults.getBreakerFault(j))
+                f += j+", ";
+
+            if(stickies.getBreakerFault(j))
+                s += j+", ";
+        }
+
+        logString("pdp/blownfuses", f);
+        logString("pdp/stickyfuses", s);
+    }
+
+
+    public static void setupSysIDTests(CANSparkBase[] toSetVoltage, CANSparkBase[] toLog, Subsystem s)
+    {
+       setupSysIDTests(new SysIdRoutine.Config(), toSetVoltage, toLog, s);
+    }
+
+    public static void setupSysIDTests(SysIdRoutine.Config c, CANSparkBase[] toSetVoltage, CANSparkBase[] toLog, Subsystem s)
+    {
+         SysIdRoutine routine = new SysIdRoutine(
+            new SysIdRoutine.Config(),
+            new SysIdRoutine.Mechanism(
+                (v) -> {
+                    for(int j = 0; j < toSetVoltage.length; j++)
+                    {
+                        toSetVoltage[j].setVoltage(v.in(Units.Volts));
+                    }
+                }, 
+                (log) ->
+                {
+                    for(int j = 0; j < toLog.length; j++)
+                    {
+                        log.motor("m"+j).voltage(
+                        Units.Volts.of(   toLog[j].getAppliedOutput() * RobotController.getBatteryVoltage())
+                        ).linearVelocity(Units.MetersPerSecond.of(toLog[j].getEncoder().getVelocity()))
+                        .linearPosition(Units.Meters.of(toLog[j].getEncoder().getPosition()));
+                    }
+                }, 
+                s)
+        );
+
+        SmartDashboard.putData("SysID/"+s.getName()+"/dyn_f", routine.dynamic(Direction.kForward));
+        SmartDashboard.putData("SysID/"+s.getName()+"/dyn_r", routine.dynamic(Direction.kReverse));
+        SmartDashboard.putData("SysID/"+s.getName()+"/quas_f", routine.dynamic(Direction.kForward));
+        SmartDashboard.putData("SysID/"+s.getName()+"/quas_r", routine.dynamic(Direction.kReverse));
     }
 }

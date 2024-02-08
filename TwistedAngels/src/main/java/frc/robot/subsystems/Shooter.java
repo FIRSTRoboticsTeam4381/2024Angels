@@ -24,16 +24,16 @@ import frc.lib.util.LogOrDash;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
-  public CANSparkMax shooter1;
-  public CANSparkMax shooter2;
+  public CANSparkFlex shooter1;
+  public CANSparkFlex shooter2;
 
 
   public final int SHOOT_SPEED = 123456789;
 
   /** Creates a new Shooter. */
   public Shooter() {
-    shooter1 = new CANSparkMax(53, MotorType.kBrushless);
-    shooter2 = new CANSparkMax(54, MotorType.kBrushless);
+    shooter1 = new CANSparkFlex(53, MotorType.kBrushless);
+    shooter2 = new CANSparkFlex(54, MotorType.kBrushless);
     shooter2.setInverted(true);
     SmartDashboard.putData(this);
 
@@ -79,7 +79,7 @@ public class Shooter extends SubsystemBase {
         }
     }
 
-    private void configShooterMotor(CANSparkMax m)
+    private void configShooterMotor(CANSparkFlex m)
     {
       LogOrDash.checkRevError("shooter current limit", m.setSmartCurrentLimit(60));
 

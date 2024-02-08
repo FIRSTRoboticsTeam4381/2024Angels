@@ -1,6 +1,6 @@
 package frc.lib.util;
 
-import com.ctre.phoenix.sensors.Pigeon2;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -22,14 +22,14 @@ public class DriftCorrection {
     private static PIDController rotationCorrection = new PIDController(2.5, 0, 0);
     public static boolean enabled = false;
     
-    private static double[] rawGyro = new double[3];
+    private static double rawGyro = 0;
 
     public static void configPID()
     {
         rotationCorrection.enableContinuousInput(-Math.PI, Math.PI); //0-360
     }
 
-    public static ChassisSpeeds driftCorrection(ChassisSpeeds speeds, Pose2d pose, Pigeon2 gyro)
+    public static ChassisSpeeds driftCorrection(ChassisSpeeds speeds, Pose2d pose, AHRS gyro)
     {
         if(enabled)
         {
@@ -43,7 +43,7 @@ public class DriftCorrection {
             if(speeds.omegaRadiansPerSecond == 0.0)
             {
                 // Not trying to rotate, attempt to maintain angle
-                gyro.getRawGyro(rawGyro);
+                rawGyro = gyro.getRawGyroZ();
                 if(locked)
                 {
                     // Angle already locked on
@@ -51,7 +51,7 @@ public class DriftCorrection {
                     LogOrDash.logNumber("Rotation Correction", speeds.omegaRadiansPerSecond);
                     return speeds;
                 }
-                else if(Math.abs(rawGyro[2]) < 100)
+                else if(Math.abs(rawGyro) < 100) // May have to tweak later
                 {
                     // No angle locked, acquire lock
                     lockAngle = pose.getRotation().getRadians();// % 2*Math.PI;//% 360;

@@ -1,0 +1,1659 @@
+{
+  "version": "3.0.1",
+  "layout": [
+    {
+      "type": 5,
+      "fields": [],
+      "listFields": [
+        [
+          {
+            "type": "Robot",
+            "key": "NT:/SmartDashboard/Field/Robot",
+            "sourceTypeIndex": 0,
+            "sourceType": 5
+          },
+          {
+            "type": "Ghost",
+            "key": "NT:/SmartDashboard/Field/target",
+            "sourceTypeIndex": 0,
+            "sourceType": 5
+          },
+          {
+            "type": "Trajectory",
+            "key": "NT:/SmartDashboard/Field/path",
+            "sourceTypeIndex": 0,
+            "sourceType": 5
+          },
+          {
+            "type": "Heatmap (Enabled)",
+            "key": "NT:/SmartDashboard/Field/Robot",
+            "sourceTypeIndex": 0,
+            "sourceType": 5
+          }
+        ]
+      ],
+      "options": {
+        "game": "2024 Field",
+        "unitDistance": "meters",
+        "unitRotation": "degrees",
+        "origin": "right",
+        "size": 0.75,
+        "allianceBumpers": "auto",
+        "allianceOrigin": "blue",
+        "orientation": "blue left, red right"
+      },
+      "configHidden": false,
+      "title": "Odometry"
+    },
+    {
+      "type": 6,
+      "fields": [],
+      "listFields": [
+        [],
+        [
+          {
+            "type": "Robot",
+            "key": "NT:/SmartDashboard/Field/Robot",
+            "sourceTypeIndex": 0,
+            "sourceType": 5
+          },
+          {
+            "type": "Green Ghost",
+            "key": "NT:/SmartDashboard/Field/target",
+            "sourceTypeIndex": 0,
+            "sourceType": 5
+          },
+          {
+            "type": "Trajectory",
+            "key": "NT:/SmartDashboard/Field/path",
+            "sourceTypeIndex": 0,
+            "sourceType": 5
+          }
+        ]
+      ],
+      "options": {
+        "field": "2024 Field",
+        "alliance": "blue",
+        "robot": "2024 KitBot",
+        "unitDistance": "meters",
+        "unitRotation": "degrees",
+        "cameraIndex": -1,
+        "fov": 50
+      },
+      "configHidden": false,
+      "title": "3D Field"
+    },
+    {
+      "type": 8,
+      "fields": [],
+      "listFields": [],
+      "options": {
+        "ids": [
+          0,
+          1,
+          2
+        ],
+        "layouts": [
+          "PS4 Controller",
+          "PS4 Controller",
+          "None"
+        ]
+      },
+      "configHidden": false,
+      "title": "Joysticks"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/PathPlanner/inaccuracy",
+              "color": "#2b66a2",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/Choose Auto:/selected",
+              "color": "#e5b31b",
+              "show": true
+            }
+          ]
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        }
+      },
+      "title": "Auto Error"
+    },
+    {
+      "type": 9,
+      "fields": [
+        {
+          "key": "NT:/SmartDashboard/swerve/status",
+          "sourceTypeIndex": 0,
+          "sourceType": 5
+        },
+        {
+          "key": "NT:/SmartDashboard/swerve/target",
+          "sourceTypeIndex": 0,
+          "sourceType": 5
+        },
+        {
+          "key": "NT:/SmartDashboard/Gyro Angle",
+          "sourceTypeIndex": 0,
+          "sourceType": 2
+        }
+      ],
+      "listFields": [],
+      "options": {
+        "maxSpeed": 4.5,
+        "rotationUnits": "degrees",
+        "arrangement": "0,1,2,3",
+        "sizeLeftRight": 0.65,
+        "sizeFrontBack": 0.65,
+        "forwardDirection": "up"
+      },
+      "configHidden": false,
+      "title": "Swerve"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        },
+        "discrete": {
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/APivot/.command",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/Intake/.command",
+              "color": "#e5b31b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/Shooter/.command",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/SPivot/.command",
+              "color": "#80588e",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/Hang/.command",
+              "color": "#e48b32",
+              "show": true
+            }
+          ]
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        }
+      },
+      "title": "Commands"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/TotalCurrent",
+              "color": "#2b66a2",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Voltage",
+              "color": "#e5b31b",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Total Power"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/pdp/joules",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/pdp/watts",
+              "color": "#e5b31b",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        }
+      },
+      "title": "Power Accum"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan0",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan1",
+              "color": "#e5b31b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan2",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan3",
+              "color": "#80588e",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan4",
+              "color": "#e48b32",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan5",
+              "color": "#aacaee",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan6",
+              "color": "#c0b487",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan7",
+              "color": "#858584",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan8",
+              "color": "#3b875a",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan9",
+              "color": "#d993aa",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan10",
+              "color": "#eb987e",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan11",
+              "color": "#5d4f92",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan12",
+              "color": "#a64b6b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan13",
+              "color": "#dbd345",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan14",
+              "color": "#7e331f",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan15",
+              "color": "#96b637",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan16",
+              "color": "#5f4528",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan17",
+              "color": "#d36134",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan18",
+              "color": "#2e3b28",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan19",
+              "color": "#d36134",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan20",
+              "color": "#a64b6b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan21",
+              "color": "#d993aa",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan22",
+              "color": "#2e3b28",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan23",
+              "color": "#5f4528",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/pdp/blownfuses",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/pdp/stickyfuses",
+              "color": "#c0b487",
+              "show": true
+            }
+          ]
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        }
+      },
+      "title": "PDP Channels"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/pdp/temperature",
+              "color": "#2b66a2",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/pdp/faults",
+              "color": "#e5b31b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/pdp/sticky",
+              "color": "#af2437",
+              "show": true
+            }
+          ]
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        }
+      },
+      "title": "PDP Faults"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        },
+        "discrete": {
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot1/faults",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot2/faults",
+              "color": "#e5b31b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot1/faults",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot2/faults",
+              "color": "#80588e",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/intake/motor/faults",
+              "color": "#e48b32",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter1/faults",
+              "color": "#aacaee",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter2/faults",
+              "color": "#c0b487",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/angle/faults",
+              "color": "#858584",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/drive/faults",
+              "color": "#3b875a",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/angle/faults",
+              "color": "#d993aa",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/drive/faults",
+              "color": "#eb987e",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/angle/faults",
+              "color": "#5d4f92",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/drive/faults",
+              "color": "#a64b6b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/angle/faults",
+              "color": "#dbd345",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/drive/faults",
+              "color": "#7e331f",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/hang/hook1/faults",
+              "color": "#96b637",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/hang/hook2/faults",
+              "color": "#5f4528",
+              "show": true
+            }
+          ]
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        }
+      },
+      "title": "Motor Faults"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        },
+        "discrete": {
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot1/stickyfaults",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot2/stickyfaults",
+              "color": "#e5b31b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot1/stickyfaults",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot2/stickyfaults",
+              "color": "#80588e",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/intake/motor/stickyfaults",
+              "color": "#e48b32",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter1/stickyfaults",
+              "color": "#aacaee",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter2/stickyfaults",
+              "color": "#c0b487",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/angle/stickyfaults",
+              "color": "#858584",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/drive/stickyfaults",
+              "color": "#3b875a",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/angle/stickyfaults",
+              "color": "#d993aa",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/drive/stickyfaults",
+              "color": "#eb987e",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/angle/stickyfaults",
+              "color": "#5d4f92",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/drive/stickyfaults",
+              "color": "#a64b6b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/angle/stickyfaults",
+              "color": "#dbd345",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/drive/stickyfaults",
+              "color": "#7e331f",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/hang/hook1/stickyfaults",
+              "color": "#96b637",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/hang/hook2/stickyfaults",
+              "color": "#5f4528",
+              "show": true
+            }
+          ]
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        }
+      },
+      "title": "Sticky Faults"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        },
+        "discrete": {
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot1/errors",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot2/errors",
+              "color": "#e5b31b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot1/errors",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot2/errors",
+              "color": "#80588e",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/intake/motor/errors",
+              "color": "#e48b32",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter1/errors",
+              "color": "#aacaee",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter2/errors",
+              "color": "#c0b487",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/angle/errors",
+              "color": "#858584",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/drive/errors",
+              "color": "#3b875a",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/angle/errors",
+              "color": "#d993aa",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/drive/errors",
+              "color": "#eb987e",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/angle/errors",
+              "color": "#5d4f92",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/drive/errors",
+              "color": "#a64b6b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/angle/errors",
+              "color": "#dbd345",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/drive/errors",
+              "color": "#7e331f",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/hang/hook1/errors",
+              "color": "#96b637",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/hang/hook2/errors",
+              "color": "#5f4528",
+              "show": true
+            }
+          ]
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        }
+      },
+      "title": "Motor Errors"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot1/motorTemp",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot2/motorTemp",
+              "color": "#e5b31b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot1/motorTemp",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot2/motorTemp",
+              "color": "#80588e",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/intake/motor/motorTemp",
+              "color": "#e48b32",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter1/motorTemp",
+              "color": "#aacaee",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter2/motorTemp",
+              "color": "#c0b487",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/angle/motorTemp",
+              "color": "#858584",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/drive/motorTemp",
+              "color": "#3b875a",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/angle/motorTemp",
+              "color": "#d993aa",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/drive/motorTemp",
+              "color": "#eb987e",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/angle/motorTemp",
+              "color": "#5d4f92",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/drive/motorTemp",
+              "color": "#a64b6b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/angle/motorTemp",
+              "color": "#dbd345",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/drive/motorTemp",
+              "color": "#7e331f",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/hang/hook1/motorTemp",
+              "color": "#96b637",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/hang/hook2/motorTemp",
+              "color": "#5f4528",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        }
+      },
+      "title": "Thermals"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot1/position",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot2/position",
+              "color": "#e5b31b",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot1/appliedOutput",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot2/appliedOutput",
+              "color": "#80588e",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Amp Pivot"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot1/outputCurrent",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot2/outputCurrent",
+              "color": "#e5b31b",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot1/busVoltage",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/aPivot/pivot1/busVoltage",
+              "color": "#80588e",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Amp Power"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot1/position",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot2/position",
+              "color": "#e5b31b",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot1/appliedOutput",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot2/appliedOutput",
+              "color": "#80588e",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Shooter Pivot"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot1/outputCurrent",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot2/outputCurrent",
+              "color": "#e5b31b",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot1/busVoltage",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/sPivot/pivot2/busVoltage",
+              "color": "#80588e",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Shooter Pivot Pow"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/intake/velocity",
+              "color": "#2b66a2",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/intake/motor/appliedOutput",
+              "color": "#e5b31b",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Intake"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/intake/motor/outputCurrent",
+              "color": "#2b66a2",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/intake/motor/busVoltage",
+              "color": "#e5b31b",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Intake Pow"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter1/velocity",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter2/velocity",
+              "color": "#e5b31b",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter1/appliedOutput",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter2/appliedOutput",
+              "color": "#80588e",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Shooter"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter1/outputCurrent",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter2/outputCurrent",
+              "color": "#e5b31b",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter1/busVoltage",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/shooter/shooter2/busVoltage",
+              "color": "#80588e",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Shooter Pow"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/drive/velocity",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/drive/velocity",
+              "color": "#e5b31b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/drive/velocity",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/drive/velocity",
+              "color": "#80588e",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/drive/appliedOutput",
+              "color": "#e48b32",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/drive/appliedOutput",
+              "color": "#aacaee",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/drive/appliedOutput",
+              "color": "#c0b487",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/drive/appliedOutput",
+              "color": "#858584",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Drive Motors"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/drive/outputCurrent",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/drive/outputCurrent",
+              "color": "#e5b31b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/drive/outputCurrent",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/drive/outputCurrent",
+              "color": "#80588e",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/drive/busVoltage",
+              "color": "#e48b32",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/drive/busVoltage",
+              "color": "#aacaee",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/drive/busVoltage",
+              "color": "#c0b487",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/drive/busVoltage",
+              "color": "#858584",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Drive Pow"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/angle/position",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/angle/position",
+              "color": "#e5b31b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/angle/position",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/angle/position",
+              "color": "#80588e",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/angle/setpoint",
+              "color": "#e48b32",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/angle/setpoint",
+              "color": "#aacaee",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/angle/setpoint",
+              "color": "#c0b487",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/angle/setpoint",
+              "color": "#858584",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Angle Motors"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/angle/outputCurrent",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/angle/outputCurrent",
+              "color": "#e5b31b",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/angle/outputCurrent",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/angle/outputCurrent",
+              "color": "#80588e",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/swerve/m0/angle/busVoltage",
+              "color": "#e48b32",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m1/angle/busVoltage",
+              "color": "#aacaee",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m2/angle/busVoltage",
+              "color": "#c0b487",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/swerve/m3/angle/busVoltage",
+              "color": "#858584",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Angle Motor Power"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/hang/hook1/position",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/hang/hook2/position",
+              "color": "#e5b31b",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/hang/hook1/appliedOutput",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/hang/hook2/appliedOutput",
+              "color": "#80588e",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Hang"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/hang/hook1/outputCurrent",
+              "color": "#af2437",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/hang/hook2/outputCurrent",
+              "color": "#80588e",
+              "show": true
+            }
+          ]
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": [
+            {
+              "key": "NT:/SmartDashboard/hang/hook1/busVoltage",
+              "color": "#2b66a2",
+              "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/hang/hook2/busVoltage",
+              "color": "#e5b31b",
+              "show": true
+            }
+          ]
+        }
+      },
+      "title": "Hang Pow"
+    }
+  ]
+}

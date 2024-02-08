@@ -5,7 +5,10 @@
 package frc.robot;
 
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.util.LogOrDash;
@@ -21,6 +24,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  public PowerDistribution pdp;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -34,6 +39,10 @@ public class Robot extends TimedRobot {
     for (int port = 5800; port <= 5805; port++){
       PortForwarder.add(port, "limelight.local", port);
     }
+
+    pdp = new PowerDistribution(1, ModuleType.kRev);
+
+    SmartDashboard.putData(pdp);
   }
 
   /**
@@ -45,6 +54,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    LogOrDash.logPDPData(pdp);
+
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
