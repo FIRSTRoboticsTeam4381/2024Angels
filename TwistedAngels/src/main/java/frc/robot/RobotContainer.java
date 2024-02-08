@@ -88,6 +88,7 @@ public class RobotContainer {
         // TODO m_AutoChooser.addOption("PathPlanner Example", Autos.exampleAuto());
         m_AutoChooser.addOption("Test", Autos.testAuto());
         m_AutoChooser.addOption("3NoteFront", Autos.Front3Note());
+        m_AutoChooser.addOption("All", Autos.All9());
 
         SmartDashboard.putData("Choose Auto:", m_AutoChooser);
 
