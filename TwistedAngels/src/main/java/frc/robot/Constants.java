@@ -59,15 +59,9 @@ public final class Constants {
         );
 
         /* Swerve Current Limiting */
-        public static final int angleContinuousCurrentLimit = 20;
-        public static final int anglePeakCurrentLimit = 400;
-        public static final double anglePeakCurrentDuration = 0.1;
-        public static final boolean angleEnableCurrentLimit = true;
+        public static final int angleCurrentLimit = 40;
 
-        public static final int driveContinuousCurrentLimit = 35;
-        public static final int drivePeakCurrentLimit = 60;
-        public static final double drivePeakCurrentDuration = 0.1;
-        public static final boolean driveEnableCurrentLimit = true;
+        public static final int driveCurrentLimit = 80;
 
         /* Angle Motor PID Values */
         public static final double angleKP = 0.6;
@@ -90,9 +84,6 @@ public final class Constants {
         public static final double maxSpeed = 6; //meters per second
         public static final double maxAngularVelocity = 11.5;
 
-        /* Neutral Modes */
-        public static final IdleMode angleNeutralMode = IdleMode.kCoast;
-        public static final IdleMode driveNeutralMode = IdleMode.kBrake;
 
         // TODO check - teleop
         /* Motor Inverts */

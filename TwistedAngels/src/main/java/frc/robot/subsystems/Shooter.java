@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.LogOrDash;
+import frc.lib.util.SparkSaver;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
@@ -38,7 +39,18 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putData(this);
 
     // Button to turn on/off sending debug data to the dashboard
-    SmartDashboard.putData("Burn Shooter Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+    //SmartDashboard.putData("Burn Shooter Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+
+    SmartDashboard.putData("Configure Shooter", new SparkSaver(shooter1, "shooter1", this)
+      .setSmartCurrentLimit(80)
+      .setCoastMode()
+      .setOpenLoopRampRate(0.2)
+      .buildCommand()
+      .andThen(new SparkSaver(shooter2, "shooter2", this)
+      .setSmartCurrentLimit(80)
+      .setCoastMode()
+      .setOpenLoopRampRate(0.2)
+      .buildCommand()));
 
     // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("shooterReady", shooterReady());

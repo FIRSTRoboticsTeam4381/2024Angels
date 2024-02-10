@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import frc.lib.util.LogOrDash;
+import frc.lib.util.SparkSaver;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,41 +40,21 @@ public class Intake extends SubsystemBase
     SmartDashboard.putData(this);
 
      // Button to turn on/off sending debug data to the dashboard
-    SmartDashboard.putData("Burn Intake Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+    //SmartDashboard.putData("Burn Intake Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
 
     // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("pickup", pickup());
     NamedCommands.registerCommand("inAmp", inAmp());
     NamedCommands.registerCommand("toShoot", toShoot());
     NamedCommands.registerCommand("intakeOff", off());
+
+    SmartDashboard.putData("Configure Intake", new SparkSaver(intake, "intake", this)
+      .setSmartCurrentLimit(30)
+      .setBrakeMode()
+      .buildCommand());
   }
 
-  public void configToFlash()
-  {
-      try
-      {
-          // intake motor config
-          LogOrDash.checkRevError("intake motor clear",
-              intake.restoreFactoryDefaults());
-          
-          Thread.sleep(1000);
-
-          LogOrDash.checkRevError("amp pivot current limit", intake.setSmartCurrentLimit(40));
-
-          LogOrDash.checkRevError("amp pivot brakes", intake.setIdleMode(IdleMode.kBrake));
-
-          Thread.sleep(1000);
-          LogOrDash.checkRevError("intake motor BURN",
-              intake.burnFlash());
-          Thread.sleep(1000);
-      }
-
-      catch(InterruptedException e)
-      {
-          DriverStation.reportError("Main thread interrupted while flashing intake!", e.getStackTrace());
-      }
-  }
-
+  
   // Intake on
   public Command pickup()
   {

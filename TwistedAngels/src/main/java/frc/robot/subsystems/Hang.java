@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.LogOrDash;
+import frc.lib.util.SparkSaver;
 import frc.robot.commands.SparkMaxPosition;
 
 public class Hang extends SubsystemBase {
@@ -31,11 +32,22 @@ public class Hang extends SubsystemBase {
 
     hook1 = new CANSparkMax(57, MotorType.kBrushless);
     hook2 = new CANSparkMax(58, MotorType.kBrushless);
-    hook2.follow(hook1,true);
+    //hook2.follow(hook1,true);
 
     SmartDashboard.putData(this);
-    SmartDashboard.putData("Burn Hook Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+    //SmartDashboard.putData("Burn Hook Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
 
+    SmartDashboard.putData("Configure Hang", new SparkSaver(hook1, "hook1", this)
+      .setSmartCurrentLimit(40)
+      .setBrakeMode()
+      .setOpenLoopRampRate(0.1)
+      .setSoftLimits(0, 123456789)
+      .buildCommand()
+      .andThen(new SparkSaver(hook2, "hook2", this)
+      .setSmartCurrentLimit(40)
+      .setBrakeMode()
+      .follow(hook1, true)
+      .buildCommand()));
   }
 
   @Override
@@ -59,56 +71,7 @@ public class Hang extends SubsystemBase {
     this).repeatedly(); 
   }
 
-  public void configToFlash()
-  {
-      try
-      {
-          
-          // hook motor 1
-          LogOrDash.checkRevError("hook motor 1 clear",
-              hook1.restoreFactoryDefaults());
-          
-          Thread.sleep(1000);
-
-          configHookMotor(hook1);
-          LogOrDash.checkRevError("hook1LimitF1", hook1.setSoftLimit(SoftLimitDirection.kForward, 123456789));
-          LogOrDash.checkRevError("hook1LimitR1", hook1.setSoftLimit(SoftLimitDirection.kReverse, 0));
-
-          Thread.sleep(1000);
-          LogOrDash.checkRevError("hook motor 1 BURN",
-              hook1.burnFlash());
-          Thread.sleep(1000);
-
-          // hook motor 2
-          LogOrDash.checkRevError("hook motor 2 clear",
-              hook2.restoreFactoryDefaults());
-          
-          Thread.sleep(1000);
-
-          configHookMotor(hook2);
-
-          Thread.sleep(1000);
-          LogOrDash.checkRevError("hook motor 2 BURN",
-              hook2.burnFlash());
-          Thread.sleep(1000);
-      }
-
-      catch(InterruptedException e)
-      {
-          DriverStation.reportError("Main thread interrupted while flashing Hook!", e.getStackTrace());
-      }
-  }
   
-
-  private void configHookMotor(CANSparkMax m)
-  {
-    LogOrDash.checkRevError("Hook current limit", m.setSmartCurrentLimit(40));
-
-    LogOrDash.checkRevError("Hook brakes", m.setIdleMode(IdleMode.kBrake));
-
-    LogOrDash.checkRevError("Hook open loop ramp rate", m.setOpenLoopRampRate(0.1));
-
-  }
   
   // Move the hang to "position" position
   public Command hangTo(int position) { // Set position for later commands

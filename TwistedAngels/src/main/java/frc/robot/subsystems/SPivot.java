@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.util.LogOrDash;
+import frc.lib.util.SparkSaver;
 import frc.robot.RobotContainer;
 import frc.robot.commands.SparkMaxPosition;
 
@@ -33,11 +34,23 @@ public class SPivot extends SubsystemBase {
   public SPivot() {
     pivot1 = new CANSparkMax(55, MotorType.kBrushless);
     pivot2 = new CANSparkMax(56, MotorType.kBrushless);
-    pivot2.follow(pivot1, true);
+    //pivot2.follow(pivot1, true);
     SmartDashboard.putData(this);
 
     // Button to turn on/off sending debug data to the dashboard
-    SmartDashboard.putData("Burn SPivot Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+    //SmartDashboard.putData("Burn SPivot Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+
+    SmartDashboard.putData("Configure SPivot", new SparkSaver(pivot1, "pivot1", this)
+      .setSmartCurrentLimit(40)
+      .setBrakeMode()
+      .setOpenLoopRampRate(0.1)
+      .setSoftLimits(0, 123456789)
+      .buildCommand()
+      .andThen(new SparkSaver(pivot2, "pivot2", this)
+      .setSmartCurrentLimit(40)
+      .setBrakeMode()
+      .follow(pivot1, true)
+      .buildCommand()));
 
     // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("sPivotToShoot", pivotToShoot());
@@ -48,58 +61,7 @@ public class SPivot extends SubsystemBase {
   }
 
 
-  public void configToFlash()
-  {
-      try
-      {
-          
-          // shooter pivot motor 1
-          LogOrDash.checkRevError("shooter pivot motor 1 clear",
-              pivot1.restoreFactoryDefaults());
-          
-          Thread.sleep(1000);
-
-          configShooterPivotMotor(pivot1);
-          LogOrDash.checkRevError("ShooterPivotLimitF1", pivot1.setSoftLimit(SoftLimitDirection.kForward, 123456789));
-          LogOrDash.checkRevError("ShooterPivotLimitR1", pivot1.setSoftLimit(SoftLimitDirection.kReverse, 0));
-
-          Thread.sleep(1000);
-          LogOrDash.checkRevError("shooter pivot motor 1 BURN",
-              pivot1.burnFlash());
-          Thread.sleep(1000);
-
-          // shooter pivot motor 2
-          LogOrDash.checkRevError("shooter pivot motor 2 clear",
-              pivot2.restoreFactoryDefaults());
-          
-          Thread.sleep(1000);
-
-          configShooterPivotMotor(pivot2);
-
-          Thread.sleep(1000);
-          LogOrDash.checkRevError("shooter pivot motor 2 BURN",
-              pivot2.burnFlash());
-          Thread.sleep(1000);
-      }
-
-      catch(InterruptedException e)
-      {
-          DriverStation.reportError("Main thread interrupted while flashing Shooter Pivot!", e.getStackTrace());
-      }
-  }
-  
-
-  private void configShooterPivotMotor(CANSparkMax m)
-  {
-    LogOrDash.checkRevError("shooter pivot current limit", m.setSmartCurrentLimit(40));
-
-    LogOrDash.checkRevError("shooter pivot brakes", m.setIdleMode(IdleMode.kBrake));
-
-    LogOrDash.checkRevError("shooter pivot open loop ramp rate", m.setOpenLoopRampRate(0.1));
-
-  }
-
-  @Override
+   @Override
   public void periodic() {
     LogOrDash.sparkDiagnostics("sPivot/pivot1", pivot1);
     LogOrDash.sparkDiagnostics("sPivot/pivot2", pivot2);    

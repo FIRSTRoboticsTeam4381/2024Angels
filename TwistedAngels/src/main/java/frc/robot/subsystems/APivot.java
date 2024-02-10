@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.util.LogOrDash;
+import frc.lib.util.SparkSaver;
 import frc.robot.RobotContainer;
 import frc.robot.commands.SparkMaxPosition;
 
@@ -35,12 +36,12 @@ public class APivot extends SubsystemBase {
   {
     pivot1 = new CANSparkMax(51, MotorType.kBrushless);
     pivot2 = new CANSparkMax(52, MotorType.kBrushless);
-    pivot2.follow(pivot1);
-    pivot2.setInverted(true);
+    //pivot2.follow(pivot1);
+    //pivot2.setInverted(true);
     SmartDashboard.putData(this);
 
     // Button to turn on/off sending debug data to the dashboard
-    SmartDashboard.putData("Burn APivot Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+    //SmartDashboard.putData("Burn APivot Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
 
     // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("aPivotUp", pivotUp());
@@ -48,59 +49,30 @@ public class APivot extends SubsystemBase {
 
     LogOrDash.setupSysIDTests(new SysIdRoutine.Config(),
      new CANSparkBase[]{pivot1}, new CANSparkBase[]{pivot1, pivot2}, this);
-  }
 
-  public void configToFlash()
-  {
-      try
-      {
-          
-          // amp pivot motor 1
-          LogOrDash.checkRevError("amp pivot motor 1 clear",
-              pivot1.restoreFactoryDefaults());
-          
-          Thread.sleep(1000);
+    /*SmartDashboard.putData("aPivotSettingsv2", new SparkSaver(pivot1, "pivot1", this)
+      .setSetting(() -> pivot1.setSmartCurrentLimit(40), "current limit")
+      .setSetting(() -> pivot1.setIdleMode(IdleMode.kBrake), "brake mode")
+      .setSetting(() -> pivot1.setOpenLoopRampRate(0.1), "open loop ramp rate")
+      .setSetting(() -> pivot1.setSoftLimit(SoftLimitDirection.kForward, 123456789), "forward limit")
+      .setSetting(() -> pivot1.setSoftLimit(SoftLimitDirection.kReverse, 0), "reverse limit")
+      .buildCommand());*/
 
-          configShooterPivotMotor(pivot1);
-          LogOrDash.checkRevError("AmpPivotLimitF1", pivot1.setSoftLimit(SoftLimitDirection.kForward, 123456789));
-          LogOrDash.checkRevError("AmpPivotLimitR1", pivot1.setSoftLimit(SoftLimitDirection.kReverse, 0));
-
-          Thread.sleep(1000);
-          LogOrDash.checkRevError("amp pivot motor 1 BURN",
-              pivot1.burnFlash());
-          Thread.sleep(1000);
-
-          // amp pivot motor 2
-          LogOrDash.checkRevError("amp pivot motor 2 clear",
-              pivot2.restoreFactoryDefaults());
-          
-          Thread.sleep(1000);
-
-          configShooterPivotMotor(pivot2);
-
-          Thread.sleep(1000);
-          LogOrDash.checkRevError("amp pivot motor 2 BURN",
-              pivot2.burnFlash());
-          Thread.sleep(1000);
-      }
-
-      catch(InterruptedException e)
-      {
-          DriverStation.reportError("Main thread interrupted while flashing Amp Pivot!", e.getStackTrace());
-      }
-  }
-  
-
-  private void configShooterPivotMotor(CANSparkMax m)
-  {
-    LogOrDash.checkRevError("amp pivot current limit", m.setSmartCurrentLimit(40));
-
-    LogOrDash.checkRevError("amp pivot brakes", m.setIdleMode(IdleMode.kBrake));
-
-    LogOrDash.checkRevError("amp pivot open loop ramp rate", m.setOpenLoopRampRate(0.1));
+    SmartDashboard.putData("Configure APivot", new SparkSaver(pivot1, "pivot1", this)
+      .setSmartCurrentLimit(40)
+      .setBrakeMode()
+      .setOpenLoopRampRate(0.1)
+      .setSoftLimits(0, 123456789)
+      .buildCommand()
+      .andThen(new SparkSaver(pivot2, "pivot2", this)
+      .setSmartCurrentLimit(40)
+      .setBrakeMode()
+      .follow(pivot1, true)
+      .buildCommand()));
 
   }
 
+ 
   // Basic Joystick movement for the amp pivot
   public Command joystickMove(Supplier<Double> joystickM)
   {

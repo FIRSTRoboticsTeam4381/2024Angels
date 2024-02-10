@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -96,7 +97,7 @@ public class Swerve extends SubsystemBase{
         });
 
           // Button to turn on/off sending debug data to the dashboard
-          SmartDashboard.putData("Burn Swerve Settings", configToFlash());
+          SmartDashboard.putData("Configure Swerve", configToFlash());
 
 
           setupSysIDTests();
@@ -199,7 +200,7 @@ public class Swerve extends SubsystemBase{
     }
 
     public Rotation2d getYaw(){
-        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(260 - gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
+        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
     }
 
     @Override
@@ -251,12 +252,12 @@ public class Swerve extends SubsystemBase{
     }
 
     public Command configToFlash(){
-        return new InstantCommand(() -> {
-            for(SwerveModule mod : mSwerveMods)
-            {
-                mod.configToFlash();
-            }
-        }, this).ignoringDisable(true);
+        return new SequentialCommandGroup(
+            mSwerveMods[0].configToFlash(this),
+            mSwerveMods[1].configToFlash(this),
+            mSwerveMods[2].configToFlash(this),
+            mSwerveMods[3].configToFlash(this) //Probably a nicer way to iterate through these
+        ).ignoringDisable(true);
     }
 
 
