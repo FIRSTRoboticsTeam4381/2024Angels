@@ -108,7 +108,7 @@ public class SparkSaver {
 
     public SparkSaver setSoftLimits(int lowerLimit, int upperLimit)
     {
-        setSetting(() -> controller.setSoftLimit(SoftLimitDirection.kReverse, upperLimit), "Lower Limit");
+        setSetting(() -> controller.setSoftLimit(SoftLimitDirection.kReverse, lowerLimit), "Lower Limit");
         setSetting(() -> controller.setSoftLimit(SoftLimitDirection.kForward, upperLimit), "Upper Limit");
         return this;
     }
