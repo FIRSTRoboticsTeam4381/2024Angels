@@ -7,6 +7,7 @@ package frc.lib.util;
 import java.util.HashMap;
 
 import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.REVLibError;
 import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -174,8 +175,22 @@ public class LogOrDash {
         logString(prefix+"/errors", s.getLastError().name());
 
         // Record faults and sticky faults
-        logString(prefix+"/faults", decodeSparkMaxFaults(s.getFaults()));
-        logString(prefix+"/stickyfaults", decodeSparkMaxFaults(s.getStickyFaults()));
+        String faults = "";
+        String stickies = "";
+        for(FaultID fault : CANSparkBase.FaultID.values())
+        {
+            if(s.getFault(fault))
+            {
+                faults += fault.name() + ", ";
+            }
+            if(s.getStickyFault(fault))
+            {
+                stickies += fault.name() + ", ";
+            }
+        }
+        
+        logString(prefix+"/faults", faults);
+        logString(prefix+"/stickyfaults", stickies);
         
     }
 
@@ -184,7 +199,7 @@ public class LogOrDash {
      * @param faults
      * @return String of faults, or empty string if none
      */
-    private static String decodeSparkMaxFaults(short faultBits)
+    /*private static String decodeSparkMaxFaults(short faultBits)
     {
         String faults = "";
 
@@ -209,7 +224,7 @@ public class LogOrDash {
         }
 
         return faults;
-    }
+    }*/
 
 
     /**
