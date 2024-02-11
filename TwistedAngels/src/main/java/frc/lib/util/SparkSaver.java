@@ -110,6 +110,8 @@ public class SparkSaver {
     {
         setSetting(() -> controller.setSoftLimit(SoftLimitDirection.kReverse, lowerLimit), "Lower Limit");
         setSetting(() -> controller.setSoftLimit(SoftLimitDirection.kForward, upperLimit), "Upper Limit");
+        setSetting(() -> controller.enableSoftLimit(SoftLimitDirection.kReverse, true), "Lower Limit Enabled");
+        setSetting(() -> controller.enableSoftLimit(SoftLimitDirection.kForward, true), "Upper Limit Enabled");
         return this;
     }
     
@@ -161,7 +163,7 @@ public class SparkSaver {
     {
         setSetting(() -> controller.getPIDController().setPositionPIDWrappingEnabled(true), "PID Wrap Enable");
         setSetting(() -> controller.getPIDController().setPositionPIDWrappingMinInput(min), "PID Wrap Min");
-        setSetting(() -> controller.getPIDController().setPositionPIDWrappingMinInput(max), "PID Wrap Max");
+        setSetting(() -> controller.getPIDController().setPositionPIDWrappingMaxInput(max), "PID Wrap Max");
         return this;
     }
 

@@ -29,11 +29,12 @@ public class Shooter extends SubsystemBase {
   public CANSparkFlex shooter2;
 
 
-  public final int SHOOT_SPEED = 123456789;
+  public final int SHOOT_SPEED = 4000;
 
   /** Creates a new Shooter. */
   public Shooter() {
     shooter1 = new CANSparkFlex(53, MotorType.kBrushless);
+    shooter1.setInverted(true);
     shooter2 = new CANSparkFlex(54, MotorType.kBrushless);
     shooter2.setInverted(true);
     SmartDashboard.putData(this);
@@ -44,12 +45,12 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putData("Configure Shooter", new SparkSaver(shooter1, "shooter1", this)
       .setSmartCurrentLimit(80)
       .setCoastMode()
-      .setOpenLoopRampRate(0.2)
+      //.setOpenLoopRampRate(0.2)
       .buildCommand()
       .andThen(new SparkSaver(shooter2, "shooter2", this)
       .setSmartCurrentLimit(80)
       .setCoastMode()
-      .setOpenLoopRampRate(0.2)
+      //.setOpenLoopRampRate(0.2)
       .buildCommand()));
 
     // Registering commands so that they can be accessed in Pathplanner
@@ -139,7 +140,7 @@ public class Shooter extends SubsystemBase {
 
   // It is ready to shoot when true
   public boolean readyShoot() {
-    return shooter1.getEncoder().getVelocity() < SHOOT_SPEED * 0.95;
+    return shooter1.getEncoder().getVelocity() < SHOOT_SPEED * 0.9;
   }
 
 

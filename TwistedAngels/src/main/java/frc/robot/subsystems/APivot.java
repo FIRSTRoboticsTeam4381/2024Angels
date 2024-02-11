@@ -61,13 +61,13 @@ public class APivot extends SubsystemBase {
     SmartDashboard.putData("Configure APivot", new SparkSaver(pivot1, "pivot1", this)
       .setSmartCurrentLimit(40)
       .setBrakeMode()
-      .setOpenLoopRampRate(0.1)
-      .setSoftLimits(0, 123456789)
+      //.setOpenLoopRampRate(0.1)
+      .setSoftLimits(0, 123456)
       .buildCommand()
       .andThen(new SparkSaver(pivot2, "pivot2", this)
       .setSmartCurrentLimit(40)
       .setBrakeMode()
-      .follow(pivot1, true)
+      .follow(pivot1, false)
       .buildCommand()));
 
   }
@@ -130,7 +130,7 @@ public class APivot extends SubsystemBase {
   // If this is true then it should not go into a position of collison
   public boolean isDanger() {
       double p = pivot1.getEncoder().getPosition();  
-      return 444 > p && 5 < p;
+      return 444 > p && 50 < p;
   }
 
 

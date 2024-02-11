@@ -115,7 +115,7 @@ public class SPivot extends SubsystemBase {
   // If not safe don't move  
   public boolean isDanger() {
     double p = pivot1.getEncoder().getPosition();  
-    return 5 < p;
+    return 50 < p;
   }
 
 }

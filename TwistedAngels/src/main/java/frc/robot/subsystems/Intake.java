@@ -37,6 +37,9 @@ public class Intake extends SubsystemBase
   {
     intake = new CANSparkMax(50, MotorType.kBrushless);
     breakbeam = new DigitalInput(0);
+
+    intake.setInverted(true);
+
     SmartDashboard.putData(this);
 
      // Button to turn on/off sending debug data to the dashboard
@@ -70,7 +73,7 @@ public class Intake extends SubsystemBase
   public Command spitOut()
   {
     return new SequentialCommandGroup(
-      new InstantCommand(() -> intake.set(-1), this),
+      new InstantCommand(() -> intake.set(-0.3), this),
       new WaitCommand(1),
       new InstantCommand(() -> intake.set(0), this)
     ).withName("spitOut");
