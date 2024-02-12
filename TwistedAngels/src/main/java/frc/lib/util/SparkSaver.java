@@ -12,6 +12,7 @@ import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.REVLibError;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -106,10 +107,10 @@ public class SparkSaver {
         return this;
     }
 
-    public SparkSaver setSoftLimits(int lowerLimit, int upperLimit)
+    public SparkSaver setSoftLimits(double lowerLimit, double upperLimit)
     {
-        setSetting(() -> controller.setSoftLimit(SoftLimitDirection.kReverse, lowerLimit), "Lower Limit");
-        setSetting(() -> controller.setSoftLimit(SoftLimitDirection.kForward, upperLimit), "Upper Limit");
+        setSetting(() -> controller.setSoftLimit(SoftLimitDirection.kReverse, (float) lowerLimit), "Lower Limit");
+        setSetting(() -> controller.setSoftLimit(SoftLimitDirection.kForward, (float) upperLimit), "Upper Limit");
         setSetting(() -> controller.enableSoftLimit(SoftLimitDirection.kReverse, true), "Lower Limit Enabled");
         setSetting(() -> controller.enableSoftLimit(SoftLimitDirection.kForward, true), "Upper Limit Enabled");
         return this;
@@ -269,5 +270,139 @@ public class SparkSaver {
             this.setting = setting;
             this.label = label;
         }
+    }
+
+
+
+
+    // Functions for optimizing CAN usage
+
+    /**
+     * Optimize CAN status frames for various motor controller uses. 
+     * Also sets motors to async control mode to speed up robot code.
+     * These settings must be set at every robot boot and will not persist.
+     * 
+     * @param c Motor controller to configure
+     * @param hasFollowers Whether this motor is being followed
+     * @param wantVelocity Whether the velocity of this motor is needed
+     * @param wantPosition Whether the position of this motor is needed
+     * @param wantAnalog Whether an analog sensor is in use
+     * @param wantAlternateEncoder Whether the alternate encoder port is in use
+     * @param wantAbsoluteEncoder Whether an absolute encoder is in use
+     */
+    public static void optimizeCANFrames(CANSparkBase c, boolean hasFollowers, boolean wantVelocity, boolean wantPosition, boolean wantAnalog, boolean wantAlternateEncoder, boolean wantAbsoluteEncoder)
+    {
+        // Set to async mode for reads/writes
+        // This is more for the RoboRIO's and code's sake than the CAN network
+        c.setCANTimeout(0);
+
+
+        /*
+         * FRAME 0:
+         * Applied Output
+         * Faults & Sticky Faults
+         * Is Follower
+         * 
+         * This frame is how followers work, and should be sped up for motors with followers.
+         * Otherwise, doesn't need to be fast, but decent speed is needed to catch sporadic faults.
+         * 
+         * Default: 10ms
+         */
+
+        if(hasFollowers)
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10);
+        else
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 50);
+
+
+        /*
+         * FRAME 1:
+         * Motor Velocity
+         * Temperature
+         * Voltage
+         * Current
+         * 
+         * Fast if velocity is being used, medium speed if not because current monitoring is important.
+         * 
+         * Default: 20ms
+         */
+
+        if(wantVelocity)
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
+        else
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 50);
+
+
+        /*
+         * FRAME 2:
+         * Motor Position
+         * 
+         * Important for motors tracking position, doesn't matter otherwise
+         * 
+         * Default: 20ms
+         */
+
+        if(wantPosition)
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 10);
+        else
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 200);
+
+
+        /*
+         * FRAME 3:
+         * Analog sensor voltage, velocity, and position
+         * 
+         * Pointless unless an analog sensor is in use.
+         * 
+         * Default: 50ms
+         */
+
+        if(wantAnalog)
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 10);
+        else
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 1000);
+
+
+        /*
+         * FRAME 4:
+         * Alternate Encoder Velocity & Position
+         * 
+         * Pointless unless alternate encoder is in use.
+         * 
+         * Default: 20ms
+         */
+
+        if(wantAlternateEncoder)
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 10);
+        else
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 1000);
+
+
+        /*
+         * FRAME 5 & 6:
+         * 5: Absolute position & absolute angle
+         * 6: Absolute velocity & frequency
+         * 
+         * These are important if you are using an absolute encoder, otherwise useless.
+         * 
+         * Default: 200ms
+         */
+
+        if(wantAbsoluteEncoder)
+        {
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 10);
+        }
+        else
+        {
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 1000);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 1000);
+        }
+
+        /**
+         * FRAME 7:
+         * Undocumented
+         */
+
     }
 }

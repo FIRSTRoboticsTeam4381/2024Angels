@@ -1,29 +1,20 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkRelativeEncoder.Type;
-
 import frc.lib.math.Conversions;
 import frc.lib.util.LogOrDash;
 import frc.lib.util.SparkSaver;
 import frc.lib.util.SwerveModuleConstants;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.Voltage;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -69,10 +60,14 @@ public class SwerveModule {
 
         distanceEncoder = mDriveMotor.getEncoder();
         // Set to m/s for speed and m for distance
-        distanceEncoder.setPositionConversionFactor(Constants.Swerve.wheelDiameter / Constants.Swerve.driveGearRatio);
-        distanceEncoder.setVelocityConversionFactor(Constants.Swerve.wheelDiameter / Constants.Swerve.driveGearRatio / 60.0);
+        //distanceEncoder.setPositionConversionFactor(Constants.Swerve.wheelCircumference / Constants.Swerve.driveGearRatio);
+        //distanceEncoder.setVelocityConversionFactor(Constants.Swerve.wheelCircumference / Constants.Swerve.driveGearRatio / 60.0);
 
         lastAngle = getState().angle.getDegrees();
+
+
+        SparkSaver.optimizeCANFrames(mAngleMotor, false, false, false, false, false, true);
+        SparkSaver.optimizeCANFrames(mDriveMotor, false, true, true, false, false, false);
 
         
     }
@@ -125,10 +120,10 @@ public class SwerveModule {
             .setSmartCurrentLimit(Constants.Swerve.driveCurrentLimit)
             .setBrakeMode()
             .setSetting(() -> 
-                distanceEncoder.setPositionConversionFactor(Constants.Swerve.wheelDiameter / Constants.Swerve.driveGearRatio)
+                distanceEncoder.setPositionConversionFactor(Constants.Swerve.wheelCircumference / Constants.Swerve.driveGearRatio)
                 , "Position Conversion Factor")
             .setSetting(() ->  
-                distanceEncoder.setVelocityConversionFactor(Constants.Swerve.wheelDiameter / Constants.Swerve.driveGearRatio / 60.0)
+                distanceEncoder.setVelocityConversionFactor(Constants.Swerve.wheelCircumference / Constants.Swerve.driveGearRatio / 60.0)
                 , "Velocity Conversion Factor")
             .buildCommand());
        
@@ -171,7 +166,7 @@ public class SwerveModule {
         //LogOrDash.logNumber("swerve/m" + moduleNumber + "/cancoder", getAngle().getDegrees());
         LogOrDash.logNumber("swerve/m" + moduleNumber + "/angle/position", getState().angle.getDegrees());
         LogOrDash.logNumber("swerve/m" + moduleNumber + "/drive/velocity", getState().speedMetersPerSecond);
-        LogOrDash.logNumber("swerve/m" + moduleNumber + "/drive/velocity", getPosition().distanceMeters);
+        LogOrDash.logNumber("swerve/m" + moduleNumber + "/drive/position", getPosition().distanceMeters);
         LogOrDash.logNumber("swerve/m" + moduleNumber + "/angle/setpoint", desiredAngle);
         LogOrDash.logNumber("swerve/m" + moduleNumber + "/drive/setpoint", lastSpeed);
         

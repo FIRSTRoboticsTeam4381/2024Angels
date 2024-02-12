@@ -107,7 +107,11 @@ public class RobotContainer {
         specialist.R1().onTrue(new SequentialCommandGroup (
              intake.toShoot(),
              new WaitCommand(1.5),
-             new InstantCommand( () -> shooter.getCurrentCommand().cancel()),
+             new InstantCommand( () -> {
+                Command c = shooter.getCurrentCommand();
+                if(c != null)
+                    c.cancel();
+            }),
              sPivot.pivotBack()
              ).unless(shooter::readyShoot).withName("shoot"));
         specialist.L1().onTrue(intake.inAmp().unless(aPivot::isDown).withName("scoreInAmp"));

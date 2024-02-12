@@ -313,7 +313,7 @@ public class LogOrDash {
 
         SmartDashboard.putData("SysID/"+s.getName()+"/dyn_f", routine.dynamic(Direction.kForward));
         SmartDashboard.putData("SysID/"+s.getName()+"/dyn_r", routine.dynamic(Direction.kReverse));
-        SmartDashboard.putData("SysID/"+s.getName()+"/quas_f", routine.dynamic(Direction.kForward));
-        SmartDashboard.putData("SysID/"+s.getName()+"/quas_r", routine.dynamic(Direction.kReverse));
+        SmartDashboard.putData("SysID/"+s.getName()+"/quas_f", routine.quasistatic(Direction.kForward));
+        SmartDashboard.putData("SysID/"+s.getName()+"/quas_r", routine.quasistatic(Direction.kReverse));
     }
 }

@@ -5,26 +5,19 @@
 package frc.robot.subsystems;
 
 import com.pathplanner.lib.auto.NamedCommands;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkBase.SoftLimitDirection;
-import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import frc.lib.util.LogOrDash;
 import frc.lib.util.SparkSaver;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.SparkMaxPosition;
-import frc.robot.subsystems.Shooter;
 
 
 public class Intake extends SubsystemBase 
@@ -36,14 +29,13 @@ public class Intake extends SubsystemBase
   public Intake() 
   {
     intake = new CANSparkMax(50, MotorType.kBrushless);
-    breakbeam = new DigitalInput(0);
+    breakbeam = new DigitalInput(9);
 
     intake.setInverted(true);
 
-    SmartDashboard.putData(this);
+    SparkSaver.optimizeCANFrames(intake, false, true, false, false, false, false);
 
-     // Button to turn on/off sending debug data to the dashboard
-    //SmartDashboard.putData("Burn Intake Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+    SmartDashboard.putData(this);
 
     // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("pickup", pickup());
@@ -52,7 +44,7 @@ public class Intake extends SubsystemBase
     NamedCommands.registerCommand("intakeOff", off());
 
     SmartDashboard.putData("Configure Intake", new SparkSaver(intake, "intake", this)
-      .setSmartCurrentLimit(30)
+      .setSmartCurrentLimit(60)
       .setBrakeMode()
       .buildCommand());
   }
@@ -66,14 +58,14 @@ public class Intake extends SubsystemBase
       () -> intake.set(1),
       () -> {},
       (isInterupted) -> intake.set(0),
-      breakbeam::get
+      this::hasNote
     ,this).withName("pickup");
   } 
   // Spit out a ring out the front 
   public Command spitOut()
   {
     return new SequentialCommandGroup(
-      new InstantCommand(() -> intake.set(-0.3), this),
+      new InstantCommand(() -> intake.set(-1), this),
       new WaitCommand(1),
       new InstantCommand(() -> intake.set(0), this)
     ).withName("spitOut");
@@ -93,7 +85,7 @@ public class Intake extends SubsystemBase
   public Command toShoot()
   {
     return new SequentialCommandGroup(
-      new InstantCommand(() -> intake.set(0.3), this),
+      new InstantCommand(() -> intake.set(1.0), this),
       new WaitCommand(1),
       new InstantCommand(() -> intake.set(0), this)
     ).withName("toShoot");
@@ -111,5 +103,13 @@ public class Intake extends SubsystemBase
   {
     LogOrDash.sparkDiagnostics("intake/motor", intake);
     LogOrDash.logNumber("intake/velocity", intake.getEncoder().getVelocity());
+
+    LogOrDash.logBoolean("intake/breakbeam", hasNote());
+  }
+
+
+  public boolean hasNote()
+  {
+    return !breakbeam.get();
   }
 }

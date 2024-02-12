@@ -4,32 +4,25 @@
 
 package frc.robot.subsystems;
 
-import java.util.concurrent.DelayQueue;
-
 import com.revrobotics.CANSparkFlex;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkPIDController;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.LogOrDash;
 import frc.lib.util.SparkSaver;
-import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
   public CANSparkFlex shooter1;
   public CANSparkFlex shooter2;
 
 
-  public final int SHOOT_SPEED = 4000;
+  public final int SHOOT_SPEED = 3000;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -39,8 +32,8 @@ public class Shooter extends SubsystemBase {
     shooter2.setInverted(true);
     SmartDashboard.putData(this);
 
-    // Button to turn on/off sending debug data to the dashboard
-    //SmartDashboard.putData("Burn Shooter Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+    SparkSaver.optimizeCANFrames(shooter1, false, true, false, false, false, false);
+    SparkSaver.optimizeCANFrames(shooter2, false, true, false, false, false, false);
 
     SmartDashboard.putData("Configure Shooter", new SparkSaver(shooter1, "shooter1", this)
       .setSmartCurrentLimit(80)

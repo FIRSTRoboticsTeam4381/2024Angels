@@ -11,10 +11,6 @@ import java.util.function.Supplier;
 import com.revrobotics.CANSparkMax;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.revrobotics.CANSparkBase;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkBase.SoftLimitDirection;
-
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -37,14 +33,16 @@ public class SPivot extends SubsystemBase {
     //pivot2.follow(pivot1, true);
     SmartDashboard.putData(this);
 
-    // Button to turn on/off sending debug data to the dashboard
-    //SmartDashboard.putData("Burn SPivot Settings",  new InstantCommand(() -> configToFlash()).ignoringDisable(true));
+    pivot1.setInverted(true);
+
+    SparkSaver.optimizeCANFrames(pivot1, true, false, true, false, false, false);
+    SparkSaver.optimizeCANFrames(pivot2, false, false, false, false, false, false);
 
     SmartDashboard.putData("Configure SPivot", new SparkSaver(pivot1, "pivot1", this)
       .setSmartCurrentLimit(40)
       .setBrakeMode()
       .setOpenLoopRampRate(0.1)
-      .setSoftLimits(0, 123456789)
+      .setSoftLimits(0, 26.5)
       .buildCommand()
       .andThen(new SparkSaver(pivot2, "pivot2", this)
       .setSmartCurrentLimit(40)
