@@ -39,13 +39,14 @@ public class SPivot extends SubsystemBase {
     SparkSaver.optimizeCANFrames(pivot2, false, false, false, false, false, false);
 
     SmartDashboard.putData("Configure SPivot", new SparkSaver(pivot1, "pivot1", this)
-      .setSmartCurrentLimit(40)
+      .setSmartCurrentLimit(60)
       .setBrakeMode()
-      .setOpenLoopRampRate(0.1)
-      .setSoftLimits(0, 26.5)
+      //.setOpenLoopRampRate(0.1)
+      .setSoftLimits(0, 23)
+      .configurePID(0, 7.0893, 0, 0.024286, 0)
       .buildCommand()
       .andThen(new SparkSaver(pivot2, "pivot2", this)
-      .setSmartCurrentLimit(40)
+      .setSmartCurrentLimit(60)
       .setBrakeMode()
       .follow(pivot1, true)
       .buildCommand()));
@@ -66,7 +67,6 @@ public class SPivot extends SubsystemBase {
     LogOrDash.logNumber("sPivot/pivot1/position", pivot1.getEncoder().getPosition());
     LogOrDash.logNumber("sPivot/pivot2/position", pivot2.getEncoder().getPosition());
 
-    pivot1.getAppliedOutput();
     if (pivot1.getAppliedOutput() > 0 && !isUpSafe()) {
       this.getCurrentCommand().cancel();
       pivot1.set(0);
@@ -80,8 +80,8 @@ public class SPivot extends SubsystemBase {
       double joystickValue = -joystickMove.get();
       if (joystickValue > 0 && !isUpSafe()) {
         pivot1.set(0);
-      } else if (0.1 > Math.abs(joystickValue) ) {
-        pivot1.set(0);
+      //} else if (0.1 > Math.abs(joystickValue) ) {
+      //  pivot1.set(0);
       } else {
         pivot1.set(joystickValue);
       }
@@ -92,7 +92,7 @@ public class SPivot extends SubsystemBase {
 
   // Make the shooter pivot go to a position
   public Command sPivotTo(int position) { // Set position for later commands
-    return new SparkMaxPosition(pivot1, position, 0, 50, this).withName("sPivotTo");
+    return new SparkMaxPosition(pivot1, position, 0, 1, this).withName("sPivotTo");
   }
 
   // Pivot to shooting position
@@ -107,13 +107,13 @@ public class SPivot extends SubsystemBase {
 
   // Seeing if going up is safe
   public boolean isUpSafe() {
-      return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() > 444;
+      return !RobotContainer.aPivot.isDanger() || pivot1.getEncoder().getPosition() < 10;
   }
 
   // If not safe don't move  
   public boolean isDanger() {
     double p = pivot1.getEncoder().getPosition();  
-    return 50 < p;
+    return 11 < p;
   }
 
 }

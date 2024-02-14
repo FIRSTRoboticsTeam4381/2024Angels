@@ -5,6 +5,7 @@
 package frc.robot.autos;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -57,4 +58,5 @@ public final class Autos {
     public static Command Front3Note(){
         return new PathPlannerAuto("Front3NoteAuto");
     }
+    
 }

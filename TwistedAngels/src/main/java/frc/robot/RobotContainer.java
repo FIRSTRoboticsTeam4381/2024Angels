@@ -14,6 +14,9 @@ import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.SPivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
+
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.AddressableLED;
@@ -64,7 +67,11 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, IO devices, and commands. */
     public RobotContainer(){
-        s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver::getLeftY, driver::getLeftX, driver::getRightX, true, driver::getR2Axis));
+        s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, 
+          interpolateJoystick(driver::getLeftY,0.05),
+          interpolateJoystick(driver::getLeftX,0.05), 
+          interpolateJoystick (driver::getRightX,0.05),
+             true, driver::getR2Axis));
         aPivot = new APivot();
         intake = new Intake();
         hang = new Hang();
@@ -75,8 +82,8 @@ public class RobotContainer {
         //led1 = new AddressableLED(2);
         ledBuffer1 = new AddressableLEDBuffer(10);
         
-        aPivot.setDefaultCommand(aPivot.joystickMove(specialist::getLeftY));
-        sPivot.setDefaultCommand(sPivot.joystickControl(specialist::getRightY));
+        aPivot.setDefaultCommand(aPivot.joystickMove(interpolateJoystick(specialist::getLeftY, 0.05)));
+        sPivot.setDefaultCommand(sPivot.joystickControl(interpolateJoystick(specialist::getRightY, 0.05)));
         hang.setDefaultCommand(hang.hangTriggers(specialist::getL2Axis, specialist::getR2Axis));
 
         // Configure the button bindings
@@ -154,5 +161,25 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand(){
         return m_AutoChooser.getSelected();
+    }
+
+
+    /**
+     * Smooths joystic input for easier precice control without sacrificing full power.
+     * @param in Input from joystic
+     * @param deadzone Joystick deadzone
+     * @return Transformed output
+     */
+    public static Supplier<Double> interpolateJoystick(Supplier<Double> in, double deadzone)
+    {
+        return () -> {
+            double x = in.get();
+            if(Math.abs(x) < deadzone)
+                return 0.0;
+            else if (x>0)
+                return Math.pow((x - deadzone)*(1.0/(1.0-deadzone)), 3);
+            else 
+                return -Math.pow((-x - deadzone)*(1.0/(1.0-deadzone)), 3);
+        };
     }
 }

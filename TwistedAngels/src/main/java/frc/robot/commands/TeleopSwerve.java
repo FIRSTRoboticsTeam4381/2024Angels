@@ -53,9 +53,9 @@ public class TeleopSwerve extends Command{
         double rAxis = -rotate.get();
 
         /* Deadbands */
-        yAxis = (Math.abs(yAxis) < Constants.stickDeadband) ? 0 : yAxis;
-        xAxis = (Math.abs(xAxis) < Constants.stickDeadband) ? 0 : xAxis;
-        rAxis = (Math.abs(rAxis) < Constants.stickDeadband) ? 0 : rAxis;
+        //yAxis = (Math.abs(yAxis) < Constants.stickDeadband) ? 0 : yAxis;
+        //xAxis = (Math.abs(xAxis) < Constants.stickDeadband) ? 0 : xAxis;
+        //rAxis = (Math.abs(rAxis) < Constants.stickDeadband) ? 0 : rAxis;
 
         /* Slow Trigger */
         double slowdown = 1 - (slow.get() < Constants.stickDeadband ? 0 : slow.get());

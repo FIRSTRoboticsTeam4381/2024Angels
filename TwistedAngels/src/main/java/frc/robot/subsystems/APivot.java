@@ -72,8 +72,8 @@ public class APivot extends SubsystemBase {
         pivot1.set(0);
       } else if (joystickValue > 0 && !isUpSafe()) {
         pivot1.set(0);
-      } else if (0.1 > Math.abs(joystickValue) ) {
-        pivot1.set(0);
+      //} else if (0.1 > Math.abs(joystickValue) ) {
+      //  pivot1.set(0);
       } else {
         pivot1.set(joystickValue);
       }
@@ -108,12 +108,12 @@ public class APivot extends SubsystemBase {
 
   // Seeing if going down is safe with no collison
   public boolean isDownSafe() {
-      return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() < 5 || pivot1.getEncoder().getPosition() > 444;
+      return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() < 10 || pivot1.getEncoder().getPosition() > 35;
   }
 
   // Seeing if going up is safe with no collison
   public boolean isUpSafe() {
-      return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() > 444;
+      return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() > 30;
   }
 
   // If this is true then it should not go into a position of collison
