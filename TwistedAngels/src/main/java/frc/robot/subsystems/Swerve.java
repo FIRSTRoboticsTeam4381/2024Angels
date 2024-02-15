@@ -42,6 +42,8 @@ public class Swerve extends SubsystemBase{
         gyro = new AHRS(SerialPort.Port.kUSB); // Changed from Pigeon2
         zeroGyro();
 
+        SmartDashboard.putData(this);
+
         mSwerveMods = new SwerveModule[]{
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
             new SwerveModule(1, Constants.Swerve.Mod1.constants),

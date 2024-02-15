@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import frc.lib.util.LogOrDash;
 import frc.robot.autos.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.APivot;
@@ -23,15 +22,15 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ProxyCommand;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
@@ -62,6 +61,7 @@ public class RobotContainer {
     public static SPivot sPivot;
     public static LEDs leds;
     public static Command shooterMode;
+    public static Command aimbot;
     public static AddressableLED led1;
     public static AddressableLEDBuffer ledBuffer1;
     public static Limelight limelight;
@@ -83,7 +83,8 @@ public class RobotContainer {
         sPivot = new SPivot();
         leds = new LEDs();
         limelight = new Limelight();
-        shooterMode = new ConditionalCommand(new Aimbot(driver::getLeftX, driver::getLeftY, driver::getR2Axis), new ShootingMode(driver, specialist), specialist.triangle()::getAsBoolean);
+        shooterMode = new ShootingMode(driver, specialist);
+        aimbot = new Aimbot(driver::getLeftX, driver::getLeftY, driver::getR2Axis);//.until(driver.cross()::getAsBoolean).withName("Aimbot");
         //led1 = new AddressableLED(2);
         ledBuffer1 = new AddressableLEDBuffer(10);
         
@@ -102,6 +103,8 @@ public class RobotContainer {
 
         SmartDashboard.putData("Choose Auto:", m_AutoChooser);
 
+        SmartDashboard.putData(CommandScheduler.getInstance());
+
     }
 
     /**
@@ -114,8 +117,21 @@ public class RobotContainer {
         // Button to reset swerve odometry and anglesssss
         zeroSwerve
             .onTrue(new InstantCommand(() -> s_Swerve.zeroGyro())
-            .alongWith(new InstantCommand(() -> s_Swerve.resetOdometry(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0))))));
-        driver.cross().toggleOnTrue(shooterMode);
+            .alongWith(new InstantCommand(() -> s_Swerve.resetOdometry(new Pose2d(0.5, 7.75, Rotation2d.fromDegrees(0))))));
+        
+        // Toggle shoot mode on/off, switching to aimbot when specials triangle is held
+        // This is one of those things that is way too complicated in command-based code          
+        driver.cross().onTrue(new ConditionalCommand(
+            new InstantCommand(() -> CommandScheduler.getInstance().cancel(shooterMode, aimbot)), 
+            new ScheduleCommand(shooterMode),
+            () -> shooter.getCurrentCommand() != null));
+
+        // Toggle to auto aim
+        specialist.triangle().and(shooterMode::isScheduled).onTrue(aimbot);
+        // Can't write this like previous line or driver x button also triggers this line, causing a loop of schedule-cancel
+        specialist.triangle().onFalse(new ProxyCommand(shooterMode).onlyIf(aimbot::isScheduled));
+
+        // Shoot if ready
         specialist.R1().onTrue(new SequentialCommandGroup (
              intake.toShoot(),
              new WaitCommand(1.5),
@@ -124,40 +140,23 @@ public class RobotContainer {
                 if(c != null)
                     c.cancel();
             }),
-             sPivot.pivotBack()
+             new ProxyCommand(sPivot.pivotBack())
              ).unless(shooter::readyShoot).withName("shoot"));
+
+        // Score in amp if up
         specialist.L1().onTrue(intake.inAmp().unless(aPivot::isDown).withName("scoreInAmp"));
 
+        // Amp pivot snap to position
         specialist.povUp().onTrue(aPivot.pivotUp().withName("aPivotUp"));
         specialist.povDown().onTrue(aPivot.pivotDown().withName("aPivotDown"));
 
+        // Intake & eject
         specialist.circle().toggleOnTrue(intake.pickup().withName("pickup"));
         specialist.cross().onTrue(intake.spitOut().withName("spitOut"));
 
+        // Cancel ongoing commands
         specialist.PS().onTrue(new InstantCommand(() -> { // Cancel all commands
-            try {
-                intake.getCurrentCommand().cancel();
-            } catch(NullPointerException e) {
-                //nothing
-            } try {
-                aPivot.getCurrentCommand().cancel();
-            } catch(NullPointerException e) {
-                //nothing
-            } try {
-                sPivot.getCurrentCommand().cancel();
-            } catch(NullPointerException e) {
-                //nothing
-            } try {
-                shooter.getCurrentCommand().cancel();
-            } catch(NullPointerException e) {
-                //nothing
-            } try {
-                hang.getCurrentCommand().cancel();
-            }catch(NullPointerException e) {
-                //nothing
-            }
-
-        
+            CommandScheduler.getInstance().cancelAll();
         }));
     }
 

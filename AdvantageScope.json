@@ -207,6 +207,11 @@
               "key": "NT:/SmartDashboard/Hang/.command",
               "color": "#e48b32",
               "show": true
+            },
+            {
+              "key": "NT:/SmartDashboard/Swerve/.command",
+              "color": "#aacaee",
+              "show": true
             }
           ]
         },
@@ -365,27 +370,27 @@
             },
             {
               "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan19",
-              "color": "#80588e",
-              "show": true
-            },
-            {
-              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan20",
               "color": "#3b875a",
               "show": true
             },
             {
+              "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan20",
+              "color": "#af2437",
+              "show": true
+            },
+            {
               "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan21",
-              "color": "#858584",
+              "color": "#dbd345",
               "show": true
             },
             {
               "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan22",
-              "color": "#e5b31b",
+              "color": "#af2437",
               "show": true
             },
             {
               "key": "NT:/SmartDashboard/PowerDistribution[1]/Chan23",
-              "color": "#96b637",
+              "color": "#c0b487",
               "show": true
             }
           ]
@@ -394,12 +399,12 @@
           "fields": [
             {
               "key": "NT:/SmartDashboard/pdp/blownfuses",
-              "color": "#80588e",
+              "color": "#3b875a",
               "show": true
             },
             {
               "key": "NT:/SmartDashboard/pdp/stickyfuses",
-              "color": "#a64b6b",
+              "color": "#e5b31b",
               "show": true
             }
           ]

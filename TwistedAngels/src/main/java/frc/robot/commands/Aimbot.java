@@ -7,8 +7,8 @@ package frc.robot.commands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import frc.robot.RobotContainer;
 
 public class Aimbot extends ParallelCommandGroup {
@@ -16,7 +16,7 @@ public class Aimbot extends ParallelCommandGroup {
   PIDController x;
   PIDController y;
   public Aimbot(Supplier<Double> forwardback, Supplier<Double> leftright, Supplier<Double> slow) {
-    x = new PIDController(.1, 0, 0);
+    x = new PIDController(.05, 0, 0);
     y = new PIDController(.1, 0, 0);
     x.setTolerance(1);
     y.setTolerance(1);
@@ -26,7 +26,7 @@ public class Aimbot extends ParallelCommandGroup {
     //addRequirements(RobotContainer.sPivot, RobotContainer.limelight, RobotContainer.s_Swerve, RobotContainer.shooter);
     addCommands(
       new TeleopSwerve(RobotContainer.s_Swerve, forwardback, leftright, this::getXPower, true, slow),
-      RobotContainer.sPivot.joystickControl(this::getYPower),
+      new ProxyCommand(RobotContainer.sPivot.joystickControl(this::getYPower)),
       RobotContainer.shooter.shooterReady()
 
       );
@@ -36,7 +36,7 @@ public class Aimbot extends ParallelCommandGroup {
   {
     if(RobotContainer.limelight.hasTarget())
     {
-      return x.calculate(RobotContainer.limelight.getX());
+      return -x.calculate(RobotContainer.limelight.getX());
     }else{
       return 0;
     }

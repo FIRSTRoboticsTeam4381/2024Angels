@@ -22,7 +22,7 @@ public class Shooter extends SubsystemBase {
   public CANSparkFlex shooter2;
 
 
-  public final int SHOOT_SPEED = 3000;
+  public final int SHOOT_SPEED = 4000;
 
   /** Creates a new Shooter. */
   public Shooter() {
