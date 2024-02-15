@@ -30,11 +30,13 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.Aimbot;
 import frc.robot.commands.ShootingMode;
 
 /**
@@ -59,7 +61,7 @@ public class RobotContainer {
     public static Shooter shooter;
     public static SPivot sPivot;
     public static LEDs leds;
-    public static ShootingMode shooterMode;
+    public static Command shooterMode;
     public static AddressableLED led1;
     public static AddressableLEDBuffer ledBuffer1;
     public static Limelight limelight;
@@ -81,7 +83,7 @@ public class RobotContainer {
         sPivot = new SPivot();
         leds = new LEDs();
         limelight = new Limelight();
-        shooterMode = new ShootingMode(driver, specialist);
+        shooterMode = new ConditionalCommand(new Aimbot(driver::getLeftX, driver::getLeftY, driver::getR2Axis), new ShootingMode(driver, specialist), specialist.triangle()::getAsBoolean);
         //led1 = new AddressableLED(2);
         ledBuffer1 = new AddressableLEDBuffer(10);
         
@@ -154,6 +156,8 @@ public class RobotContainer {
             }catch(NullPointerException e) {
                 //nothing
             }
+
+        
         }));
     }
 
