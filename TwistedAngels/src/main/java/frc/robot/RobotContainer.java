@@ -14,6 +14,7 @@ import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.SPivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Limelight;
 
 import java.util.function.Supplier;
 
@@ -61,6 +62,7 @@ public class RobotContainer {
     public static ShootingMode shooterMode;
     public static AddressableLED led1;
     public static AddressableLEDBuffer ledBuffer1;
+    public static Limelight limelight;
 
     //Auto Chooser
     SendableChooser<Command> m_AutoChooser = new SendableChooser<>();
@@ -78,6 +80,7 @@ public class RobotContainer {
         shooter = new Shooter();
         sPivot = new SPivot();
         leds = new LEDs();
+        limelight = new Limelight();
         shooterMode = new ShootingMode(driver, specialist);
         //led1 = new AddressableLED(2);
         ledBuffer1 = new AddressableLEDBuffer(10);
