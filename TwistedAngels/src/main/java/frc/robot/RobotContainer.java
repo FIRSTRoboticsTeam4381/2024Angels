@@ -67,7 +67,7 @@ public class RobotContainer {
     public static Limelight limelight;
 
     //Auto Chooser
-    SendableChooser<Command> m_AutoChooser = new SendableChooser<>();
+    SendableChooser<Autos.PreviewAuto> m_AutoChooser = new SendableChooser<>();
 
     /** The container for the robot. Contains subsystems, IO devices, and commands. */
     public RobotContainer(){
@@ -105,6 +105,7 @@ public class RobotContainer {
 
         SmartDashboard.putData(CommandScheduler.getInstance());
 
+        m_AutoChooser.onChange((listener) -> listener.showPreview());
     }
 
     /**
@@ -166,7 +167,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand(){
-        return m_AutoChooser.getSelected();
+        return m_AutoChooser.getSelected().auto;
     }
 
 

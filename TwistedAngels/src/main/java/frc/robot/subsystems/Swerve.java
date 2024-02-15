@@ -34,7 +34,7 @@ public class Swerve extends SubsystemBase{
     public SwerveModule[] mSwerveMods;
     public AHRS gyro; // Changed from Pigeon2
 
-    private final Field2d field = new Field2d();
+    public final Field2d field = new Field2d();
     private Pose2d startPose = new Pose2d(Units.inchesToMeters(177), Units.inchesToMeters(214), Rotation2d.fromDegrees(0));
 
 
