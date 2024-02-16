@@ -42,6 +42,7 @@ public class Intake extends SubsystemBase
     NamedCommands.registerCommand("inAmp", inAmp());
     NamedCommands.registerCommand("toShoot", toShoot());
     NamedCommands.registerCommand("intakeOff", off());
+    NamedCommands.registerCommand("spitOut", spitOut());
 
     SmartDashboard.putData("Configure Intake", new SparkSaver(intake, "intake", this)
       .setSmartCurrentLimit(60)
@@ -91,7 +92,12 @@ public class Intake extends SubsystemBase
     ).withName("toShoot");
   }
   
-  
+  // Turn on the intake
+  public Command on()
+  {
+    return new InstantCommand(() -> intake.set(1), this).withName("on");
+  }
+
   // Turn off the intake
   public Command off()
   {
