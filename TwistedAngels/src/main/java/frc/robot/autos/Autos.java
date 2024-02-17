@@ -5,12 +5,23 @@
 package frc.robot.autos;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 
@@ -45,6 +56,44 @@ public final class Autos {
     public static PreviewAuto Front3Note(){
         return new PreviewAuto("Front3NoteAuto");
     }
+
+    public static PreviewAuto middleNotes()
+    {
+        return new PreviewAuto(new SequentialCommandGroup(
+            new PathPlannerAuto("MiddleStart"),
+            new ConditionalCommand( new InstantCommand(() -> CommandScheduler.getInstance().cancelAll()),
+            new SequentialCommandGroup(
+                new SelectCommand<Integer>(
+                    Map.ofEntries(
+                        Map.entry(1, AutoBuilder.followPath(PathPlannerPath.fromPathFile("Note1"))),
+                        Map.entry(2, AutoBuilder.followPath(PathPlannerPath.fromPathFile("Note2"))),
+                        Map.entry(3, AutoBuilder.followPath(PathPlannerPath.fromPathFile("Note3"))),
+                        Map.entry(4, AutoBuilder.followPath(PathPlannerPath.fromPathFile("Note4"))),
+                        Map.entry(5, AutoBuilder.followPath(PathPlannerPath.fromPathFile("Note5")))
+                    ), Autos::chosenNote),
+                // TODO Shooter to correct angle
+                RobotContainer.intake.toShoot()
+            ), notesToGet::isEmpty).repeatedly()
+
+
+
+        ), "MiddleStart");
+    }
+
+    public static int chosenNote() {
+        return notesToGet.remove();
+    }
+
+    public static Queue<Integer> notesToGet = new LinkedList<>();
+
+    public static void pickNotes() {
+        String chooseNotes = SmartDashboard.getString("Choose Notes", "");
+        notesToGet.clear(); 
+
+        for(String n : chooseNotes.split(",")) {
+            notesToGet.add(Integer.parseInt(n));
+        }
+    }
     
     public static class PreviewAuto {
         public Command auto;
@@ -63,6 +112,15 @@ public final class Autos {
 
         public PreviewAuto(String s) {
             auto = new PathPlannerAuto(s);
+
+            for(PathPlannerPath p : PathPlannerAuto.getPathGroupFromAutoFile(s))
+            {
+                preview.addAll(p.getPathPoses());
+            }
+        }
+
+        public PreviewAuto(Command c, String s) {
+            auto = c;
 
             for(PathPlannerPath p : PathPlannerAuto.getPathGroupFromAutoFile(s))
             {

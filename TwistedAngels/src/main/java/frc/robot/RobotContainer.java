@@ -100,10 +100,13 @@ public class RobotContainer {
         // TODO m_AutoChooser.addOption("PathPlanner Example", Autos.exampleAuto());
         m_AutoChooser.addOption("Test", Autos.testAuto());
         m_AutoChooser.addOption("3NoteFront", Autos.Front3Note());
+        m_AutoChooser.addOption("MiddleNotes", Autos.middleNotes());
 
         SmartDashboard.putData("Choose Auto:", m_AutoChooser);
 
         SmartDashboard.putData(CommandScheduler.getInstance());
+
+        SmartDashboard.putString("Choose Notes", "");
 
         m_AutoChooser.onChange((listener) -> listener.showPreview());
     }
@@ -167,6 +170,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand(){
+        Autos.pickNotes();
         return m_AutoChooser.getSelected().auto;
     }
 
