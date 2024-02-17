@@ -42,7 +42,7 @@ public class SPivot extends SubsystemBase {
       .setSmartCurrentLimit(60)
       .setBrakeMode()
       //.setOpenLoopRampRate(0.1)
-      .setSoftLimits(0, 23)
+      .setSoftLimits(0, 28)
       .configurePID(0, 7.0893, 0, 0.024286, 0)
       .buildCommand()
       .andThen(new SparkSaver(pivot2, "pivot2", this)

@@ -330,7 +330,7 @@ public class SparkSaver {
         if(wantVelocity)
             c.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
         else
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 50);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 100);
 
 
         /*
@@ -343,7 +343,7 @@ public class SparkSaver {
          */
 
         if(wantPosition)
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 10);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
         else
             c.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 200);
 
@@ -358,9 +358,9 @@ public class SparkSaver {
          */
 
         if(wantAnalog)
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 10);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 20);
         else
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 1000);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 0);
 
 
         /*
@@ -373,9 +373,9 @@ public class SparkSaver {
          */
 
         if(wantAlternateEncoder)
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 10);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 20);
         else
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 1000);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 0);
 
 
         /*
@@ -390,13 +390,13 @@ public class SparkSaver {
 
         if(wantAbsoluteEncoder)
         {
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 10);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 20);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 20);
         }
         else
         {
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 1000);
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 1000);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 0);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 0);
         }
 
         /**
