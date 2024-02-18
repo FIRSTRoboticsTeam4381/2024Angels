@@ -26,14 +26,15 @@ public class APivot extends SubsystemBase {
   
   public CANSparkMax pivot1;
   public CANSparkMax pivot2;
-  public final int UP_POSITION = 85;
+  public final int UP_POSITION = 178;
 
   public APivot() 
   {
     pivot1 = new CANSparkMax(51, MotorType.kBrushless);
     pivot2 = new CANSparkMax(52, MotorType.kBrushless);
-    //pivot2.follow(pivot1);
-    //pivot2.setInverted(true);
+    
+    pivot1.setInverted(true);
+
     SmartDashboard.putData(this);
 
     // Registering commands so that they can be accessed in Pathplanner
@@ -50,13 +51,13 @@ public class APivot extends SubsystemBase {
       .setSmartCurrentLimit(40)
       .setBrakeMode()
       //.setOpenLoopRampRate(0.1)
-      .setSoftLimits(0, 90)
+      .setSoftLimits(0, 200)
       .configurePID(0, 3.5433, 0, 0.0087621, 0)
       .buildCommand()
       .andThen(new SparkSaver(pivot2, "pivot2", this)
       .setSmartCurrentLimit(40)
       .setBrakeMode()
-      .follow(pivot1, false)
+      .follow(pivot1, true)
       .buildCommand()));
 
   }
