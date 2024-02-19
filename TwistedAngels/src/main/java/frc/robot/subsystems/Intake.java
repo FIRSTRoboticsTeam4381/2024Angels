@@ -48,6 +48,9 @@ public class Intake extends SubsystemBase
       .setSmartCurrentLimit(60)
       .setBrakeMode()
       .buildCommand());
+
+    // Stop after auto etc
+    this.setDefaultCommand(new InstantCommand(() -> intake.set(0), this).repeatedly().withName("Idle"));
   }
 
   
