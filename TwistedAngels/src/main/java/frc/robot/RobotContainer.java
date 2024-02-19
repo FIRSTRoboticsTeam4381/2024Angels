@@ -84,7 +84,8 @@ public class RobotContainer {
         leds = new LEDs();
         limelight = new Limelight();
         shooterMode = new ShootingMode(driver, specialist);
-        aimbot = new Aimbot(driver::getLeftX, driver::getLeftY, driver::getR2Axis);//.until(driver.cross()::getAsBoolean).withName("Aimbot");
+        aimbot = new Aimbot(interpolateJoystick(driver::getLeftY,0.05),
+          interpolateJoystick(driver::getLeftX,0.05), driver::getR2Axis);//.until(driver.cross()::getAsBoolean).withName("Aimbot");
         //led1 = new AddressableLED(2);
         ledBuffer1 = new AddressableLEDBuffer(10);
         
