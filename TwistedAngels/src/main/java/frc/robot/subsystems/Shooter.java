@@ -36,12 +36,12 @@ public class Shooter extends SubsystemBase {
     SparkSaver.optimizeCANFrames(shooter2, false, true, false, false, false, false);
 
     SmartDashboard.putData("Configure Shooter", new SparkSaver(shooter1, "shooter1", this)
-      .setSmartCurrentLimit(80)
+      .setSmartCurrentLimit(60)
       .setCoastMode()
       //.setOpenLoopRampRate(0.2)
       .buildCommand()
       .andThen(new SparkSaver(shooter2, "shooter2", this)
-      .setSmartCurrentLimit(80)
+      .setSmartCurrentLimit(60)
       .setCoastMode()
       //.setOpenLoopRampRate(0.2)
       .buildCommand()));
