@@ -242,7 +242,8 @@ public class Swerve extends SubsystemBase{
         LogOrDash.logNumber("Gyro Pitch", gyro.getPitch());
         LogOrDash.logNumber("Gyro Roll", gyro.getRoll());
         LogOrDash.logNumber("Gyro Yaw", gyro.getYaw());
-        LogOrDash.logString("XY Coord", "(" + getPose().getX() + ", " + getPose().getY() + ")");
+        
+        LogOrDash.logNumber("Gyro Yaw Velocity", gyro.getRate());
 
         field.setRobotPose(getPose());
     }

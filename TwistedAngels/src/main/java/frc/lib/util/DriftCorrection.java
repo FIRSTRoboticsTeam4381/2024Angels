@@ -20,7 +20,7 @@ public class DriftCorrection {
     private static double lockAngle = 0;
     private static boolean locked = false;
     private static PIDController rotationCorrection = new PIDController(2.5, 0, 0);
-    public static boolean enabled = false;
+    public static boolean enabled = true;
     
     private static double rawGyro = 0;
 
@@ -43,7 +43,7 @@ public class DriftCorrection {
             if(speeds.omegaRadiansPerSecond == 0.0)
             {
                 // Not trying to rotate, attempt to maintain angle
-                rawGyro = gyro.getRawGyroZ();
+                rawGyro = gyro.getRate();
                 if(locked)
                 {
                     // Angle already locked on
@@ -51,7 +51,7 @@ public class DriftCorrection {
                     LogOrDash.logNumber("Rotation Correction", speeds.omegaRadiansPerSecond);
                     return speeds;
                 }
-                else if(Math.abs(rawGyro) < 100) // May have to tweak later
+                else if(Math.abs(rawGyro) < 0.1) // May have to tweak later
                 {
                     // No angle locked, acquire lock
                     lockAngle = pose.getRotation().getRadians();// % 2*Math.PI;//% 360;
