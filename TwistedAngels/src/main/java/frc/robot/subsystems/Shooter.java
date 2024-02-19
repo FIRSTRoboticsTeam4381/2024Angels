@@ -104,6 +104,8 @@ public class Shooter extends SubsystemBase {
     LogOrDash.sparkDiagnostics("shooter/shooter2", shooter2);
     LogOrDash.logNumber("shooter/shooter1/velocity", shooter1.getEncoder().getVelocity());
     LogOrDash.logNumber("shooter/shooter2/velocity", shooter2.getEncoder().getVelocity());
+
+    SmartDashboard.putBoolean("shooter/ready", readyShoot());
   }
 
   // Make the shooter get ready and spun up
@@ -133,7 +135,8 @@ public class Shooter extends SubsystemBase {
 
   // It is ready to shoot when true
   public boolean readyShoot() {
-    return shooter1.getEncoder().getVelocity() < SHOOT_SPEED * 0.9;
+    return shooter1.getEncoder().getVelocity() > SHOOT_SPEED * 0.9 && 
+      shooter2.getEncoder().getVelocity() > SHOOT_SPEED * 0.9;
   }
 
 

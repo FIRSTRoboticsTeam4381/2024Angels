@@ -110,7 +110,8 @@ public class Intake extends SubsystemBase
     LogOrDash.sparkDiagnostics("intake/motor", intake);
     LogOrDash.logNumber("intake/velocity", intake.getEncoder().getVelocity());
 
-    LogOrDash.logBoolean("intake/breakbeam", hasNote());
+    // Want this on dashboard
+    SmartDashboard.putBoolean("intake/breakbeam", hasNote());
   }
 
 
