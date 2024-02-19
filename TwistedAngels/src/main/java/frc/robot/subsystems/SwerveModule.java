@@ -45,8 +45,12 @@ public class SwerveModule {
         mDriveMotor = new CANSparkFlex(moduleConstants.driveMotorID, MotorType.kBrushless);
         //configDriveMotor();
 
-        mDriveMotor.setInverted(Constants.Swerve.driveMotorInvert);
+        //mDriveMotor.setInverted(Constants.Swerve.driveMotorInvert);
         mAngleMotor.setInverted(Constants.Swerve.angleMotorInvert);
+
+        // Inversion status seems to be lost if a drive wheel is inverted, so invert manually
+        mDriveMotor.setInverted(false);
+        
 
         /* Angle Encoder Config */
         absoluteEncoder = mAngleMotor.getAbsoluteEncoder(com.revrobotics.SparkAbsoluteEncoder.Type.kDutyCycle);
@@ -78,11 +82,11 @@ public class SwerveModule {
 
         if(isOpenLoop){
             double percentOutput = desiredState.speedMetersPerSecond / Constants.Swerve.maxSpeed;
-            mDriveMotor.set(percentOutput);
+            mDriveMotor.set(driveInvert() * percentOutput);
         }
         else{
             double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond, Constants.Swerve.wheelCircumference, Constants.Swerve.driveGearRatio); //TODO update for neos?
-            mDriveMotor.getPIDController().setReference(velocity, ControlType.kVelocity, 0, feedforward.calculate(desiredState.speedMetersPerSecond));
+            mDriveMotor.getPIDController().setReference(driveInvert() * velocity, ControlType.kVelocity, 0, feedforward.calculate(desiredState.speedMetersPerSecond * driveInvert()));
         }
 
         double angle = (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.maxSpeed * 0.01)) ? lastAngle : desiredState.angle.getDegrees(); //Prevent rotating module if speed is less than 1%. Prevents jittering.
@@ -151,13 +155,13 @@ public class SwerveModule {
     }
 
     public SwerveModuleState getState(){
-        double velocity = distanceEncoder.getVelocity(); //Units configured to m/s
+        double velocity = distanceEncoder.getVelocity() * driveInvert(); //Units configured to m/s
         Rotation2d angle = getAngle();
         return new SwerveModuleState(velocity, angle);
     }
 
     public SwerveModulePosition getPosition(){
-        double distance = distanceEncoder.getPosition(); //Units configured to m
+        double distance = distanceEncoder.getPosition() * driveInvert(); //Units configured to m
         Rotation2d angle = getAngle();
         return new SwerveModulePosition(distance, angle);
     }
@@ -190,5 +194,13 @@ public class SwerveModule {
             edu.wpi.first.units.Units.Volts.of(mDriveMotor.getAppliedOutput() * RobotController.getBatteryVoltage())
             ).linearVelocity(edu.wpi.first.units.Units.MetersPerSecond.of(mDriveMotor.getEncoder().getVelocity()))
             .linearPosition(edu.wpi.first.units.Units.Meters.of(mDriveMotor.getEncoder().getPosition()));
+    }
+
+    public int driveInvert()
+    {
+        if(Constants.Swerve.driveMotorInvert)
+            return -1;
+        else
+            return 1;
     }
 }
