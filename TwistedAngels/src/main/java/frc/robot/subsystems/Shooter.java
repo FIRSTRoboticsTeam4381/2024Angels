@@ -20,20 +20,23 @@ import frc.lib.util.SparkSaver;
 public class Shooter extends SubsystemBase {
   public CANSparkFlex shooter1;
   public CANSparkFlex shooter2;
+  public CANSparkFlex conveyor;
 
 
-  public final int SHOOT_SPEED = 4000;
+  public final int SHOOT_SPEED = -4000;
 
   /** Creates a new Shooter. */
   public Shooter() {
     shooter1 = new CANSparkFlex(53, MotorType.kBrushless);
-    shooter1.setInverted(true);
+    //shooter1.setInverted(true);
     shooter2 = new CANSparkFlex(54, MotorType.kBrushless);
-    shooter2.setInverted(true);
+    //shooter2.setInverted(true);
+    conveyor = new CANSparkFlex(59, MotorType.kBrushless);
     SmartDashboard.putData(this);
 
     SparkSaver.optimizeCANFrames(shooter1, false, true, false, false, false, false);
     SparkSaver.optimizeCANFrames(shooter2, false, true, false, false, false, false);
+    SparkSaver.optimizeCANFrames(conveyor, false, true, false, false, false, false);
 
     SmartDashboard.putData("Configure Shooter", new SparkSaver(shooter1, "shooter1", this)
       .setSmartCurrentLimit(60)
@@ -44,12 +47,18 @@ public class Shooter extends SubsystemBase {
       .setSmartCurrentLimit(60)
       .setCoastMode()
       //.setOpenLoopRampRate(0.2)
-      .buildCommand()));
+      .buildCommand()
+      .andThen(new SparkSaver(conveyor, "conveyor", this)
+      .setSmartCurrentLimit(30)
+      .setCoastMode()
+      .buildCommand()
+      )));
+      
 
     // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("shooterReady", shooterReady());
   }
-
+  /* 
   public void configToFlash()
     {
         try
@@ -79,13 +88,26 @@ public class Shooter extends SubsystemBase {
             LogOrDash.checkRevError("shooter motor 2 BURN",
                 shooter2.burnFlash());
             Thread.sleep(1000);
+
+            // conveyor
+            LogOrDash.checkRevError("conveyor clear",
+                conveyor.restoreFactoryDefaults());
+            
+            Thread.sleep(1000);
+
+            configShooterMotor(conveyor);
+
+            Thread.sleep(1000);
+            LogOrDash.checkRevError("conveyor BURN",
+                conveyor.burnFlash());
+            Thread.sleep(1000);
         }
 
         catch(InterruptedException e)
         {
             DriverStation.reportError("Main thread interrupted while flashing shooter!", e.getStackTrace());
         }
-    }
+    }*/
 
     private void configShooterMotor(CANSparkFlex m)
     {
@@ -102,8 +124,10 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     LogOrDash.sparkDiagnostics("shooter/shooter1", shooter1);
     LogOrDash.sparkDiagnostics("shooter/shooter2", shooter2);
+    LogOrDash.sparkDiagnostics("shooter/conveyor", conveyor);
     LogOrDash.logNumber("shooter/shooter1/velocity", shooter1.getEncoder().getVelocity());
     LogOrDash.logNumber("shooter/shooter2/velocity", shooter2.getEncoder().getVelocity());
+    LogOrDash.logNumber("shooter/conveyor/velocity", conveyor.getEncoder().getVelocity());
 
     SmartDashboard.putBoolean("shooter/ready", readyShoot());
   }
@@ -111,22 +135,24 @@ public class Shooter extends SubsystemBase {
   // Make the shooter get ready and spun up
   public Command shooterReady() {
     return new FunctionalCommand( () -> {
-
+      conveyor.set(1);
     }, () -> {
-      if (SHOOT_SPEED > shooter1.getEncoder().getVelocity()) { // If the motor speed is not up to speed
-        shooter1.set(1);
+      if (SHOOT_SPEED < shooter1.getEncoder().getVelocity()) { // If the motor speed is not up to speed
+        shooter1.set(-1);
       } else { // Else
         shooter1.set(0);
       }
 
-      if (SHOOT_SPEED > shooter2.getEncoder().getVelocity()) { // Same but for 2nd shooter motor
-        shooter2.set(1);
+      if (SHOOT_SPEED < shooter2.getEncoder().getVelocity()) { // Same but for 2nd shooter motor
+        shooter2.set(-1);
       } else { // Else
         shooter2.set(0);
       }
+
     }, (isInterupted) -> {
       shooter1.set(0);
       shooter2.set(0);
+      conveyor.set(0);
     }, () -> {
       return false;
     }, this).withName("shooterReady");
@@ -135,8 +161,8 @@ public class Shooter extends SubsystemBase {
 
   // It is ready to shoot when true
   public boolean readyShoot() {
-    return shooter1.getEncoder().getVelocity() > SHOOT_SPEED * 0.9 && 
-      shooter2.getEncoder().getVelocity() > SHOOT_SPEED * 0.9;
+    return shooter1.getEncoder().getVelocity() < SHOOT_SPEED * 0.9 && 
+      shooter2.getEncoder().getVelocity() < SHOOT_SPEED * 0.9;
   }
 
 

@@ -91,7 +91,9 @@ public final class Autos {
         notesToGet.clear(); 
 
         for(String n : chooseNotes.split(",")) {
-            notesToGet.add(Integer.parseInt(n));
+            try {
+                notesToGet.add(Integer.parseInt(n));
+            }catch(Exception e){}
         }
     }
     
