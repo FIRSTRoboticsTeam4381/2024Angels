@@ -146,7 +146,7 @@ public class RobotContainer {
                     c.cancel();
             }),
              new ProxyCommand(sPivot.pivotBack())
-             ).unless(shooter::readyShoot).withName("shoot"));
+             ).onlyIf(shooter::readyShoot).withName("shoot"));
 
         // Score in amp if up
         specialist.L1().onTrue(intake.inAmp().unless(aPivot::isDown).withName("scoreInAmp"));
