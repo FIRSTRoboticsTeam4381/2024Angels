@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.LogOrDash;
 import frc.lib.util.SparkSaver;
@@ -56,7 +57,7 @@ public class Shooter extends SubsystemBase {
       
 
     // Registering commands so that they can be accessed in Pathplanner
-    NamedCommands.registerCommand("shooterReady", shooterReady());
+    NamedCommands.registerCommand("shooterReady", new ProxyCommand(shooterReady()));
   }
 
 
@@ -73,6 +74,7 @@ public class Shooter extends SubsystemBase {
   }
 
   // Make the shooter get ready and spun up
+  
   public Command shooterReady() {
     return new FunctionalCommand( () -> {
       conveyor.set(1);
