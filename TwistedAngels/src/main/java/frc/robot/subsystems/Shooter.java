@@ -9,10 +9,12 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.LogOrDash;
 import frc.lib.util.SparkSaver;
@@ -21,6 +23,7 @@ public class Shooter extends SubsystemBase {
   public CANSparkFlex shooter1;
   public CANSparkFlex shooter2;
   public CANSparkFlex conveyor;
+  public CANSparkFlex conveyor2;
 
 
   public final int SHOOT_SPEED = -4000;
@@ -32,19 +35,23 @@ public class Shooter extends SubsystemBase {
     shooter2 = new CANSparkFlex(54, MotorType.kBrushless);
     //shooter2.setInverted(true);
     conveyor = new CANSparkFlex(59, MotorType.kBrushless);
+
+    conveyor2 = new CANSparkFlex(60, MotorType.kBrushless);
+
     SmartDashboard.putData(this);
 
     SparkSaver.optimizeCANFrames(shooter1, false, true, false, false, false, false);
     SparkSaver.optimizeCANFrames(shooter2, false, true, false, false, false, false);
     SparkSaver.optimizeCANFrames(conveyor, false, true, false, false, false, false);
+    SparkSaver.optimizeCANFrames(conveyor2, false, true, false, false, false, false);
 
     SmartDashboard.putData("Configure Shooter", new SparkSaver(shooter1, "shooter1", this)
-      .setSmartCurrentLimit(60)
+      .setSmartCurrentLimit(50, 15, 2000)
       .setCoastMode()
       //.setOpenLoopRampRate(0.2)
       .buildCommand()
       .andThen(new SparkSaver(shooter2, "shooter2", this)
-      .setSmartCurrentLimit(60)
+      .setSmartCurrentLimit(50, 15, 2000)
       .setCoastMode()
       //.setOpenLoopRampRate(0.2)
       .buildCommand()
@@ -52,11 +59,17 @@ public class Shooter extends SubsystemBase {
       .setSmartCurrentLimit(30)
       .setCoastMode()
       .buildCommand()
+      .andThen(new SparkSaver(conveyor, "conveyor2", this)
+      .setSmartCurrentLimit(30)
+      .setCoastMode()
+      //.follow(conveyor, false)
+      .buildCommand()
+      )
       )));
       
 
     // Registering commands so that they can be accessed in Pathplanner
-    NamedCommands.registerCommand("shooterReady", shooterReady());
+    NamedCommands.registerCommand("shooterReady", new ProxyCommand(shooterReady()));
   }
 
 
@@ -65,9 +78,11 @@ public class Shooter extends SubsystemBase {
     LogOrDash.sparkDiagnostics("shooter/shooter1", shooter1);
     LogOrDash.sparkDiagnostics("shooter/shooter2", shooter2);
     LogOrDash.sparkDiagnostics("shooter/conveyor", conveyor);
+    LogOrDash.sparkDiagnostics("shooter/conveyor2", conveyor2);
     LogOrDash.logNumber("shooter/shooter1/velocity", shooter1.getEncoder().getVelocity());
     LogOrDash.logNumber("shooter/shooter2/velocity", shooter2.getEncoder().getVelocity());
     LogOrDash.logNumber("shooter/conveyor/velocity", conveyor.getEncoder().getVelocity());
+    LogOrDash.logNumber("shooter/conveyor2/velocity", conveyor2.getEncoder().getVelocity());
 
     SmartDashboard.putBoolean("shooter/ready", readyShoot());
   }
@@ -75,7 +90,8 @@ public class Shooter extends SubsystemBase {
   // Make the shooter get ready and spun up
   public Command shooterReady() {
     return new FunctionalCommand( () -> {
-      conveyor.set(1);
+      conveyor.set(0.75);
+      conveyor2.set(0.1);
     }, () -> {
       if (SHOOT_SPEED < shooter1.getEncoder().getVelocity()) { // If the motor speed is not up to speed
         shooter1.set(-1);
@@ -93,6 +109,7 @@ public class Shooter extends SubsystemBase {
       shooter1.set(0);
       shooter2.set(0);
       conveyor.set(0);
+      conveyor2.set(0);
     }, () -> {
       return false;
     }, this).withName("shooterReady");
@@ -104,6 +121,8 @@ public class Shooter extends SubsystemBase {
     return shooter1.getEncoder().getVelocity() < SHOOT_SPEED * 0.9 && 
       shooter2.getEncoder().getVelocity() < SHOOT_SPEED * 0.9;
   }
+
+
 
 
 }
