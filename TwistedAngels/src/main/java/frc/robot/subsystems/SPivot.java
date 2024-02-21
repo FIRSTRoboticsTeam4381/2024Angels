@@ -54,6 +54,11 @@ public class SPivot extends SubsystemBase {
     // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("sPivotToShoot", pivotToShoot());
     NamedCommands.registerCommand("sPivotBack", pivotBack());
+    NamedCommands.registerCommand("F3NoteShoot1", sPivotTo(24.285));
+    NamedCommands.registerCommand("F3NoteShoot2", sPivotTo(28.35));
+    NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(23.9));
+    NamedCommands.registerCommand("F3NoteShoot4", sPivotTo(22.4));
+
 
     LogOrDash.setupSysIDTests(new SysIdRoutine.Config(),
      new CANSparkBase[]{pivot1}, new CANSparkBase[]{pivot1, pivot2}, this);
@@ -91,8 +96,8 @@ public class SPivot extends SubsystemBase {
   }
 
   // Make the shooter pivot go to a position
-  public Command sPivotTo(int position) { // Set position for later commands
-    return new SparkMaxPosition(pivot1, position, 0, 1, this).withName("sPivotTo");
+  public Command sPivotTo(double position) { // Set position for later commands
+    return new SparkMaxPosition(pivot1, position, 0, 0.2, this).withName("sPivotTo");
   }
 
   // Pivot to shooting position
@@ -115,5 +120,7 @@ public class SPivot extends SubsystemBase {
     double p = pivot1.getEncoder().getPosition();  
     return 11 < p;
   }
+
+  
 
 }

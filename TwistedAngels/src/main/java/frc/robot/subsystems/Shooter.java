@@ -58,66 +58,6 @@ public class Shooter extends SubsystemBase {
     // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("shooterReady", shooterReady());
   }
-  /* 
-  public void configToFlash()
-    {
-        try
-        {
-            // shooter motor 1
-            LogOrDash.checkRevError("shooter motor 1 clear",
-                shooter1.restoreFactoryDefaults());
-            
-            Thread.sleep(1000);
-
-            configShooterMotor(shooter1);
-
-            Thread.sleep(1000);
-            LogOrDash.checkRevError("shooter motor 1 BURN",
-                shooter1.burnFlash());
-            Thread.sleep(1000);
-
-            // shooter motor 2
-            LogOrDash.checkRevError("shooter motor 2 clear",
-                shooter2.restoreFactoryDefaults());
-            
-            Thread.sleep(1000);
-
-            configShooterMotor(shooter2);
-
-            Thread.sleep(1000);
-            LogOrDash.checkRevError("shooter motor 2 BURN",
-                shooter2.burnFlash());
-            Thread.sleep(1000);
-
-            // conveyor
-            LogOrDash.checkRevError("conveyor clear",
-                conveyor.restoreFactoryDefaults());
-            
-            Thread.sleep(1000);
-
-            configShooterMotor(conveyor);
-
-            Thread.sleep(1000);
-            LogOrDash.checkRevError("conveyor BURN",
-                conveyor.burnFlash());
-            Thread.sleep(1000);
-        }
-
-        catch(InterruptedException e)
-        {
-            DriverStation.reportError("Main thread interrupted while flashing shooter!", e.getStackTrace());
-        }
-    }*/
-
-    private void configShooterMotor(CANSparkFlex m)
-    {
-      LogOrDash.checkRevError("shooter current limit", m.setSmartCurrentLimit(60));
-
-      LogOrDash.checkRevError("shooter brakes", m.setIdleMode(IdleMode.kCoast));
-
-      LogOrDash.checkRevError("shooter open loop ramp rate", m.setOpenLoopRampRate(0.2));
-
-    }
 
 
   @Override
