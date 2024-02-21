@@ -88,6 +88,7 @@ public class Shooter extends SubsystemBase {
   }
 
   // Make the shooter get ready and spun up
+  
   public Command shooterReady() {
     return new FunctionalCommand( () -> {
       conveyor.set(0.75);
