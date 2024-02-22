@@ -46,12 +46,12 @@ public class Shooter extends SubsystemBase {
     SparkSaver.optimizeCANFrames(conveyor2, false, true, false, false, false, false);
 
     SmartDashboard.putData("Configure Shooter", new SparkSaver(shooter1, "shooter1", this)
-      .setSmartCurrentLimit(60, 15, 1000)
+      .setSmartCurrentLimit(60)
       .setCoastMode()
       //.setOpenLoopRampRate(0.2)
       .buildCommand()
       .andThen(new SparkSaver(shooter2, "shooter2", this)
-      .setSmartCurrentLimit(60, 15, 1000)
+      .setSmartCurrentLimit(60)
       .setCoastMode()
       //.setOpenLoopRampRate(0.2)
       .buildCommand()
@@ -59,8 +59,8 @@ public class Shooter extends SubsystemBase {
       .setSmartCurrentLimit(30)
       .setCoastMode()
       .buildCommand()
-      .andThen(new SparkSaver(conveyor, "conveyor2", this)
-      .setSmartCurrentLimit(30)
+      .andThen(new SparkSaver(conveyor2, "conveyor2", this)
+      .setSmartCurrentLimit(20)
       .setCoastMode()
       //.follow(conveyor, false)
       .buildCommand()
@@ -97,13 +97,13 @@ public class Shooter extends SubsystemBase {
       if (SHOOT_SPEED < shooter1.getEncoder().getVelocity()) { // If the motor speed is not up to speed
         shooter1.set(-1);
       } else { // Else
-        shooter1.set(0);
+        shooter1.set(-0.78);
       }
 
       if (SHOOT_SPEED < shooter2.getEncoder().getVelocity()) { // Same but for 2nd shooter motor
         shooter2.set(-1);
       } else { // Else
-        shooter2.set(0);
+        shooter2.set(-0.78);
       }
 
     }, (isInterupted) -> {
