@@ -3,16 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.275800229452807,
-        "y": 4.827782541471123
+        "x": 3.8832415919865397,
+        "y": 5.006844376104859
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.27302838498269,
-        "y": 3.381513877118891
+        "x": 5.880469747516422,
+        "y": 3.560575711752627
       },
       "isLocked": false,
       "linkedName": "Middle"
+    },
+    {
+      "anchor": {
+        "x": 7.299190437307049,
+        "y": 5.4682729499687195
+      },
+      "prevControl": {
+        "x": 6.896150779103809,
+        "y": 5.419908190984331
+      },
+      "nextControl": {
+        "x": 7.987889801282958,
+        "y": 5.550916873645828
+      },
+      "isLocked": false,
+      "linkedName": null
     },
     {
       "anchor": {
@@ -20,33 +36,33 @@
         "y": 5.7437526955562594
       },
       "prevControl": {
-        "x": 6.796439901604382,
-        "y": 4.752025611430949
+        "x": 8.304691508711876,
+        "y": 5.716204721000046
       },
       "nextControl": {
-        "x": 8.21495688738162,
-        "y": 5.967897313525725
+        "x": 7.610090767504218,
+        "y": 5.770683210500907
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.275800229452807,
-        "y": 4.827782541471123
+        "x": 3.8832415919865397,
+        "y": 5.006844376104859
       },
       "prevControl": {
-        "x": 6.2041584485850985,
-        "y": 2.9338592905345497
+        "x": 5.811599811118831,
+        "y": 3.112921125168286
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Middle"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.9,
+      "waypointRelativePos": 1.8,
       "rotationDegrees": 17.920743188331492,
       "rotateFast": false
     }
@@ -55,7 +71,7 @@
   "eventMarkers": [
     {
       "name": "intake",
-      "waypointRelativePos": 0.85,
+      "waypointRelativePos": 1.7,
       "command": {
         "type": "parallel",
         "data": {
@@ -72,7 +88,7 @@
     },
     {
       "name": "shoot",
-      "waypointRelativePos": 2.0,
+      "waypointRelativePos": 3.0,
       "command": {
         "type": "parallel",
         "data": {

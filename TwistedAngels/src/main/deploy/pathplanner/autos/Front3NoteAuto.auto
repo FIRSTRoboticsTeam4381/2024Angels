@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.30889189295157043,
-      "y": 6.96963756343892
+      "x": 0.28823091203229306,
+      "y": 7.479275092778374
     },
     "rotation": 0
   },
@@ -15,6 +15,12 @@
           "type": "path",
           "data": {
             "pathName": "Front3NoteAuto"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "toShoot"
           }
         }
       ]

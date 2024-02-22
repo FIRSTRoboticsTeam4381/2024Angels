@@ -16,6 +16,12 @@
           "data": {
             "pathName": "FirstMove"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "toShoot"
+          }
         }
       ]
     }
