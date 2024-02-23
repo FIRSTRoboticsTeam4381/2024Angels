@@ -70,9 +70,9 @@ public final class Autos {
                         Map.entry(3, AutoBuilder.followPath(PathPlannerPath.fromPathFile("Note3"))),
                         Map.entry(4, AutoBuilder.followPath(PathPlannerPath.fromPathFile("Note4"))),
                         Map.entry(5, AutoBuilder.followPath(PathPlannerPath.fromPathFile("Note5")))
-                    ), Autos::chosenNote),
+                    ), Autos::chosenNote)
                 // TODO Shooter to correct angle
-                RobotContainer.intake.toShoot()
+                //RobotContainer.intake.toShoot()
             ), notesToGet::isEmpty).repeatedly()
 
 
