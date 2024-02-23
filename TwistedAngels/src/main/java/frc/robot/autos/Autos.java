@@ -57,6 +57,10 @@ public final class Autos {
         return new PreviewAuto("Front3NoteAuto");
     }
 
+    public static PreviewAuto Front3Note2(){
+        return new PreviewAuto("Front3NoteAuto2");
+    }
+
     public static PreviewAuto middleNotes()
     {
         return new PreviewAuto(new SequentialCommandGroup(
