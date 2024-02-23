@@ -54,9 +54,9 @@ public class SPivot extends SubsystemBase {
     // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("sPivotToShoot", pivotToShoot());
     NamedCommands.registerCommand("sPivotBack", pivotBack());
-    NamedCommands.registerCommand("F3NoteShoot1", sPivotTo(24.285));
-    NamedCommands.registerCommand("F3NoteShoot2", sPivotTo(27.35));
-    NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(23.9));
+    NamedCommands.registerCommand("F3NoteShoot1", sPivotTo(24.2));
+    NamedCommands.registerCommand("F3NoteShoot2", sPivotTo(28.3));
+    NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(24.6));
     NamedCommands.registerCommand("F3NoteShoot4", sPivotTo(21.4));
     NamedCommands.registerCommand("noBreakBeam", sPivotTo(21));
     NamedCommands.registerCommand("middleNotes", sPivotTo(12.7));

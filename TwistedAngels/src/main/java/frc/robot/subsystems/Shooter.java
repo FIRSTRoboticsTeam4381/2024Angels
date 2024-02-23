@@ -97,13 +97,13 @@ public class Shooter extends SubsystemBase {
       if (SHOOT_SPEED < shooter1.getEncoder().getVelocity()) { // If the motor speed is not up to speed
         shooter1.set(-1);
       } else { // Else
-        shooter1.set(-0.78);
+        shooter1.set(-0.73);
       }
 
       if (SHOOT_SPEED < shooter2.getEncoder().getVelocity()) { // Same but for 2nd shooter motor
         shooter2.set(-1);
       } else { // Else
-        shooter2.set(-0.78);
+        shooter2.set(-0.73);
       }
 
     }, (isInterupted) -> {
