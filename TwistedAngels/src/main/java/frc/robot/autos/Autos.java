@@ -61,10 +61,14 @@ public final class Autos {
         return new PreviewAuto("Front3NoteAuto2");
     }
 
-    public static PreviewAuto middleNotes()
+    public static PreviewAuto DefenseInAuto(){
+        return new PreviewAuto("DefenseInAuto");
+    }
+
+    public static PreviewAuto middleNotesSelect(String autoName)
     {
         return new PreviewAuto(new SequentialCommandGroup(
-            new PathPlannerAuto("MiddleStart"),
+            new PathPlannerAuto(autoName),
             new ConditionalCommand( new InstantCommand(() -> CommandScheduler.getInstance().cancelAll()),
             new SequentialCommandGroup(
                 new SelectCommand<Integer>(
@@ -81,7 +85,14 @@ public final class Autos {
 
 
 
-        ), "MiddleStart");
+        ), autoName);
+    }
+
+    public static PreviewAuto middleNotesCenter(){
+        return middleNotesSelect("MiddleStart");
+    }
+    public static PreviewAuto middleNotesSource(){
+        return middleNotesSelect("MiddleStart2");
     }
 
     public static int chosenNote() {

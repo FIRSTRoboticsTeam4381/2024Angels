@@ -102,7 +102,9 @@ public class RobotContainer {
         m_AutoChooser.addOption("Test", Autos.testAuto());
         m_AutoChooser.addOption("3NoteFront", Autos.Front3Note());
         m_AutoChooser.addOption("3NoteFront2", Autos.Front3Note2());
-        m_AutoChooser.addOption("MiddleNotes", Autos.middleNotes());
+        m_AutoChooser.addOption("DefenseInAuto", Autos.DefenseInAuto());
+        m_AutoChooser.addOption("MiddleNotesCenter", Autos.middleNotesCenter());
+        m_AutoChooser.addOption("MiddleNotesSource", Autos.middleNotesSource());
 
         SmartDashboard.putData("Choose Auto:", m_AutoChooser);
 
@@ -178,7 +180,7 @@ public class RobotContainer {
         double startDelay=SmartDashboard.getNumber("Start Delay", 0);
          return new SequentialCommandGroup( 
             new WaitCommand(startDelay), 
-             m_AutoChooser.getSelected().auto); 
+            new ScheduleCommand(m_AutoChooser.getSelected().auto)); 
     
     }
 
