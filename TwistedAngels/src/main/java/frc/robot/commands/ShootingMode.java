@@ -17,12 +17,12 @@ import frc.robot.RobotContainer;
 public class ShootingMode extends ParallelRaceGroup {
   
 
-  public ShootingMode(CommandPS4Controller driver, CommandPS4Controller specialist) 
+  public ShootingMode(CommandPS4Controller driver, CommandPS4Controller specialist)
   {
     addCommands(RobotContainer.shooter.shooterReady(),
      (new TeleopSwerve(RobotContainer.s_Swerve, 
-       RobotContainer.interpolateJoystick (driver::getLeftY,0.05 ),
-       RobotContainer.interpolateJoystick (driver::getLeftX,0.05),
+        RobotContainer.interpolateJoystick (driver::getLeftY,0.05 ),
+        RobotContainer.interpolateJoystick (driver::getLeftX,0.05),
         RobotContainer.interpolateJoystick(specialist::getRightX,0.05),
         true, 
         driver::getR2Axis)),

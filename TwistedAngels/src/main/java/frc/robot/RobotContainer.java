@@ -40,7 +40,7 @@ import frc.robot.commands.ShootingMode;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * "declarative" paradigm, very little robot logic should actually be handled in 2the {@link Robot}
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
@@ -91,7 +91,7 @@ public class RobotContainer {
         
         aPivot.setDefaultCommand(aPivot.joystickMove(interpolateJoystick(specialist::getLeftY, 0.05)));
         sPivot.setDefaultCommand(sPivot.joystickControl(interpolateJoystick(specialist::getRightY, 0.05)));
-        hang.setDefaultCommand(hang.hangTriggers(specialist::getL2Axis, specialist::getR2Axis));
+        //hang.setDefaultCommand(hang.hangTriggers(specialist::getL2Axis, specialist::getR2Axis));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -133,14 +133,14 @@ public class RobotContainer {
             () -> shooter.getCurrentCommand() != null));
 
         // Toggle to auto aim
-        specialist.triangle().and(shooterMode::isScheduled).onTrue(aimbot);
+        //specialist.triangle().and(shooterMode::isScheduled).onTrue(aimbot);
         // Can't write this like previous line or driver x button also triggers this line, causing a loop of schedule-cancel
-        specialist.triangle().onFalse(new ProxyCommand(shooterMode).onlyIf(aimbot::isScheduled));
+        //specialist.triangle().onFalse(new ProxyCommand(shooterMode).onlyIf(aimbot::isScheduled));
 
         // Shoot if ready
         specialist.R1().onTrue(new SequentialCommandGroup (
-             intake.toShoot(),
-             new WaitCommand(1.5),
+             intake.toShoot2(),
+             new WaitCommand(.7),
              new InstantCommand( () -> {
                 Command c = shooter.getCurrentCommand();
                 if(c != null)
