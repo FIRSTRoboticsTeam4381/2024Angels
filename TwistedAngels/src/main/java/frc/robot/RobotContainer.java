@@ -89,8 +89,8 @@ public class RobotContainer {
         //led1 = new AddressableLED(2);
         ledBuffer1 = new AddressableLEDBuffer(10);
         
-        aPivot.setDefaultCommand(aPivot.joystickMove(interpolateJoystick(specialist::getLeftY, 0.05)));
-        sPivot.setDefaultCommand(sPivot.joystickControl(interpolateJoystick(specialist::getRightY, 0.05)));
+        //aPivot.setDefaultCommand(aPivot.joystickMove(interpolateJoystick(specialist::getLeftY, 0.05)));
+        sPivot.setDefaultCommand(sPivot.joystickControl(interpolateJoystick(specialist::getLeftY, 0.05)));
         //hang.setDefaultCommand(hang.hangTriggers(specialist::getL2Axis, specialist::getR2Axis));
 
         // Configure the button bindings
@@ -127,7 +127,7 @@ public class RobotContainer {
         
         // Toggle shoot mode on/off, switching to aimbot when specials triangle is held
         // This is one of those things that is way too complicated in command-based code          
-        driver.cross().onTrue(new ConditionalCommand(
+        specialist.L1().onTrue(new ConditionalCommand(
             new InstantCommand(() -> CommandScheduler.getInstance().cancel(shooterMode, aimbot)), 
             new ScheduleCommand(shooterMode),
             () -> shooter.getCurrentCommand() != null));
@@ -150,18 +150,18 @@ public class RobotContainer {
              ).onlyIf(shooter::readyShoot).withName("shoot"));
 
         // Score in amp if up
-        specialist.L1().onTrue(intake.inAmp().unless(aPivot::isDown).withName("scoreInAmp"));
+        //specialist.L1().onTrue(intake.inAmp().unless(aPivot::isDown).withName("scoreInAmp"));
 
         // Amp pivot snap to position
-        specialist.povUp().onTrue(aPivot.pivotUp().withName("aPivotUp"));
-        specialist.povDown().onTrue(aPivot.pivotDown().withName("aPivotDown"));
+        //specialist.povUp().onTrue(aPivot.pivotUp().withName("aPivotUp"));
+        //specialist.povDown().onTrue(aPivot.pivotDown().withName("aPivotDown"));
 
         // Intake & eject
-        specialist.circle().toggleOnTrue(intake.pickup().withName("pickup"));
-        specialist.cross().onTrue(intake.spitOut().withName("spitOut"));
+        specialist.cross().toggleOnTrue(intake.pickup().withName("pickup"));
+        specialist.circle().onTrue(intake.spitOut().withName("spitOut"));
 
         // Cancel ongoing commands
-        specialist.PS().onTrue(new InstantCommand(() -> { // Cancel all commands
+        specialist.touchpad().onTrue(new InstantCommand(() -> { // Cancel all commands
             CommandScheduler.getInstance().cancelAll();
         }));
     }

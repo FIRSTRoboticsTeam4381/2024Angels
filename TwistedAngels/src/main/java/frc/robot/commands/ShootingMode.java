@@ -23,7 +23,7 @@ public class ShootingMode extends ParallelRaceGroup {
      (new TeleopSwerve(RobotContainer.s_Swerve, 
         RobotContainer.interpolateJoystick (driver::getLeftY,0.05 ),
         RobotContainer.interpolateJoystick (driver::getLeftX,0.05),
-        RobotContainer.interpolateJoystick(specialist::getRightX,0.05),
+        RobotContainer.interpolateJoystick(driver::getRightX,0.05),
         true, 
         driver::getR2Axis)),
       new ShootingLEDs(RobotContainer.shooter, RobotContainer.leds, RobotContainer.ledBuffer1, RobotContainer.led1));
