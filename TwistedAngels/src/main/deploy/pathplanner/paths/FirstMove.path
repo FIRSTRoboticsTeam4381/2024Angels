@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.5223886957841022,
-        "y": 4.111535202936178
+        "x": 0.4121967975479568,
+        "y": 4.366353967607265
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.7799366873901525,
-        "y": -0.18594882827349601
+        "x": 3.669744789154007,
+        "y": 0.06886993639759065
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.8832415919865397,
-        "y": 5.006844376104859
+        "x": 3.8488066237877434,
+        "y": 5.117036274341005
       },
       "prevControl": {
-        "x": 5.8184868047588445,
-        "y": 3.0647121696927955
+        "x": 5.784051836560048,
+        "y": 3.174904067928941
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
       "maxWaypointRelativePos": 0.7,
       "constraints": {
         "maxVelocity": 2.5,
-        "maxAcceleration": 3.0,
+        "maxAcceleration": 2.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
       }
@@ -68,7 +68,7 @@
     },
     {
       "name": "angle",
-      "waypointRelativePos": 0.85,
+      "waypointRelativePos": 0.55,
       "command": {
         "type": "parallel",
         "data": {
@@ -103,7 +103,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -118,5 +118,5 @@
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

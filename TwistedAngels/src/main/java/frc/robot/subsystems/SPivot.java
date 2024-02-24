@@ -59,7 +59,7 @@ public class SPivot extends SubsystemBase {
     NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(24.6));
     NamedCommands.registerCommand("F3NoteShoot4", sPivotTo(21.4));
     NamedCommands.registerCommand("noBreakBeam", sPivotTo(21));
-    NamedCommands.registerCommand("middleNotes", sPivotTo(14.4));
+    NamedCommands.registerCommand("middleNotes", sPivotTo(17.8));
 
 
     LogOrDash.setupSysIDTests(new SysIdRoutine.Config(),
