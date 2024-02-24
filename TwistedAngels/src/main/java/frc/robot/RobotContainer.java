@@ -111,6 +111,8 @@ public class RobotContainer {
         SmartDashboard.putString("Choose Notes", "");
 
         m_AutoChooser.onChange((listener) -> listener.showPreview());
+
+        SmartDashboard.putNumber("Start Delay",0);
     }
 
     /**
@@ -173,7 +175,11 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand(){
         Autos.pickNotes();
-        return m_AutoChooser.getSelected().auto;
+        double startDelay=SmartDashboard.getNumber("Start Delay", 0);
+         return new SequentialCommandGroup( 
+            new WaitCommand(startDelay), 
+             m_AutoChooser.getSelected().auto); 
+    
     }
 
 
