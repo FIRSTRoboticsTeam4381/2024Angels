@@ -26,7 +26,7 @@ public class APivot extends SubsystemBase {
   
   public CANSparkMax pivot1;
   public CANSparkMax pivot2;
-  public final int UP_POSITION = 198;
+  public final int UP_POSITION = 185;
 
   public APivot() 
   {

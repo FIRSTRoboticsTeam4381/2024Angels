@@ -103,7 +103,9 @@ public class Intake extends SubsystemBase
       new InstantCommand(() -> intake.set(1.0), this),
       new WaitCommand(0.7),
       new InstantCommand(() -> intake.set(-.5), this),
-      new WaitCommand(0.5),
+      new WaitCommand(0.2),
+      new InstantCommand(() -> intake.set(.5), this),
+      new WaitCommand(0.1),
       new InstantCommand(() -> intake.set(0), this)
     ).withName("toShoot2");
   }

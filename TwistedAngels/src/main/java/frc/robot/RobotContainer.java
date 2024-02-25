@@ -91,7 +91,7 @@ public class RobotContainer {
         
         aPivot.setDefaultCommand(aPivot.joystickMove(interpolateJoystick(specialist::getLeftY, 0.05)));
         sPivot.setDefaultCommand(sPivot.joystickControl(interpolateJoystick(specialist::getRightY, 0.05)));
-        //hang.setDefaultCommand(hang.hangTriggers(specialist::getR2Axis, specialist::getL2Axis));
+        hang.setDefaultCommand(hang.hangTriggers(specialist::getR2Axis, specialist::getL2Axis));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -168,6 +168,8 @@ public class RobotContainer {
         specialist.PS().onTrue(new InstantCommand(() -> { // Cancel all commands
             CommandScheduler.getInstance().cancelAll();
         }));
+
+        
     }
 
     /**
