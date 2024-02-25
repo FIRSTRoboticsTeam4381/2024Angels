@@ -105,6 +105,8 @@ public class RobotContainer {
         m_AutoChooser.addOption("DefenseInAuto", Autos.DefenseInAuto());
         m_AutoChooser.addOption("MiddleNotesCenter", Autos.middleNotesCenter());
         m_AutoChooser.addOption("MiddleNotesSource", Autos.middleNotesSource());
+        m_AutoChooser.addOption("RedShootCenter", Autos.RedShootCenter());
+        m_AutoChooser.addOption("RedShootSource", Autos.RedShootSource());
 
         SmartDashboard.putData("Choose Auto:", m_AutoChooser);
 

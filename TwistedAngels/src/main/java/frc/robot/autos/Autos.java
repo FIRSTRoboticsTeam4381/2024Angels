@@ -65,6 +65,14 @@ public final class Autos {
         return new PreviewAuto("DefenseInAuto");
     }
 
+    public static PreviewAuto RedShootCenter(){
+        return new PreviewAuto("RedShootCenter");
+    }
+
+    public static PreviewAuto RedShootSource(){
+        return new PreviewAuto("RedShootSource");
+    }
+
     public static PreviewAuto middleNotesSelect(String autoName)
     {
         return new PreviewAuto(new SequentialCommandGroup(
