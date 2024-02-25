@@ -89,9 +89,9 @@ public class RobotContainer {
         //led1 = new AddressableLED(2);
         ledBuffer1 = new AddressableLEDBuffer(10);
         
-        aPivot.setDefaultCommand(aPivot.joystickMove(interpolateJoystick(specialist::getLeftY, 0.05)));
+        //aPivot.setDefaultCommand(aPivot.joystickMove(interpolateJoystick(specialist::getLeftY, 0.05)));
         sPivot.setDefaultCommand(sPivot.joystickControl(interpolateJoystick(specialist::getRightY, 0.05)));
-        hang.setDefaultCommand(hang.hangTriggers(specialist::getR2Axis, specialist::getL2Axis));
+        //hang.setDefaultCommand(hang.hangTriggers(specialist::getR2Axis, specialist::getL2Axis));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -159,8 +159,8 @@ public class RobotContainer {
         specialist.L1().onTrue(intake.inAmp().unless(aPivot::isDown).withName("scoreInAmp"));
 
         // Amp pivot snap to position
-        specialist.povUp().onTrue(aPivot.pivotUp().withName("aPivotUp"));
-        specialist.povDown().onTrue(aPivot.pivotDown().withName("aPivotDown"));
+        //specialist.povUp().onTrue(aPivot.pivotUp().withName("aPivotUp"));
+        //specialist.povDown().onTrue(aPivot.pivotDown().withName("aPivotDown"));
 
         // Intake & eject
         specialist.circle().toggleOnTrue(intake.pickup().withName("pickup"));
