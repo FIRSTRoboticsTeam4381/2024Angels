@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Aimbot;
+import frc.robot.commands.Ampbot;
 import frc.robot.commands.ShootingMode;
 
 /**
@@ -62,6 +63,7 @@ public class RobotContainer {
     public static LEDs leds;
     public static Command shooterMode;
     public static Command aimbot;
+    public static Command ampbot;
     public static AddressableLED led1;
     public static AddressableLEDBuffer ledBuffer1;
     public static Limelight limelight;
@@ -85,7 +87,9 @@ public class RobotContainer {
         limelight = new Limelight();
         shooterMode = new ShootingMode(driver, specialist);
         aimbot = new Aimbot(interpolateJoystick(driver::getLeftY,0.05),
-          interpolateJoystick(driver::getLeftX,0.05), driver::getR2Axis);//.until(driver.cross()::getAsBoolean).withName("Aimbot");
+            interpolateJoystick(driver::getLeftX,0.05), driver::getR2Axis);//.until(driver.cross()::getAsBoolean).withName("Aimbot");
+        ampbot = new Ampbot(interpolateJoystick(driver::getLeftY,0.05),
+            interpolateJoystick(driver::getLeftX,0.05), driver::getR2Axis);
         //led1 = new AddressableLED(2);
         ledBuffer1 = new AddressableLEDBuffer(10);
         
@@ -107,6 +111,7 @@ public class RobotContainer {
         m_AutoChooser.addOption("MiddleNotesSource", Autos.middleNotesSource());
         m_AutoChooser.addOption("RedShootCenter", Autos.RedShootCenter());
         m_AutoChooser.addOption("RedShootSource", Autos.RedShootSource());
+        m_AutoChooser.addOption("Ampside3Note", Autos.Ampside3Note());
 
         SmartDashboard.putData("Choose Auto:", m_AutoChooser);
 

@@ -62,7 +62,7 @@ public class Intake extends SubsystemBase
     return new FunctionalCommand(
       () -> intake.set(1),
       () -> {},
-      (isInterupted) -> intake.set(0),
+      (isInterupted) -> intake.set(0) ,
       this::hasNote
     ,this).withName("pickup");
   } 

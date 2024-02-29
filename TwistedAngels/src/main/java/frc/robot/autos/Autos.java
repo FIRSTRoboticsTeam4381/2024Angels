@@ -73,6 +73,10 @@ public final class Autos {
         return new PreviewAuto("RedShootSource");
     }
 
+    public static PreviewAuto Ampside3Note(){
+        return new PreviewAuto("Ampside3Note");
+    }
+
     public static PreviewAuto middleNotesSelect(String autoName)
     {
         return new PreviewAuto(new SequentialCommandGroup(

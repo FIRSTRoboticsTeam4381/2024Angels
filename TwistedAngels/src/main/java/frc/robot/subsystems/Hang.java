@@ -77,6 +77,9 @@ public class Hang extends SubsystemBase {
     return new SparkMaxPosition(hook1, position, 0, 50, this).withName("hangTo");
   }
 
-
+  public boolean isDanger() {
+    double p = hook1.getEncoder().getPosition();  
+    return 4 < p;
+  }
 
 }

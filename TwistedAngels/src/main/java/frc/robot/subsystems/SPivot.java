@@ -54,13 +54,19 @@ public class SPivot extends SubsystemBase {
     // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("sPivotToShoot", pivotToShoot());
     NamedCommands.registerCommand("sPivotBack", pivotBack());
-    NamedCommands.registerCommand("F3NoteShoot1", sPivotTo(24.2));
-    NamedCommands.registerCommand("F3NoteShoot2", sPivotTo(28.3));
-    NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(24.6));
-    NamedCommands.registerCommand("F3NoteShoot4", sPivotTo(21.4));
-    NamedCommands.registerCommand("noBreakBeam", sPivotTo(21));
-    NamedCommands.registerCommand("middleNotes", sPivotTo(17.8));
-    NamedCommands.registerCommand("RedJustShootAngle", sPivotTo(20.3));
+    NamedCommands.registerCommand("F3NoteShoot1", sPivotTo(18.21));
+    NamedCommands.registerCommand("F3NoteShoot2", sPivotTo(20.31));
+    NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(17.71));
+    NamedCommands.registerCommand("F3NoteShoot4", sPivotTo(13.71));
+    NamedCommands.registerCommand("noBreakBeam", sPivotTo(18.64));
+    NamedCommands.registerCommand("middleNotes", sPivotTo(10.9));
+    NamedCommands.registerCommand("RedJustShootAngle", sPivotTo(9.98));
+    NamedCommands.registerCommand("A3NoteShoot2", sPivotTo(13.21));
+    NamedCommands.registerCommand("A3NoteShoot3", sPivotTo(9.45));
+    NamedCommands.registerCommand("M2NoteShoot3", sPivotTo(9.5)); // No angle tested
+  
+    
+    
 
 
     LogOrDash.setupSysIDTests(new SysIdRoutine.Config(),
@@ -78,6 +84,9 @@ public class SPivot extends SubsystemBase {
     if (pivot1.getAppliedOutput() > 0 && !isUpSafe()) {
       this.getCurrentCommand().cancel();
       pivot1.set(0);
+    } else if (pivot1.getAppliedOutput() < 0 && !isDownSafe()) {
+      this.getCurrentCommand().cancel();
+      pivot1.set(0);
     }
   }
 
@@ -87,6 +96,8 @@ public class SPivot extends SubsystemBase {
     {
       double joystickValue = -joystickMove.get();
       if (joystickValue > 0 && !isUpSafe()) {
+        pivot1.set(0);
+      } else if(joystickValue < 0 && !isDownSafe()) {
         pivot1.set(0);
       //} else if (0.1 > Math.abs(joystickValue) ) {
       //  pivot1.set(0);
@@ -115,15 +126,16 @@ public class SPivot extends SubsystemBase {
 
   // Seeing if going up is safe
   public boolean isUpSafe() {
-      return !RobotContainer.aPivot.isDanger() || pivot1.getEncoder().getPosition() < 10;
+    return !RobotContainer.aPivot.isDanger() || pivot1.getEncoder().getPosition() < 1230;
   }
+
+  public boolean isDownSafe() {
+    return !RobotContainer.hang.isDanger() || pivot1.getEncoder().getPosition() > 4.5;
+  } 
 
   // If not safe don't move  
   public boolean isDanger() {
     double p = pivot1.getEncoder().getPosition();  
     return 11 < p;
   }
-
-  
-
 }
