@@ -56,13 +56,14 @@ public class SPivot extends SubsystemBase {
     NamedCommands.registerCommand("sPivotBack", pivotBack());
     NamedCommands.registerCommand("F3NoteShoot1", sPivotTo(18.21));
     NamedCommands.registerCommand("F3NoteShoot2", sPivotTo(20.31));
-    NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(17.71));
+    NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(18.71));
     NamedCommands.registerCommand("F3NoteShoot4", sPivotTo(13.71));
-    NamedCommands.registerCommand("noBreakBeam", sPivotTo(18.64));
+    NamedCommands.registerCommand("noBreakBeam", sPivotTo(15.64));
     NamedCommands.registerCommand("middleNotes", sPivotTo(10.9));
     NamedCommands.registerCommand("RedJustShootAngle", sPivotTo(9.98));
-    NamedCommands.registerCommand("A3NoteShoot2", sPivotTo(13.21));
-    NamedCommands.registerCommand("A3NoteShoot3", sPivotTo(9.45));
+    NamedCommands.registerCommand("A3NoteShoot2", sPivotTo(10.1));
+    NamedCommands.registerCommand("A3NoteShoot3", sPivotTo(11.25));
+    NamedCommands.registerCommand("M2NoteShoot2", sPivotTo(23.51));
     NamedCommands.registerCommand("M2NoteShoot3", sPivotTo(9.5)); // No angle tested
   
     

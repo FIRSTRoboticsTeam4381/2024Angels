@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.lib.util.DriftCorrection;
 import frc.robot.autos.Autos;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.APivot;
@@ -36,7 +37,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Aimbot;
-import frc.robot.commands.Ampbot;
+//import frc.robot.commands.Ampbot;
 import frc.robot.commands.ShootingMode;
 
 /**
@@ -88,8 +89,8 @@ public class RobotContainer {
         shooterMode = new ShootingMode(driver, specialist);
         aimbot = new Aimbot(interpolateJoystick(driver::getLeftY,0.05),
             interpolateJoystick(driver::getLeftX,0.05), driver::getR2Axis);//.until(driver.cross()::getAsBoolean).withName("Aimbot");
-        ampbot = new Ampbot(interpolateJoystick(driver::getLeftY,0.05),
-            interpolateJoystick(driver::getLeftX,0.05), driver::getR2Axis);
+        //ampbot = new Ampbot(interpolateJoystick(driver::getLeftY,0.05),
+        //    interpolateJoystick(driver::getLeftX,0.05), driver::getR2Axis);
         //led1 = new AddressableLED(2);
         ledBuffer1 = new AddressableLEDBuffer(10);
         
@@ -105,13 +106,15 @@ public class RobotContainer {
         // TODO m_AutoChooser.addOption("PathPlanner Example", Autos.exampleAuto());
         m_AutoChooser.addOption("Test", Autos.testAuto());
         m_AutoChooser.addOption("3NoteFront", Autos.Front3Note());
-        m_AutoChooser.addOption("3NoteFront2", Autos.Front3Note2());
+        //m_AutoChooser.addOption("3NoteFront2", Autos.Front3Note2());
         m_AutoChooser.addOption("DefenseInAuto", Autos.DefenseInAuto());
         m_AutoChooser.addOption("MiddleNotesCenter", Autos.middleNotesCenter());
         m_AutoChooser.addOption("MiddleNotesSource", Autos.middleNotesSource());
         m_AutoChooser.addOption("RedShootCenter", Autos.RedShootCenter());
         m_AutoChooser.addOption("RedShootSource", Autos.RedShootSource());
         m_AutoChooser.addOption("Ampside3Note", Autos.Ampside3Note());
+        m_AutoChooser.addOption("Middle2Note", Autos.Middle2Note());
+
 
         SmartDashboard.putData("Choose Auto:", m_AutoChooser);
 
@@ -122,6 +125,8 @@ public class RobotContainer {
         m_AutoChooser.onChange((listener) -> listener.showPreview());
 
         SmartDashboard.putNumber("Start Delay",0);
+
+        DriftCorrection.configPID();
     }
 
     /**

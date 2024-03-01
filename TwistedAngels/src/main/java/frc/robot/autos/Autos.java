@@ -77,6 +77,10 @@ public final class Autos {
         return new PreviewAuto("Ampside3Note");
     }
 
+    public static PreviewAuto Middle2Note(){
+        return new PreviewAuto("Middle2Note");
+    }
+
     public static PreviewAuto middleNotesSelect(String autoName)
     {
         return new PreviewAuto(new SequentialCommandGroup(
