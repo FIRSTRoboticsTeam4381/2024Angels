@@ -122,7 +122,7 @@ public class Intake extends SubsystemBase
     return new InstantCommand(() -> intake.set(0), this).withName("off");
   }
   @Override
-  
+
   public void periodic() 
   {
     LogOrDash.sparkDiagnostics("intake/motor", intake);
@@ -130,11 +130,22 @@ public class Intake extends SubsystemBase
 
     // Want this on dashboard
     SmartDashboard.putBoolean("intake/breakbeam", hasNote());
+    SmartDashboard.putBoolean("intake/isOn", isOn());
   }
 
 
   public boolean hasNote()
   {
     return !breakbeam.get();
+  }
+
+  public boolean isOn()
+  {
+    if(intake.getEncoder().getVelocity() > 0.5 || intake.getEncoder().getVelocity() < -0.5)
+    {
+      return true;
+    }else{
+      return false;
+    }
   }
 }
