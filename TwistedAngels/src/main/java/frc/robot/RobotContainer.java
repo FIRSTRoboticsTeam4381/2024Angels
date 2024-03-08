@@ -181,6 +181,9 @@ public class RobotContainer {
             CommandScheduler.getInstance().cancelAll();
         }));
 
+        // Shooter Positions
+        specialist.povRight().onTrue(sPivot.pivotToUp());
+
         
     }
 

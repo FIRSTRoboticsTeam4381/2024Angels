@@ -80,16 +80,32 @@
     },
     {
       "anchor": {
-        "x": 8.126233796327242,
-        "y": 5.246542823912716
+        "x": 6.514073162374513,
+        "y": 6.088102377547036
       },
       "prevControl": {
-        "x": 5.949943806163367,
-        "y": 5.818163296012721
+        "x": 5.633056978773575,
+        "y": 6.475090794642777
       },
       "nextControl": {
-        "x": 10.35684423900963,
-        "y": 4.66065463801829
+        "x": 7.2509814818287355,
+        "y": 5.764413676478358
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.126233796327242,
+        "y": 5.110149280701246
+      },
+      "prevControl": {
+        "x": 6.4658642068962,
+        "y": 5.1032622870614865
+      },
+      "nextControl": {
+        "x": 9.032958938487175,
+        "y": 5.113910256767548
       },
       "isLocked": false,
       "linkedName": null
@@ -120,12 +136,12 @@
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 4.199999999999999,
+      "waypointRelativePos": 4.4,
       "rotationDegrees": 12.222671805593066,
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 5.05,
+      "waypointRelativePos": 6.05,
       "rotationDegrees": 0,
       "rotateFast": false
     },
@@ -168,7 +184,7 @@
     },
     {
       "name": "Shoot1",
-      "waypointRelativePos": 0.75,
+      "waypointRelativePos": 0.5499999999999999,
       "command": {
         "type": "parallel",
         "data": {
@@ -236,7 +252,7 @@
     },
     {
       "name": "Shoot3",
-      "waypointRelativePos": 4.050000000000001,
+      "waypointRelativePos": 4.1,
       "command": {
         "type": "parallel",
         "data": {
@@ -253,7 +269,7 @@
     },
     {
       "name": "Intake3",
-      "waypointRelativePos": 4.949999999999999,
+      "waypointRelativePos": 5.9,
       "command": {
         "type": "parallel",
         "data": {
@@ -278,7 +294,7 @@
             {
               "type": "named",
               "data": {
-                "name": "F3NoteShoot1"
+                "name": "A3NoteShoot1"
               }
             }
           ]
@@ -321,7 +337,7 @@
     },
     {
       "name": "Angle4",
-      "waypointRelativePos": 5.8,
+      "waypointRelativePos": 6.8,
       "command": {
         "type": "parallel",
         "data": {
@@ -329,7 +345,7 @@
             {
               "type": "named",
               "data": {
-                "name": "A3NoteShoot3"
+                "name": "A3NoteShoot4"
               }
             }
           ]

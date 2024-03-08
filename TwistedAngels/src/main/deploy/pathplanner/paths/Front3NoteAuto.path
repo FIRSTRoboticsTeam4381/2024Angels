@@ -168,7 +168,7 @@
   "eventMarkers": [
     {
       "name": "Shoot2",
-      "waypointRelativePos": 2.05,
+      "waypointRelativePos": 1.9,
       "command": {
         "type": "sequential",
         "data": {
@@ -185,7 +185,7 @@
     },
     {
       "name": "Shoot3",
-      "waypointRelativePos": 3.7,
+      "waypointRelativePos": 3.4000000000000004,
       "command": {
         "type": "sequential",
         "data": {
@@ -310,7 +310,7 @@
     },
     {
       "name": "Angle2",
-      "waypointRelativePos": 1.6,
+      "waypointRelativePos": 1.45,
       "command": {
         "type": "parallel",
         "data": {
@@ -395,7 +395,7 @@
     },
     {
       "name": "NoBreakBeam3",
-      "waypointRelativePos": 4.65,
+      "waypointRelativePos": 4.8,
       "command": {
         "type": "parallel",
         "data": {
