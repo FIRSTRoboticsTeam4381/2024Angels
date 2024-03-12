@@ -59,7 +59,7 @@ public class SPivot extends SubsystemBase {
     NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(19.91));
     NamedCommands.registerCommand("F3NoteShoot4", sPivotTo(16.51));
     NamedCommands.registerCommand("noBreakBeam", sPivotTo(15.64));
-    NamedCommands.registerCommand("middleNotes", sPivotTo(10.1));
+    NamedCommands.registerCommand("middleNotes", sPivotTo(11.6));
     NamedCommands.registerCommand("RedJustShootAngle", sPivotTo(9.98));
     NamedCommands.registerCommand("A3NoteShoot1", sPivotTo(18.91));
     NamedCommands.registerCommand("A3NoteShoot2", sPivotTo(12.7));

@@ -57,6 +57,10 @@ public final class Autos {
         return new PreviewAuto("Front3NoteAuto");
     }
 
+    public static PreviewAuto Front3NoteRED(){
+        return new PreviewAuto("Front3NoteAutoRED");
+    }
+
     public static PreviewAuto Front3Note2(){
         return new PreviewAuto("Front3NoteAuto2");
     }
@@ -109,6 +113,9 @@ public final class Autos {
     }
     public static PreviewAuto middleNotesSource(){
         return middleNotesSelect("MiddleStart2");
+    }
+    public static PreviewAuto middleNotesRED(){
+        return middleNotesSelect("MiddleRED");
     }
 
     public static int chosenNote() {

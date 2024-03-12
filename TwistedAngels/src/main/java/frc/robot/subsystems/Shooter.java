@@ -119,8 +119,7 @@ public class Shooter extends SubsystemBase {
 
   // It is ready to shoot when true
   public boolean readyShoot() {
-    return shooter1.getEncoder().getVelocity() < SHOOT_SPEED * 0.9 && 
-      shooter2.getEncoder().getVelocity() < SHOOT_SPEED * 0.9;
+    return shooter2.getEncoder().getVelocity() < SHOOT_SPEED * 0.9;
   }
 
 
