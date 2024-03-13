@@ -1,11 +1,16 @@
 package frc.lib.util;
 
+import java.util.Optional;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.lib.util.LogOrDash;
 
 public class DriftCorrection {
@@ -94,5 +99,21 @@ public class DriftCorrection {
 
         return newSpeeds;
     }*/
+
+    public static InstantCommand ampPoint(){
+        return new InstantCommand(() -> {
+            Optional<Alliance> alliance = DriverStation.getAlliance();
+            if(alliance.isPresent()){
+                if(alliance.get() == Alliance.Blue){
+                    lockAngle = -Math.PI/2.0;
+                    rotationCorrection.setSetpoint(lockAngle);
+                }else{
+                    lockAngle = Math.PI/2.0;
+                    rotationCorrection.setSetpoint(lockAngle);
+                }
+            }
+            
+        });
+    }
 
 }

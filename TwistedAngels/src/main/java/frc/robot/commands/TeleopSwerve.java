@@ -25,7 +25,7 @@ public class TeleopSwerve extends Command{
     private Supplier<Double> forward;
     private Supplier<Double> leftright;
     private Supplier<Double> rotate;
-    private Supplier<Double> slow;
+    private Supplier<Boolean> slow;
 
     
     /*
@@ -34,7 +34,7 @@ public class TeleopSwerve extends Command{
      * @param controller PS4 controller
      * @param openLoop True
      */
-    public TeleopSwerve(Swerve s_Swerve, Supplier<Double> forward, Supplier<Double> leftright, Supplier<Double> rotate, boolean openLoop, Supplier<Double> slow){
+    public TeleopSwerve(Swerve s_Swerve, Supplier<Double> forward, Supplier<Double> leftright, Supplier<Double> rotate, boolean openLoop, Supplier<Boolean> slow){
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
@@ -58,7 +58,7 @@ public class TeleopSwerve extends Command{
         //rAxis = (Math.abs(rAxis) < Constants.stickDeadband) ? 0 : rAxis;
 
         /* Slow Trigger */
-        double slowdown = 1 - (slow.get() < Constants.stickDeadband ? 0 : slow.get());
+        double slowdown = (slow.get() ? .25 : 1);
         yAxis *= slowdown;
         xAxis *= slowdown;
         rAxis *= slowdown;

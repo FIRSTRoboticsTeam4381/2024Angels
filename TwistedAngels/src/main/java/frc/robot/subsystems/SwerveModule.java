@@ -89,7 +89,8 @@ public class SwerveModule {
             mDriveMotor.getPIDController().setReference(driveInvert() * velocity, ControlType.kVelocity, 0, feedforward.calculate(desiredState.speedMetersPerSecond * driveInvert()));
         }
 
-        double angle = (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.maxSpeed * 0.01)) ? lastAngle : desiredState.angle.getDegrees(); //Prevent rotating module if speed is less than 1%. Prevents jittering.
+        //double angle = (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.maxSpeed * 0.01)) ? lastAngle : desiredState.angle.getDegrees(); //Prevent rotating module if speed is less than 1%. Prevents jittering.
+        double angle = desiredState.angle.getDegrees();
         mAngleMotor.getPIDController().setReference(angle+180, ControlType.kPosition);
         desiredAngle = angle;
         lastAngle = angle;
@@ -122,6 +123,7 @@ public class SwerveModule {
                 Constants.Swerve.driveKD,
                 Constants.Swerve.driveKF)
             .setSmartCurrentLimit(Constants.Swerve.driveCurrentLimit)
+            .setSecondaryCurrentLimit(70)
             .setBrakeMode()
             .setSetting(() -> 
                 distanceEncoder.setPositionConversionFactor(Constants.Swerve.wheelCircumference / Constants.Swerve.driveGearRatio)

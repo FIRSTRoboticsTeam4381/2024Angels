@@ -15,7 +15,7 @@ public class Ampbot extends ParallelCommandGroup {
   /** Creates a new Ampbot. */
   PIDController x;
   PIDController y;
-  public Ampbot(Supplier<Double> forwardback, Supplier<Double> leftright, Supplier<Double> slow) {
+  public Ampbot(Supplier<Double> forwardback, Supplier<Double> leftright, Supplier<Boolean> slow) {
     x = new PIDController(.005, 0, 0);
     y = new PIDController(.02, 0, 0);
     x.setTolerance(1);

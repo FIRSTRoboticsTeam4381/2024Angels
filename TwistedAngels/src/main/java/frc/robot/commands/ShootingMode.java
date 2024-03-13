@@ -25,7 +25,7 @@ public class ShootingMode extends ParallelRaceGroup {
         RobotContainer.interpolateJoystick (driver::getLeftX,0.05),
         RobotContainer.interpolateJoystick(specialist::getRightX,0.05),
         true, 
-        driver::getR2Axis)),
+        driver.R1()::getAsBoolean)),
       new ShootingLEDs(RobotContainer.shooter, RobotContainer.leds, RobotContainer.ledBuffer1, RobotContainer.led1));
     setName("shooterMode");
   }

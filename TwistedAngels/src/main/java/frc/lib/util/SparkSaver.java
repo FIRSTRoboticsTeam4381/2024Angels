@@ -62,6 +62,12 @@ public class SparkSaver {
         return this;
     }
 
+        public SparkSaver setSecondaryCurrentLimit(int limit)
+    {
+        setSetting(() -> controller.setSecondaryCurrentLimit(limit), "Secondary Current Limit");
+        return this;
+    }
+
     /**
      * Sets smart current limit. See documentation on motor controller method for details.
      * @param stalllLimit Current limit in amps at stall
@@ -294,7 +300,7 @@ public class SparkSaver {
     {
         // Set to async mode for reads/writes
         // This is more for the RoboRIO's and code's sake than the CAN network
-        c.setCANTimeout(0);
+        c.setCANTimeout(1000);
 
 
         /*
@@ -403,6 +409,8 @@ public class SparkSaver {
          * FRAME 7:
          * Undocumented
          */
+        c.setCANTimeout(0);
+
 
     }
 }

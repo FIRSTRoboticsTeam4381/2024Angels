@@ -78,7 +78,7 @@ public class RobotContainer {
           interpolateJoystick(driver::getLeftY,0.05),
           interpolateJoystick(driver::getLeftX,0.05), 
           interpolateJoystick (driver::getRightX,0.05),
-             true, driver::getR2Axis));
+             true, driver.R1()::getAsBoolean));
         aPivot = new APivot();
         intake = new Intake();
         hang = new Hang();
@@ -88,7 +88,7 @@ public class RobotContainer {
         limelight = new Limelight();
         shooterMode = new ShootingMode(driver, specialist);
         aimbot = new Aimbot(interpolateJoystick(driver::getLeftY,0.05),
-            interpolateJoystick(driver::getLeftX,0.05), driver::getR2Axis);//.until(driver.cross()::getAsBoolean).withName("Aimbot");
+            interpolateJoystick(driver::getLeftX,0.05), driver.R1()::getAsBoolean);//.until(driver.cross()::getAsBoolean).withName("Aimbot");
         //ampbot = new Ampbot(interpolateJoystick(driver::getLeftY,0.05),
         //    interpolateJoystick(driver::getLeftX,0.05), driver::getR2Axis);
         //led1 = new AddressableLED(2);
@@ -185,6 +185,9 @@ public class RobotContainer {
 
         // Shooter Positions
         specialist.povRight().onTrue(sPivot.pivotToUp());
+
+        driver.L1().whileTrue(s_Swerve.brake());
+        driver.square().onTrue(DriftCorrection.ampPoint());
 
         
     }
