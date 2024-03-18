@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -55,6 +56,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     LogOrDash.logPDPData(pdp);
+
+    SmartDashboard.putNumber("MatchTime", DriverStation.getMatchTime());
 
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
