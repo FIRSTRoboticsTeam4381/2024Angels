@@ -22,11 +22,12 @@ import frc.lib.util.SparkSaver;
 public class Shooter extends SubsystemBase {
   public CANSparkFlex shooter1;
   public CANSparkFlex shooter2;
-  public CANSparkFlex conveyor;
+  // public CANSparkFlex conveyor;
   public CANSparkFlex conveyor2;
 
 
   public final int SHOOT_SPEED = -4000;
+  public final int PASS_SPEED = -3000;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -34,7 +35,7 @@ public class Shooter extends SubsystemBase {
     //shooter1.setInverted(true);
     shooter2 = new CANSparkFlex(54, MotorType.kBrushless);
     //shooter2.setInverted(true);
-    conveyor = new CANSparkFlex(59, MotorType.kBrushless);
+    //conveyor = new CANSparkFlex(59, MotorType.kBrushless);
 
     conveyor2 = new CANSparkFlex(60, MotorType.kBrushless);
 
@@ -42,7 +43,7 @@ public class Shooter extends SubsystemBase {
 
     SparkSaver.optimizeCANFrames(shooter1, false, true, false, false, false, false);
     SparkSaver.optimizeCANFrames(shooter2, false, true, false, false, false, false);
-    SparkSaver.optimizeCANFrames(conveyor, false, true, false, false, false, false);
+    //SparkSaver.optimizeCANFrames(conveyor, false, true, false, false, false, false);
     SparkSaver.optimizeCANFrames(conveyor2, false, true, false, false, false, false);
 
     SmartDashboard.putData("Configure Shooter", new SparkSaver(shooter1, "shooter1", this)
@@ -55,17 +56,17 @@ public class Shooter extends SubsystemBase {
       .setCoastMode()
       //.setOpenLoopRampRate(0.2)
       .buildCommand()
-      .andThen(new SparkSaver(conveyor, "conveyor", this)
+      /*  .andThen(new SparkSaver(conveyor, "conveyor", this)
       .setSmartCurrentLimit(30)
       .setCoastMode()
-      .buildCommand()
+      .buildCommand() */
       .andThen(new SparkSaver(conveyor2, "conveyor2", this)
       .setSmartCurrentLimit(20)
       .setCoastMode()
       //.follow(conveyor, false)
       .buildCommand()
       )
-      )));
+      ));
       
 
     // Registering commands so that they can be accessed in Pathplanner
@@ -77,11 +78,11 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     LogOrDash.sparkDiagnostics("shooter/shooter1", shooter1);
     LogOrDash.sparkDiagnostics("shooter/shooter2", shooter2);
-    LogOrDash.sparkDiagnostics("shooter/conveyor", conveyor);
+    //LogOrDash.sparkDiagnostics("shooter/conveyor", conveyor);
     LogOrDash.sparkDiagnostics("shooter/conveyor2", conveyor2);
     LogOrDash.logNumber("shooter/shooter1/velocity", shooter1.getEncoder().getVelocity());
     LogOrDash.logNumber("shooter/shooter2/velocity", shooter2.getEncoder().getVelocity());
-    LogOrDash.logNumber("shooter/conveyor/velocity", conveyor.getEncoder().getVelocity());
+    //LogOrDash.logNumber("shooter/conveyor/velocity", conveyor.getEncoder().getVelocity());
     LogOrDash.logNumber("shooter/conveyor2/velocity", conveyor2.getEncoder().getVelocity());
 
     SmartDashboard.putBoolean("shooter/ready", readyShoot());
@@ -91,7 +92,7 @@ public class Shooter extends SubsystemBase {
   
   public Command shooterReady() {
     return new FunctionalCommand( () -> {
-      conveyor.set(0.75);
+      //conveyor.set(0.75);
       conveyor2.set(0.1);
     }, () -> {
       if (SHOOT_SPEED < shooter1.getEncoder().getVelocity()) { // If the motor speed is not up to speed
@@ -109,11 +110,39 @@ public class Shooter extends SubsystemBase {
     }, (isInterupted) -> {
       shooter1.set(0);
       shooter2.set(0);
-      conveyor.set(0);
+      //conveyor.set(0);
       conveyor2.set(0);
     }, () -> {
       return false;
     }, this).withName("shooterReady");
+    
+  }
+
+   public Command pass() {
+    return new FunctionalCommand( () -> {
+      //conveyor.set(0.75);
+      conveyor2.set(0.1);
+    }, () -> {
+      if (PASS_SPEED < shooter1.getEncoder().getVelocity()) { // If the motor speed is not up to speed
+        shooter1.set(-1);
+      } else { // Else
+        shooter1.set(-0.73);
+      }
+
+      if (PASS_SPEED < shooter2.getEncoder().getVelocity()) { // Same but for 2nd shooter motor
+        shooter2.set(-1);
+      } else { // Else
+        shooter2.set(-0.73);
+      }
+
+    }, (isInterupted) -> {
+      shooter1.set(0);
+      shooter2.set(0);
+      //conveyor.set(0);
+      conveyor2.set(0);
+    }, () -> {
+      return false;
+    }, this).withName("pass");
     
   }
 
@@ -122,6 +151,11 @@ public class Shooter extends SubsystemBase {
     return shooter2.getEncoder().getVelocity() < SHOOT_SPEED * 0.9;
   }
 
+
+  // It is ready to pass when true
+  public boolean readyPass() {
+    return shooter2.getEncoder().getVelocity() < PASS_SPEED * 0.9;
+  }
 
 
 

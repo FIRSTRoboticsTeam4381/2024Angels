@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.PathPlannerLogging;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -24,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -297,6 +299,17 @@ public class Swerve extends SubsystemBase{
             SmartDashboard.putData("SysID/drive/quas_f", routine.quasistatic(Direction.kForward));
             SmartDashboard.putData("SysID/drive/quas_r", routine.quasistatic(Direction.kReverse));
 
+    }
+
+    public Command setCoast() {
+        return new StartEndCommand(() -> {
+            for(SwerveModule mod : mSwerveMods){
+                mod.setDriveIdleMode(IdleMode.kCoast);
+        }
+        },() -> {for(SwerveModule mod : mSwerveMods){
+                mod.setDriveIdleMode(IdleMode.kBrake);
+        }
+    }).ignoringDisable(true);         
     }
 
 }

@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import frc.lib.math.Conversions;
 import frc.lib.util.LogOrDash;
@@ -204,5 +205,9 @@ public class SwerveModule {
             return -1;
         else
             return 1;
+    }
+
+    public void setDriveIdleMode(IdleMode i) {
+        mDriveMotor.setIdleMode(i);
     }
 }

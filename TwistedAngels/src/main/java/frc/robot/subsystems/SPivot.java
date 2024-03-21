@@ -131,6 +131,11 @@ public class SPivot extends SubsystemBase {
     return sPivotTo(0).withName("pivotBack");
   }
 
+  //pass
+  public Command pass() {
+    return sPivotTo(9).withName("pass");
+  }
+
   // Seeing if going up is safe
   public boolean isUpSafe() {
     return !RobotContainer.aPivot.isDanger() || pivot1.getEncoder().getPosition() < 1230;
