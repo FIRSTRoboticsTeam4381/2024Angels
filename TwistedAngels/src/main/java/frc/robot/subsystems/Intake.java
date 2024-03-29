@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.pathplanner.lib.auto.NamedCommands;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -23,18 +24,19 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 public class Intake extends SubsystemBase 
 {
   // Creates motors
-  CANSparkMax intake;
+  CANSparkFlex intake;
   DigitalInput breakbeam;
+  public CANSparkFlex conveyor2;
   
   public Intake() 
   {
-    intake = new CANSparkMax(50, MotorType.kBrushless);
+    intake = new CANSparkFlex(50, MotorType.kBrushless);
     breakbeam = new DigitalInput(9);
-
-    intake.setInverted(true);
+    conveyor2 = new CANSparkFlex(60, MotorType.kBrushless);
+    intake.setInverted(false);
 
     SparkSaver.optimizeCANFrames(intake, false, true, false, false, false, false);
-
+    SparkSaver.optimizeCANFrames(conveyor2, false, true, false, false, false, false);
     SmartDashboard.putData(this);
 
     // Registering commands so that they can be accessed in Pathplanner
@@ -48,10 +50,17 @@ public class Intake extends SubsystemBase
     SmartDashboard.putData("Configure Intake", new SparkSaver(intake, "intake", this)
       .setSmartCurrentLimit(60)
       .setBrakeMode()
-      .buildCommand());
+      .buildCommand() .andThen(new SparkSaver(conveyor2, "conveyor2", this)
+      .setSmartCurrentLimit(60)
+      .setCoastMode()
+      //.follow(conveyor, false)
+      .buildCommand()
+      ));
 
     // Stop after auto etc
-    this.setDefaultCommand(new InstantCommand(() -> intake.set(0), this).repeatedly().withName("Idle"));
+    this.setDefaultCommand(new InstantCommand(() -> {
+      intake.set(0);
+      conveyor2.set(0);}, this).repeatedly().withName("Idle"));
   }
 
   
@@ -90,9 +99,13 @@ public class Intake extends SubsystemBase
   public Command toShoot()
   {
     return new SequentialCommandGroup(
-      new InstantCommand(() -> intake.set(1.0), this),
+      new InstantCommand(() -> {
+        intake.set(1.0);
+        conveyor2.set(1);}, this),
       new WaitCommand(1),
-      new InstantCommand(() -> intake.set(0), this)
+      new InstantCommand(() -> {
+        intake.set(0);
+        conveyor2.set(0);}, this)
     ).withName("toShoot");
   }
 
@@ -101,12 +114,16 @@ public class Intake extends SubsystemBase
   {
     return new SequentialCommandGroup(
       new InstantCommand(() -> intake.set(1.0), this),
+      new InstantCommand(() -> conveyor2.set(1), this),
       new WaitCommand(0.7),
       new InstantCommand(() -> intake.set(-.5), this),
+      new InstantCommand(() -> conveyor2.set(-.5), this),
       new WaitCommand(0.2),
       new InstantCommand(() -> intake.set(.5), this),
+      new InstantCommand(() -> conveyor2.set(.5), this),
       new WaitCommand(0.1),
-      new InstantCommand(() -> intake.set(0), this)
+      new InstantCommand(() -> intake.set(0), this),
+      new InstantCommand(() -> conveyor2.set(0), this)
     ).withName("toShoot2");
   }
   
@@ -127,7 +144,8 @@ public class Intake extends SubsystemBase
   {
     LogOrDash.sparkDiagnostics("intake/motor", intake);
     LogOrDash.logNumber("intake/velocity", intake.getEncoder().getVelocity());
-
+    LogOrDash.sparkDiagnostics("shooter/conveyor2", conveyor2);
+    LogOrDash.logNumber("shooter/conveyor2/velocity", conveyor2.getEncoder().getVelocity());
     // Want this on dashboard
     SmartDashboard.putBoolean("intake/breakbeam", hasNote());
     SmartDashboard.putBoolean("intake/isOn", isOn());

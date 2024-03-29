@@ -9,3 +9,5 @@ SPivot1 = 55
 SPivot2 = 56
 Hang1 = 57
 Hang2 = 58
+Conveyor = 59 (removed)
+Conveyor2 = 60

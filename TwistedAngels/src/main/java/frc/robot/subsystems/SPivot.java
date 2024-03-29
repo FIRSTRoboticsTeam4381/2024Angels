@@ -33,7 +33,7 @@ public class SPivot extends SubsystemBase {
     //pivot2.follow(pivot1, true);
     SmartDashboard.putData(this);
 
-    pivot1.setInverted(true);
+    pivot1.setInverted(false);
 
     SparkSaver.optimizeCANFrames(pivot1, true, false, true, false, false, false);
     SparkSaver.optimizeCANFrames(pivot2, false, false, false, false, false, false);
@@ -42,13 +42,13 @@ public class SPivot extends SubsystemBase {
       .setSmartCurrentLimit(60)
       .setBrakeMode()
       //.setOpenLoopRampRate(0.1)
-      .setSoftLimits(0, 28)
-      .configurePID(0, 7.0893, 0, 0.024286, 0)
+      .setSoftLimits(0, 131.25)
+      .configurePID(0, 1.1336, 0, 0.005024, 0)
       .buildCommand()
       .andThen(new SparkSaver(pivot2, "pivot2", this)
       .setSmartCurrentLimit(60)
       .setBrakeMode()
-      .follow(pivot1, true)
+      .follow(pivot1, false)
       .buildCommand()));
 
     // Registering commands so that they can be accessed in Pathplanner

@@ -304,8 +304,8 @@ public class LogOrDash {
                     {
                         log.motor("m"+j).voltage(
                         Units.Volts.of(   toLog[j].getAppliedOutput() * RobotController.getBatteryVoltage())
-                        ).linearVelocity(Units.MetersPerSecond.of(toLog[j].getEncoder().getVelocity()))
-                        .linearPosition(Units.Meters.of(toLog[j].getEncoder().getPosition()));
+                        ).angularVelocity(Units.RotationsPerSecond.of(toLog[j].getEncoder().getVelocity()/60.0))
+                        .angularPosition(Units.Rotations.of(toLog[j].getEncoder().getPosition()));
                     }
                 }, 
                 s)

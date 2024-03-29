@@ -26,14 +26,14 @@ public class APivot extends SubsystemBase {
   
   public CANSparkMax pivot1;
   public CANSparkMax pivot2;
-  public final int UP_POSITION = 200;
+  public final double UP_POSITION = 22.2;
 
   public APivot() 
   {
     pivot1 = new CANSparkMax(51, MotorType.kBrushless);
     pivot2 = new CANSparkMax(52, MotorType.kBrushless);
     
-    pivot1.setInverted(true);
+    pivot1.setInverted(false);
 
     SmartDashboard.putData(this);
 
@@ -51,8 +51,8 @@ public class APivot extends SubsystemBase {
       .setSmartCurrentLimit(40)
       .setBrakeMode()
       //.setOpenLoopRampRate(0.1)
-      .setSoftLimits(0, 200)
-      .configurePID(0, 3.5433, 0, 0.0087621, 0)
+      .setSoftLimits(0, 111)
+      .configurePID(0, 0.80286, 0, 0.0032965, 0)
       .buildCommand()
       .andThen(new SparkSaver(pivot2, "pivot2", this)
       .setSmartCurrentLimit(40)
@@ -76,7 +76,7 @@ public class APivot extends SubsystemBase {
       //} else if (0.1 > Math.abs(joystickValue) ) {
       //  pivot1.set(0);
       } else {
-        pivot1.set(joystickValue);
+        pivot1.set(joystickValue * 0.5);
       }
       
     }
@@ -85,7 +85,7 @@ public class APivot extends SubsystemBase {
   }
 
   // Pivot the amp pivot to a positon
-  public Command pivotTo(int position)
+  public Command pivotTo(double position)
   {
     return new SparkMaxPosition(pivot1, position, 0, 0.5, this).withName("pivotTo");
   }

@@ -316,7 +316,7 @@ public class SparkSaver {
          */
 
         if(hasFollowers)
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 5);
         else
             c.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 50);
 
@@ -366,7 +366,7 @@ public class SparkSaver {
         if(wantAnalog)
             c.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 20);
         else
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 0);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 30000);
 
 
         /*
@@ -381,7 +381,7 @@ public class SparkSaver {
         if(wantAlternateEncoder)
             c.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 20);
         else
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 0);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 31000);
 
 
         /*
@@ -401,8 +401,8 @@ public class SparkSaver {
         }
         else
         {
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 0);
-            c.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 0);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 29000);
+            c.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 28000);
         }
 
         /**
