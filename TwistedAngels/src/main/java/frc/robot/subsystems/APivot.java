@@ -107,22 +107,29 @@ public class APivot extends SubsystemBase {
       return pivot1.getEncoder().getPosition() < UP_POSITION * 0.9; 
   }
 
-  // Seeing if going down is safe with no collison
-  public boolean isDownSafe() {
-      return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() < 10 || pivot1.getEncoder().getPosition() > 35;
-  }
-
   // Seeing if going up is safe with no collison
   public boolean isUpSafe() {
-      return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() > 30;
+      return !RobotContainer.sPivot.isDanger() || pivot1.getEncoder().getPosition() > 85;
+  }
+
+  // Seeing if going down is safe with no collison
+  public boolean isDownSafe() {
+      return (!RobotContainer.sPivot.isDanger() 
+        || pivot1.getEncoder().getPosition() < 30 
+        || pivot1.getEncoder().getPosition() > 85)
+        && !RobotContainer.hang.isDanger();
   }
 
   // If this is true then it should not go into a position of collison
   public boolean isDanger() {
       double p = pivot1.getEncoder().getPosition();  
-      return 35 > p && 10 < p;
+      return 85 > p && 30 < p;
   }
 
+  public boolean isHangDanger() {
+      double p = pivot1.getEncoder().getPosition();  
+      return p < 100;
+  }
 
   @Override
   public void periodic() {

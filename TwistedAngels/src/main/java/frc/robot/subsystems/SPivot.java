@@ -122,8 +122,8 @@ public class SPivot extends SubsystemBase {
     return sPivotTo(2).withName("pivotToShoot"); // Actual position is unknown as of 2/8/24
   }
 
-  public Command pivotToUp() {
-    return sPivotTo(22).withName("pivotToShoot"); // Actual position is unknown as of 2/8/24
+  public Command pivotToCloseShot() {
+    return sPivotTo(131.25).withName("pivotToShoot"); // Actual position is unknown as of 2/8/24
   }
 
   // GO BACK TO REGULAR POSITION (0)
@@ -138,7 +138,7 @@ public class SPivot extends SubsystemBase {
 
   // Seeing if going up is safe
   public boolean isUpSafe() {
-    return !RobotContainer.aPivot.isDanger() || pivot1.getEncoder().getPosition() < 1230;
+    return !RobotContainer.aPivot.isDanger() || pivot1.getEncoder().getPosition() < 70;
   }
 
   public boolean isDownSafe() {
@@ -148,6 +148,12 @@ public class SPivot extends SubsystemBase {
   // If not safe don't move  
   public boolean isDanger() {
     double p = pivot1.getEncoder().getPosition();  
-    return 11 < p;
+    return p > 78;
+  }
+
+  // If not safe don't move hang
+  public boolean isHangDanger() {
+    double p = pivot1.getEncoder().getPosition();  
+    return p < 120;
   }
 }

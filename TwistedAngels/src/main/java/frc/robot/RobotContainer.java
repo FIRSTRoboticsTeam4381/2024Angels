@@ -186,7 +186,7 @@ public class RobotContainer {
         }));
 
         // Shooter Positions
-        specialist.povRight().onTrue(sPivot.pivotToUp());
+        specialist.povRight().onTrue(sPivot.pivotToCloseShot());
 
         driver.L1().whileTrue(s_Swerve.setCoast());
         driver.square().onTrue(DriftCorrection.ampPoint());

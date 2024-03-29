@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.LogOrDash;
 import frc.lib.util.SparkSaver;
+import frc.robot.RobotContainer;
 import frc.robot.commands.SparkMaxPosition;
 
 public class Hang extends SubsystemBase {
@@ -61,11 +62,16 @@ public class Hang extends SubsystemBase {
   }
   public Command hangTriggers(Supplier<Double> lt, Supplier<Double> rt){
     return new InstantCommand(() -> {
+      if(isSafe()) {
+        double r = (rt.get() +1 )/2.0;
+        double l = (lt.get() +1)/2.0;
+        double speed = r-l;
+        hook1.set( speed);
+      }
 
-      double r = (rt.get() +1 )/2.0;
-      double l = (lt.get() +1)/2.0;
-      double speed = r-l;
-      hook1.set( speed);
+      else {
+        hook1.set(0);
+      }
     } ,
     this).repeatedly(); 
   }
@@ -77,9 +83,16 @@ public class Hang extends SubsystemBase {
     return new SparkMaxPosition(hook1, position, 0, 50, this).withName("hangTo");
   }
 
+  // Seeing if going up is safe with no collison
+  public boolean isSafe() {
+    return !RobotContainer.sPivot.isHangDanger() 
+      && !RobotContainer.aPivot.isHangDanger() 
+      || hook1.getEncoder().getPosition() > -3;
+}
+
   public boolean isDanger() {
     double p = hook1.getEncoder().getPosition();  
-    return 4 < p;
+    return p < -3;
   }
 
 }

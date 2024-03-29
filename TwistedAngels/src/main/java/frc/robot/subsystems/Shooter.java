@@ -26,7 +26,7 @@ public class Shooter extends SubsystemBase {
  // public CANSparkFlex conveyor2;
 
 
-  public final int SHOOT_SPEED = -2000;
+  public final int SHOOT_SPEED = -3500;
   public final int PASS_SPEED = -1000;
   public final double SHOOTER_FF = -0.5;
 
