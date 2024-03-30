@@ -27,7 +27,7 @@ public class Shooter extends SubsystemBase {
 
 
   public final int SHOOT_SPEED = -3500;
-  public final int PASS_SPEED = -1000;
+  public final int PASS_SPEED = -2400;
   public final double SHOOTER_FF = -0.5;
 
   /** Creates a new Shooter. */
@@ -127,13 +127,13 @@ public class Shooter extends SubsystemBase {
       if (PASS_SPEED < shooter1.getEncoder().getVelocity()) { // If the motor speed is not up to speed
         shooter1.set(-1);
       } else { // Else
-        shooter1.set(SHOOTER_FF);
+        shooter1.set(0);
       }
 
       if (PASS_SPEED < shooter2.getEncoder().getVelocity()) { // Same but for 2nd shooter motor
         shooter2.set(-1);
       } else { // Else
-        shooter2.set(SHOOTER_FF);
+        shooter2.set(0);
       }
 
     }, (isInterupted) -> {

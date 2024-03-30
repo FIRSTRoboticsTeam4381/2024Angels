@@ -197,8 +197,8 @@ public class RobotContainer {
             new SequentialCommandGroup(
                 sPivot.pass(), 
                 new RunCommand(()-> {}).until(shooter::readyPass),
-                intake.toShoot(),
-                 sPivot.pivotBack()
+                intake.toShoot()//,
+                 //sPivot.pivotBack()
             )
         ));
     }

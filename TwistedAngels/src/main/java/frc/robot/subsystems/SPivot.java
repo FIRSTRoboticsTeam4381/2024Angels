@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import java.util.function.Supplier;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.revrobotics.CANSparkBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -54,22 +55,28 @@ public class SPivot extends SubsystemBase {
     // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("sPivotToShoot", pivotToShoot());
     NamedCommands.registerCommand("sPivotBack", pivotBack());
-    NamedCommands.registerCommand("F3NoteShoot1", sPivotTo(88.17));
-    NamedCommands.registerCommand("F3NoteShoot2", sPivotTo(97.08));
-    NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(93.3));
-    NamedCommands.registerCommand("F3NoteShoot4", sPivotTo(77.39));
-    NamedCommands.registerCommand("noBreakBeam", sPivotTo(73.31));
-    NamedCommands.registerCommand("middleNotes", sPivotTo(54.38));
+    //Front 3 auto sPivot #s
+    NamedCommands.registerCommand("F3NoteShoot1", sPivotTo(117));
+    NamedCommands.registerCommand("F3NoteShoot2", sPivotTo(78.5));
+    NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(93));
+    NamedCommands.registerCommand("F3NoteShoot4", sPivotTo(95));
+    //move sPivot out of the way of the break beam
+    NamedCommands.registerCommand("noBreakBeam", sPivotTo(70));
+    //Middle notes auto sPivot #s
+    NamedCommands.registerCommand("middleNotes", sPivotTo(55));
+    //Just backup and shoot angle
     NamedCommands.registerCommand("RedJustShootAngle", sPivotTo(46.78));
+    //Ampside 3 notes auto sPivot angle #s
     NamedCommands.registerCommand("A3NoteShoot1", sPivotTo(88.64));
     NamedCommands.registerCommand("A3NoteShoot2", sPivotTo(59.53));
     NamedCommands.registerCommand("A3NoteShoot3", sPivotTo(58.12));
     NamedCommands.registerCommand("A3NoteShoot4", sPivotTo(57.66));
+    //???
     NamedCommands.registerCommand("M2NoteShoot2", sPivotTo(110.2));
     NamedCommands.registerCommand("M2NoteShoot3", sPivotTo(44.53)); // No angle tested
     
     
-    
+    SmartDashboard.putData("disable sPivot lower limit  <<CAUTION>>", resetMode());
 
 
     LogOrDash.setupSysIDTests(new SysIdRoutine.Config(),
@@ -133,7 +140,14 @@ public class SPivot extends SubsystemBase {
 
   //pass
   public Command pass() {
-    return sPivotTo(9).withName("pass");
+    return sPivotTo(110).withName("pass");
+  }
+
+  public Command resetMode() {
+    return new InstantCommand(() ->
+    {
+      pivot1.enableSoftLimit(SoftLimitDirection.kReverse, false);
+    });
   }
 
   // Seeing if going up is safe
