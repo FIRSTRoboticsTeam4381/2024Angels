@@ -54,19 +54,19 @@ public class SPivot extends SubsystemBase {
     // Registering commands so that they can be accessed in Pathplanner
     NamedCommands.registerCommand("sPivotToShoot", pivotToShoot());
     NamedCommands.registerCommand("sPivotBack", pivotBack());
-    NamedCommands.registerCommand("F3NoteShoot1", sPivotTo(18.81));
-    NamedCommands.registerCommand("F3NoteShoot2", sPivotTo(20.71));
-    NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(19.91));
-    NamedCommands.registerCommand("F3NoteShoot4", sPivotTo(16.51));
-    NamedCommands.registerCommand("noBreakBeam", sPivotTo(15.64));
-    NamedCommands.registerCommand("middleNotes", sPivotTo(11.6));
-    NamedCommands.registerCommand("RedJustShootAngle", sPivotTo(9.98));
-    NamedCommands.registerCommand("A3NoteShoot1", sPivotTo(18.91));
-    NamedCommands.registerCommand("A3NoteShoot2", sPivotTo(12.7));
-    NamedCommands.registerCommand("A3NoteShoot3", sPivotTo(12.4));
-    NamedCommands.registerCommand("A3NoteShoot4", sPivotTo(12.3));
-    NamedCommands.registerCommand("M2NoteShoot2", sPivotTo(23.51));
-    NamedCommands.registerCommand("M2NoteShoot3", sPivotTo(9.5)); // No angle tested
+    NamedCommands.registerCommand("F3NoteShoot1", sPivotTo(88.17));
+    NamedCommands.registerCommand("F3NoteShoot2", sPivotTo(97.08));
+    NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(93.3));
+    NamedCommands.registerCommand("F3NoteShoot4", sPivotTo(77.39));
+    NamedCommands.registerCommand("noBreakBeam", sPivotTo(73.31));
+    NamedCommands.registerCommand("middleNotes", sPivotTo(54.38));
+    NamedCommands.registerCommand("RedJustShootAngle", sPivotTo(46.78));
+    NamedCommands.registerCommand("A3NoteShoot1", sPivotTo(88.64));
+    NamedCommands.registerCommand("A3NoteShoot2", sPivotTo(59.53));
+    NamedCommands.registerCommand("A3NoteShoot3", sPivotTo(58.12));
+    NamedCommands.registerCommand("A3NoteShoot4", sPivotTo(57.66));
+    NamedCommands.registerCommand("M2NoteShoot2", sPivotTo(110.2));
+    NamedCommands.registerCommand("M2NoteShoot3", sPivotTo(44.53)); // No angle tested
     
     
     

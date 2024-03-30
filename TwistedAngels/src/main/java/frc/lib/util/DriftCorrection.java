@@ -105,10 +105,10 @@ public class DriftCorrection {
             Optional<Alliance> alliance = DriverStation.getAlliance();
             if(alliance.isPresent()){
                 if(alliance.get() == Alliance.Blue){
-                    lockAngle = -Math.PI/2.0;
+                    lockAngle = Math.PI/2.0;
                     rotationCorrection.setSetpoint(lockAngle);
                 }else{
-                    lockAngle = Math.PI/2.0;
+                    lockAngle = -Math.PI/2.0;
                     rotationCorrection.setSetpoint(lockAngle);
                 }
             }
