@@ -90,6 +90,15 @@ public class LEDs extends SubsystemBase {
 
   }
 
+  // Making a shooting led style thing that increases as the speed increases
+  public Command shooting(AddressableLEDBuffer ledStrip){
+    return new InstantCommand(() -> {
+      for (var i = 0; i < ledStrip.getLength(); i++){
+        
+      }
+    });
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -58,7 +58,7 @@ public class SPivot extends SubsystemBase {
     //Front 3 auto sPivot #s
     NamedCommands.registerCommand("F3NoteShoot1", sPivotTo(117));
     NamedCommands.registerCommand("F3NoteShoot2", sPivotTo(78.5));
-    NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(93));
+    NamedCommands.registerCommand("F3NoteShoot3", sPivotTo(103));
     NamedCommands.registerCommand("F3NoteShoot4", sPivotTo(95));
     //move sPivot out of the way of the break beam
     NamedCommands.registerCommand("noBreakBeam", sPivotTo(70));
@@ -67,8 +67,8 @@ public class SPivot extends SubsystemBase {
     //Just backup and shoot angle
     NamedCommands.registerCommand("RedJustShootAngle", sPivotTo(46.78));
     //Ampside 3 notes auto sPivot angle #s
-    NamedCommands.registerCommand("A3NoteShoot1", sPivotTo(88.64));
-    NamedCommands.registerCommand("A3NoteShoot2", sPivotTo(59.53));
+    NamedCommands.registerCommand("A3NoteShoot1", sPivotTo(90));
+    NamedCommands.registerCommand("A3NoteShoot2", sPivotTo(50));
     NamedCommands.registerCommand("A3NoteShoot3", sPivotTo(58.12));
     NamedCommands.registerCommand("A3NoteShoot4", sPivotTo(57.66));
     //???
@@ -135,7 +135,7 @@ public class SPivot extends SubsystemBase {
 
   // GO BACK TO REGULAR POSITION (0)
   public Command pivotBack() {
-    return sPivotTo(0).withName("pivotBack");
+    return sPivotTo(5).withName("pivotBack");
   }
 
   //pass

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.12983005831783404,
-      "y": 1.2258848678771173
+      "x": 0.47417974030578863,
+      "y": 3.8911514064638864
     },
     "rotation": 0
   },
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FirstMoveRED"
+            "pathName": "FirstMoveCRED"
           }
         }
       ]

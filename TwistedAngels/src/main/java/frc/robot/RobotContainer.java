@@ -113,10 +113,12 @@ public class RobotContainer {
         m_AutoChooser.addOption("DefenseInAuto", Autos.DefenseInAuto());
         m_AutoChooser.addOption("MiddleNotesCenter", Autos.middleNotesCenter());
         m_AutoChooser.addOption("MiddleNotesSource", Autos.middleNotesSource());
-        m_AutoChooser.addOption("MiddleNotesRED", Autos.middleNotesRED());
+        m_AutoChooser.addOption("MiddleNotesSourceRED", Autos.middleNotesSRED());
+        m_AutoChooser.addOption("MiddleNotesCenterRED", Autos.middleNotesCRED());
         m_AutoChooser.addOption("RedShootCenter", Autos.RedShootCenter());
         m_AutoChooser.addOption("RedShootSource", Autos.RedShootSource());
         m_AutoChooser.addOption("Ampside3Note", Autos.Ampside3Note());
+        m_AutoChooser.addOption("Ampside3NoteRED", Autos.Ampside3NoteRED());
         m_AutoChooser.addOption("Middle2Note", Autos.Middle2Note());
 
 

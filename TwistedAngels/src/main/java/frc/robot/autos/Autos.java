@@ -81,6 +81,10 @@ public final class Autos {
         return new PreviewAuto("Ampside3Note");
     }
 
+    public static PreviewAuto Ampside3NoteRED(){
+        return new PreviewAuto("Ampside3NoteRED");
+    }
+
     public static PreviewAuto Middle2Note(){
         return new PreviewAuto("Middle2Note");
     }
@@ -114,8 +118,11 @@ public final class Autos {
     public static PreviewAuto middleNotesSource(){
         return middleNotesSelect("MiddleStart2");
     }
-    public static PreviewAuto middleNotesRED(){
-        return middleNotesSelect("MiddleRED");
+    public static PreviewAuto middleNotesCRED(){
+        return middleNotesSelect("MiddleCRED");
+    }
+    public static PreviewAuto middleNotesSRED(){
+        return middleNotesSelect("MiddleSRED");
     }
 
     public static int chosenNote() {
