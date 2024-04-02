@@ -26,7 +26,7 @@ public class APivot extends SubsystemBase {
   
   public CANSparkMax pivot1;
   public CANSparkMax pivot2;
-  public final double UP_POSITION = 22.2;
+  public final double UP_POSITION = 180;
 
   public APivot() 
   {
@@ -51,7 +51,7 @@ public class APivot extends SubsystemBase {
       .setSmartCurrentLimit(40)
       .setBrakeMode()
       //.setOpenLoopRampRate(0.1)
-      .setSoftLimits(0, 111)
+      .setSoftLimits(0, 180)
       .configurePID(0, 0.80286, 0, 0.0032965, 0)
       .buildCommand()
       .andThen(new SparkSaver(pivot2, "pivot2", this)
@@ -76,7 +76,7 @@ public class APivot extends SubsystemBase {
       //} else if (0.1 > Math.abs(joystickValue) ) {
       //  pivot1.set(0);
       } else {
-        pivot1.set(joystickValue * 0.5);
+        pivot1.set(joystickValue);
       }
       
     }
@@ -116,8 +116,8 @@ public class APivot extends SubsystemBase {
   public boolean isDownSafe() {
       return (!RobotContainer.sPivot.isDanger() 
         || pivot1.getEncoder().getPosition() < 30 
-        || pivot1.getEncoder().getPosition() > 85)
-        && !RobotContainer.hang.isDanger();
+        || pivot1.getEncoder().getPosition() > 85);
+        //&& !RobotContainer.hang.isDanger();
   }
 
   // If this is true then it should not go into a position of collison
@@ -127,8 +127,9 @@ public class APivot extends SubsystemBase {
   }
 
   public boolean isHangDanger() {
-      double p = pivot1.getEncoder().getPosition();  
-      return p < 100;
+      //double p = pivot1.getEncoder().getPosition();  
+      //return p < 100;
+      return false; //Current design doesn't block hang
   }
 
   @Override
