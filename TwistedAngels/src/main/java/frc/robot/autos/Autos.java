@@ -77,8 +77,8 @@ public final class Autos {
         return new PreviewAuto("RedShootSource");
     }
 
-    public static PreviewAuto Ampside3Note(){
-        return new PreviewAuto("Ampside3Note");
+    public static PreviewAuto Ampside3NoteBLUE(){
+        return new PreviewAuto("Ampside3NoteBLUE");
     }
 
     public static PreviewAuto Ampside3NoteRED(){
