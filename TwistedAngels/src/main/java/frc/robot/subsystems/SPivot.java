@@ -43,7 +43,7 @@ public class SPivot extends SubsystemBase {
       .setSmartCurrentLimit(60)
       .setBrakeMode()
       //.setOpenLoopRampRate(0.1)
-      .setSoftLimits(0, 131.25)
+      .setSoftLimits(0, 130)
       .configurePID(0, 1.1336, 0, 0.005024, 0)
       .buildCommand()
       .andThen(new SparkSaver(pivot2, "pivot2", this)
@@ -67,10 +67,10 @@ public class SPivot extends SubsystemBase {
     //Just backup and shoot angle
     NamedCommands.registerCommand("RedJustShootAngle", sPivotTo(46.78));
     //Ampside 3 notes auto sPivot angle #s
-    NamedCommands.registerCommand("A3NoteShoot1", sPivotTo(90));
-    NamedCommands.registerCommand("A3NoteShoot2", sPivotTo(50));
-    NamedCommands.registerCommand("A3NoteShoot3", sPivotTo(58.12));
-    NamedCommands.registerCommand("A3NoteShoot4", sPivotTo(57.66));
+    NamedCommands.registerCommand("A3NoteShoot1", sPivotTo(110));
+    NamedCommands.registerCommand("A3NoteShoot2", sPivotTo(47));
+    NamedCommands.registerCommand("A3NoteShoot3", sPivotTo(48));
+    NamedCommands.registerCommand("A3NoteShoot4", sPivotTo(45.6));
     //???
     NamedCommands.registerCommand("M2NoteShoot2", sPivotTo(110.2));
     NamedCommands.registerCommand("M2NoteShoot3", sPivotTo(44.53)); // No angle tested

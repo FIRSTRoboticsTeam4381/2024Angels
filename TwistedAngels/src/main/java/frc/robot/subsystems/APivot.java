@@ -26,7 +26,7 @@ public class APivot extends SubsystemBase {
   
   public CANSparkMax pivot1;
   public CANSparkMax pivot2;
-  public final double UP_POSITION = 180;
+  public final double UP_POSITION = 115;
 
   public APivot() 
   {
@@ -51,7 +51,7 @@ public class APivot extends SubsystemBase {
       .setSmartCurrentLimit(40)
       .setBrakeMode()
       //.setOpenLoopRampRate(0.1)
-      .setSoftLimits(0, 180)
+      .setSoftLimits(0, 130)
       .configurePID(0, 0.80286, 0, 0.0032965, 0)
       .buildCommand()
       .andThen(new SparkSaver(pivot2, "pivot2", this)
