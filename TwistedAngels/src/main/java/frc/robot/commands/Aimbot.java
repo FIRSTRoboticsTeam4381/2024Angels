@@ -17,7 +17,7 @@ public class Aimbot extends ParallelCommandGroup {
   PIDController y;
   public Aimbot(Supplier<Double> forwardback, Supplier<Double> leftright, Supplier<Boolean> slow) {
     x = new PIDController(.008, 0, 0);
-    y = new PIDController(.08, 0, 0);
+    y = new PIDController(.1, 0, 0);
     x.setTolerance(1);
     y.setTolerance(1);
     x.setSetpoint(0);

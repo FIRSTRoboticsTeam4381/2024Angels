@@ -43,7 +43,7 @@ public class SPivot extends SubsystemBase {
       .setSmartCurrentLimit(60)
       .setBrakeMode()
       //.setOpenLoopRampRate(0.1)
-      .setSoftLimits(0, 130)
+      .setSoftLimits(0, 120)
       .configurePID(0, 1.1336, 0, 0.005024, 0)
       .buildCommand()
       .andThen(new SparkSaver(pivot2, "pivot2", this)
@@ -130,7 +130,7 @@ public class SPivot extends SubsystemBase {
   }
 
   public Command pivotToCloseShot() {
-    return sPivotTo(131.25).withName("pivotToShoot"); // Actual position is unknown as of 2/8/24
+    return sPivotTo(120).withName("pivotToShoot"); // Actual position is unknown as of 2/8/24
   }
 
   // GO BACK TO REGULAR POSITION (0)

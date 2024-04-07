@@ -51,13 +51,13 @@ public class APivot extends SubsystemBase {
       .setSmartCurrentLimit(40)
       .setBrakeMode()
       //.setOpenLoopRampRate(0.1)
-      .setSoftLimits(0, 130)
+      .setSoftLimits(0, 150)
       .configurePID(0, 0.80286, 0, 0.0032965, 0)
       .buildCommand()
       .andThen(new SparkSaver(pivot2, "pivot2", this)
       .setSmartCurrentLimit(40)
       .setBrakeMode()
-      .follow(pivot1, true)
+      .follow(pivot1, false)
       .buildCommand()));
 
   }
