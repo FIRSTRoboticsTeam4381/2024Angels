@@ -77,8 +77,10 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, IO devices, and commands. */
     public RobotContainer(){
         s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, 
-          interpolateJoystick(driver::getLeftY,0.05),
-          interpolateJoystick(driver::getLeftX,0.05), 
+            driver::getLeftY,
+            driver::getLeftX,
+          //interpolateJoystick(driver::getLeftY,0.05),
+          //interpolateJoystick(driver::getLeftX,0.05), 
           interpolateJoystick (driver::getRightX,0.05),
              true, driver.R1()::getAsBoolean));
         aPivot = new APivot();
@@ -228,14 +230,16 @@ public class RobotContainer {
      */
     public static Supplier<Double> interpolateJoystick(Supplier<Double> in, double deadzone)
     {
-        return () -> {
-            double x = in.get();
-            if(Math.abs(x) < deadzone)
-                return 0.0;
-            else if (x>0)
-                return Math.pow((x - deadzone)*(1.0/(1.0-deadzone)), 3);
-            else 
-                return -Math.pow((-x - deadzone)*(1.0/(1.0-deadzone)), 3);
-        };
+        return () -> interpolateNow(in.get(), deadzone);
+    }
+
+    public static double interpolateNow(double in, double deadzone)
+    {
+        if(Math.abs(in) < deadzone)
+            return 0.0;
+        else if (in>0)
+            return Math.pow((in - deadzone)*(1.0/(1.0-deadzone)), 3);
+        else 
+            return -Math.pow((-in - deadzone)*(1.0/(1.0-deadzone)), 3);
     }
 }
