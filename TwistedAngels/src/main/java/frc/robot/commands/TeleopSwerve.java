@@ -75,9 +75,9 @@ public class TeleopSwerve extends Command{
         rAxis *= slowdown;
 
         /* Calculates inputs for swerve subsystem */
-        translation = new Translation2d(yAxis, xAxis).times(Constants.Swerve.maxSpeed);
+        //translation = new Translation2d(yAxis, xAxis).times(Constants.Swerve.maxSpeed);
         rotation = rAxis * Constants.Swerve.maxAngularVelocity;
-        s_Swerve.drive(translation, rotation, true, openLoop);
+        //s_Swerve.drive(translation, rotation, true, openLoop);
 
 
         Translation2d x = new Translation2d(yAxis, xAxis);
@@ -92,6 +92,10 @@ public class TeleopSwerve extends Command{
             new Translation2d(RobotContainer.interpolateNow(xAxis, 0.1),0),
             y
         });
+
+        translation = y.times(Constants.Swerve.maxSpeed);
+        s_Swerve.drive(translation, rotation, true, openLoop);
+
 
     }
 }
