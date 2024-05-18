@@ -15,11 +15,15 @@ import frc.robot.subsystems.SPivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.PhotonCam;
 
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -70,6 +74,8 @@ public class RobotContainer {
     public static AddressableLED led1;
     public static AddressableLEDBuffer ledBuffer1;
     public static Limelight limelight;
+    public static PhotonCam camA; 
+     public static PhotonCam camB;
 
     //Auto Chooser
     SendableChooser<Autos.PreviewAuto> m_AutoChooser = new SendableChooser<>();
@@ -86,6 +92,8 @@ public class RobotContainer {
         hang = new Hang();
         shooter = new Shooter();
         sPivot = new SPivot();
+        camA = new PhotonCam("camA", new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)) );
+        camB = new PhotonCam("camA", new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)) );
         leds = new LEDs();
         limelight = new Limelight();
         shooterMode = new ShootingMode(driver, specialist);
