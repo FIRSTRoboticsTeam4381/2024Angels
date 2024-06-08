@@ -24,6 +24,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -92,8 +93,8 @@ public class RobotContainer {
         hang = new Hang();
         shooter = new Shooter();
         sPivot = new SPivot();
-        camA = new PhotonCam("camA", new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)) );
-        camB = new PhotonCam("camA", new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)) );
+        camA = new PhotonCam("Camera A", new Transform3d(new Translation3d(Units.inchesToMeters(13.75), Units.inchesToMeters(13.75),  0), new Rotation3d(0,Math.PI/-4,Math.PI/4)) );
+        camB = new PhotonCam("Camera B", new Transform3d(new Translation3d(Units.inchesToMeters(-13.75), Units.inchesToMeters(-13.75),  0), new Rotation3d(0,Math.PI/-4,Math.PI/4)) );
         leds = new LEDs();
         limelight = new Limelight();
         shooterMode = new ShootingMode(driver, specialist);
