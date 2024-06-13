@@ -93,8 +93,8 @@ public class RobotContainer {
         hang = new Hang();
         shooter = new Shooter();
         sPivot = new SPivot();
-        camA = new PhotonCam("Camera A", new Transform3d(new Translation3d(Units.inchesToMeters(13.75), Units.inchesToMeters(13.75),  0), new Rotation3d(0,Math.PI/-4,Math.PI/4)) );
-        camB = new PhotonCam("Camera B", new Transform3d(new Translation3d(Units.inchesToMeters(-13.75), Units.inchesToMeters(-13.75),  0), new Rotation3d(0,Math.PI/-4,Math.PI/4)) );
+        camA = new PhotonCam("Camera A", new Transform3d(new Translation3d(Units.inchesToMeters(13.75), Units.inchesToMeters(13.75),  0), new Rotation3d(0,Math.PI/-4,Math.PI/-4)) );
+        camB = new PhotonCam("Camera B", new Transform3d(new Translation3d(Units.inchesToMeters(13.75), Units.inchesToMeters(-13.75),  0), new Rotation3d(0,Math.PI/-4,Math.PI/4)) );
         leds = new LEDs();
         limelight = new Limelight();
         shooterMode = new ShootingMode(driver, specialist);
