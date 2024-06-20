@@ -45,6 +45,8 @@ public class PhotonCam extends SubsystemBase {
 
       //Display on map
       RobotContainer.s_Swerve.field.getObject(cam.getName()).setPose(e.estimatedPose.toPose2d());
+
+      RobotContainer.s_Swerve.swerveOdometry.addVisionMeasurement(e.estimatedPose.toPose2d(), e.timestampSeconds);
     }
   }
       
