@@ -15,6 +15,11 @@ import frc.robot.subsystems.SPivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Limelight;
+<<<<<<< Updated upstream
+=======
+import frc.robot.subsystems.NoteTracker;
+import frc.robot.subsystems.PhotonCam;
+>>>>>>> Stashed changes
 
 import java.util.function.Supplier;
 
@@ -39,6 +44,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Aimbot;
+import frc.robot.commands.NoteLineup;
 //import frc.robot.commands.Ampbot;
 import frc.robot.commands.ShootingMode;
 
@@ -70,6 +76,12 @@ public class RobotContainer {
     public static AddressableLED led1;
     public static AddressableLEDBuffer ledBuffer1;
     public static Limelight limelight;
+<<<<<<< Updated upstream
+=======
+    public static PhotonCam camA; 
+     public static PhotonCam camB;
+     public static NoteTracker nt;
+>>>>>>> Stashed changes
 
     //Auto Chooser
     SendableChooser<Autos.PreviewAuto> m_AutoChooser = new SendableChooser<>();
@@ -88,6 +100,12 @@ public class RobotContainer {
         hang = new Hang();
         shooter = new Shooter();
         sPivot = new SPivot();
+<<<<<<< Updated upstream
+=======
+        camA = new PhotonCam("Camera A", new Transform3d(new Translation3d(Units.inchesToMeters(-9.75), Units.inchesToMeters(-12.5),  Units.inchesToMeters(15)), new Rotation3d(0,Math.PI/-6,Math.PI/-4-Math.PI)) );
+        camB = new PhotonCam("Camera B", new Transform3d(new Translation3d(Units.inchesToMeters(-9.75), Units.inchesToMeters(12.5),  Units.inchesToMeters(15)), new Rotation3d(0,Math.PI/-6,Math.PI/4-Math.PI)) );
+        nt = new NoteTracker("NoteTracker"); 
+>>>>>>> Stashed changes
         leds = new LEDs();
         limelight = new Limelight();
         shooterMode = new ShootingMode(driver, specialist);
@@ -204,8 +222,11 @@ public class RobotContainer {
                 intake.toShoot()//,
                  //sPivot.pivotBack()
             )
+
         ));
+    driver.triangle().whileTrue(new NoteLineup(s_Swerve, nt,false));
     }
+
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
