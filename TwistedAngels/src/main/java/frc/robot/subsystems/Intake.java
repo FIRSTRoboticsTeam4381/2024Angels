@@ -68,12 +68,15 @@ public class Intake extends SubsystemBase
   public Command pickup()
   {
     //new InstantCommand(() -> intake.set(1))
-    return new FunctionalCommand(
+    return new SequentialCommandGroup( new FunctionalCommand(
       () -> intake.set(1),
       () -> {},
-      (isInterupted) -> intake.set(0) ,
+      (isInterupted) -> {} ,
       this::hasNote
-    ,this).withName("pickup");
+    ,this),
+      new WaitCommand(0.05),
+      new InstantCommand(() -> {intake.set(0);})
+    ).withName("pickup");
   } 
   // Spit out a ring out the front 
   public Command spitOut()
