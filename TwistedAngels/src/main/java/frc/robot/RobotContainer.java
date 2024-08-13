@@ -108,20 +108,20 @@ public class RobotContainer {
         // Add autonomous options to chooser
         m_AutoChooser.setDefaultOption("None", Autos.none());
         // TODO m_AutoChooser.addOption("PathPlanner Example", Autos.exampleAuto());
-        m_AutoChooser.addOption("Test", Autos.testAuto());
+        //m_AutoChooser.addOption("Test", Autos.testAuto());
         m_AutoChooser.addOption("3NoteFront", Autos.Front3Note());
-        m_AutoChooser.addOption("3NoteFrontRED", Autos.Front3NoteRED());
+        //m_AutoChooser.addOption("3NoteFrontRED", Autos.Front3NoteRED());
         //m_AutoChooser.addOption("3NoteFront2", Autos.Front3Note2());
         m_AutoChooser.addOption("DefenseInAuto", Autos.DefenseInAuto());
         m_AutoChooser.addOption("MiddleNotesCenter", Autos.middleNotesCenter());
         m_AutoChooser.addOption("MiddleNotesSource", Autos.middleNotesSource());
-        m_AutoChooser.addOption("MiddleNotesSourceRED", Autos.middleNotesSRED());
-        m_AutoChooser.addOption("MiddleNotesCenterRED", Autos.middleNotesCRED());
-        m_AutoChooser.addOption("RedShootCenter", Autos.RedShootCenter());
-        m_AutoChooser.addOption("RedShootSource", Autos.RedShootSource());
-        m_AutoChooser.addOption("Ampside3NoteBLUE", Autos.Ampside3NoteBLUE());
-        m_AutoChooser.addOption("Ampside3NoteRED", Autos.Ampside3NoteRED());
-        m_AutoChooser.addOption("Middle2Note", Autos.Middle2Note());
+        //m_AutoChooser.addOption("MiddleNotesSourceRED", Autos.middleNotesSRED());
+        //m_AutoChooser.addOption("MiddleNotesCenterRED", Autos.middleNotesCRED());
+        m_AutoChooser.addOption("ShootCenter", Autos.RedShootCenter());
+        m_AutoChooser.addOption("ShootSource", Autos.RedShootSource());
+        //m_AutoChooser.addOption("Ampside3NoteBLUE", Autos.Ampside3NoteBLUE());
+        //m_AutoChooser.addOption("Ampside3NoteRED", Autos.Ampside3NoteRED());
+        //m_AutoChooser.addOption("Middle2Note", Autos.Middle2Note());
 
 
         SmartDashboard.putData("Choose Auto:", m_AutoChooser);
