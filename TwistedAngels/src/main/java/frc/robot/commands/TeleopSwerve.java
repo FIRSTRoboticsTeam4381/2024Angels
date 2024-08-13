@@ -2,15 +2,22 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
+import javax.sql.XADataSource;
+
+import org.opencv.core.Point;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve;
 
 public class TeleopSwerve extends Command{
@@ -27,6 +34,8 @@ public class TeleopSwerve extends Command{
     private Supplier<Double> rotate;
     private Supplier<Boolean> slow;
 
+    static StructArrayPublisher<Translation2d> pointPub = NetworkTableInstance.getDefault()
+    .getStructArrayTopic("joystick", Translation2d.struct).publish();
     
     /*
      * Driver Control command
@@ -52,6 +61,8 @@ public class TeleopSwerve extends Command{
         double xAxis = -leftright.get();
         double rAxis = -rotate.get();
 
+        
+
         /* Deadbands */
         //yAxis = (Math.abs(yAxis) < Constants.stickDeadband) ? 0 : yAxis;
         //xAxis = (Math.abs(xAxis) < Constants.stickDeadband) ? 0 : xAxis;
@@ -64,9 +75,27 @@ public class TeleopSwerve extends Command{
         rAxis *= slowdown;
 
         /* Calculates inputs for swerve subsystem */
-        translation = new Translation2d(yAxis, xAxis).times(Constants.Swerve.maxSpeed);
+        //translation = new Translation2d(yAxis, xAxis).times(Constants.Swerve.maxSpeed);
         rotation = rAxis * Constants.Swerve.maxAngularVelocity;
+        //s_Swerve.drive(translation, rotation, true, openLoop);
+
+
+        Translation2d x = new Translation2d(yAxis, xAxis);
+
+        Translation2d y = new Translation2d(RobotContainer.interpolateNow(x.getNorm(), 0.1), x.getAngle());
+
+        x = x.times(RobotContainer.interpolateNow(x.getNorm(), 0.1));
+        
+        pointPub.set(new Translation2d[] {
+            new Translation2d(yAxis, xAxis),
+            new Translation2d(0, y.getNorm()),
+            new Translation2d(RobotContainer.interpolateNow(xAxis, 0.1),0),
+            y
+        });
+
+        translation = y.times(Constants.Swerve.maxSpeed);
         s_Swerve.drive(translation, rotation, true, openLoop);
+
 
     }
 }
