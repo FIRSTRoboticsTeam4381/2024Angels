@@ -11,7 +11,9 @@ import java.util.function.Supplier;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -59,6 +61,8 @@ public class APivot extends SubsystemBase {
       .setBrakeMode()
       .follow(pivot1, false)
       .buildCommand()));
+
+    SmartDashboard.putData("Override Amp Limit", new InstantCommand(() -> {pivot1.enableSoftLimit(SoftLimitDirection.kForward, false);}));
 
   }
 

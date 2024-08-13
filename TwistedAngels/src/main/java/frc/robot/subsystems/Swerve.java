@@ -7,6 +7,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -34,7 +35,7 @@ import frc.lib.util.LogOrDash;
 import frc.robot.Constants;
 
 public class Swerve extends SubsystemBase{
-    public SwerveDriveOdometry swerveOdometry;
+    public SwerveDrivePoseEstimator swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public AHRS gyro; // Changed from Pigeon2
 
@@ -55,7 +56,7 @@ public class Swerve extends SubsystemBase{
             new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
 
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getPositions());
+        swerveOdometry = new SwerveDrivePoseEstimator(Constants.Swerve.swerveKinematics, getYaw(), getPositions(), startPose);
 
         // TODO check - auto
         AutoBuilder.configureHolonomic(
@@ -116,7 +117,7 @@ public class Swerve extends SubsystemBase{
                     translation.getX(),
                     translation.getY(),
                     rotation),
-                swerveOdometry.getPoseMeters(),
+                swerveOdometry.getEstimatedPosition(),
                 gyro),0.02
                 ));
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
@@ -168,7 +169,7 @@ public class Swerve extends SubsystemBase{
      * @return XY of robot on field
      */
     public Pose2d getPose(){
-        return swerveOdometry.getPoseMeters();
+        return swerveOdometry.getEstimatedPosition();
     }
 
     /**
