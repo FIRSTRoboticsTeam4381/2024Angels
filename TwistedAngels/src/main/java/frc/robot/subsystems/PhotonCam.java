@@ -7,6 +7,9 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
+import com.revrobotics.SparkMaxRelativeEncoder;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -21,6 +24,7 @@ import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
@@ -39,6 +43,10 @@ public class PhotonCam extends SubsystemBase {
     photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cam, robotToCam);
 
     publisher = NetworkTableInstance.getDefault().getStructTopic(camera, Pose3d.struct).publish();
+
+    SmartDashboard.putNumber("Photon XY Confidence", 0);
+    SmartDashboard.putNumber("Photon R Confidence", 0);
+    SmartDashboard.putBoolean("Photon use calculated", false);
   }
 
   public void periodic (){
@@ -51,7 +59,38 @@ public class PhotonCam extends SubsystemBase {
       //Display on map
       RobotContainer.s_Swerve.field.getObject(cam.getName()).setPose(e.estimatedPose.toPose2d());
 
-      //RobotContainer.s_Swerve.swerveOdometry.addVisionMeasurement(e.estimatedPose.toPose2d(), e.timestampSeconds,new Matrix<N3,N1>(SimpleMatrix.filled(3, 1, 0)));
+
+      // Calculate our current equation, just for dashbard display to compare
+      double area = 0;
+      for(PhotonTrackedTarget x : e.targetsUsed)
+      {
+        area += x.getArea();
+      }
+
+      double calculatedConf = Math.pow(area,2) * 8.0/3.0 - 0.83333333;
+
+      SmartDashboard.putNumber(cam.getName()+" total area", area);
+      SmartDashboard.putNumber(cam.getName()+" calculated conf", calculatedConf);
+
+      double xy; SmartDashboard.getNumber("Photon XY Confidence", 0);
+      double r; SmartDashboard.getNumber("Photon R Confidence", 0);
+
+      if(SmartDashboard.getBoolean("Photon use calculated", false))
+      {
+        xy = calculatedConf;
+        r = calculatedConf;
+      }
+      else
+      {
+        xy = SmartDashboard.getNumber("Photon XY Confidence", 0);
+        r = SmartDashboard.getNumber("Photon R Confidence", 0);
+      }
+
+      RobotContainer.s_Swerve.swerveOdometry.addVisionMeasurement(
+        e.estimatedPose.toPose2d(), 
+        e.timestampSeconds,
+        new Matrix<N3,N1>(new SimpleMatrix(new double[]{xy, xy, r})));
+
     }
   }
       
