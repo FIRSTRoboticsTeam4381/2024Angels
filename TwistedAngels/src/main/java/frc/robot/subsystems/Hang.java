@@ -41,7 +41,7 @@ public class Hang extends SubsystemBase {
       .setSmartCurrentLimit(60)
       .setBrakeMode()
       .setOpenLoopRampRate(0.1)
-      .setSoftLimits(-110, 10)
+      .setSoftLimits(-110*(375.0/225.0), 10*(375.0/225.0))
       .buildCommand()
       .andThen(new SparkSaver(hook2, "hook2", this)
       .setSmartCurrentLimit(60)
