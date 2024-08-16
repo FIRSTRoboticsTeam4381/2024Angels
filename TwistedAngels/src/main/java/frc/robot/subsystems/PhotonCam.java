@@ -44,9 +44,9 @@ public class PhotonCam extends SubsystemBase {
 
     publisher = NetworkTableInstance.getDefault().getStructTopic(camera, Pose3d.struct).publish();
 
-    SmartDashboard.putNumber("Photon XY Confidence", 0);
-    SmartDashboard.putNumber("Photon R Confidence", 0);
-    SmartDashboard.putBoolean("Photon use calculated", false);
+    SmartDashboard.putNumber("Photon XY Confidence", 1000);
+    SmartDashboard.putNumber("Photon R Confidence", 1000);
+    SmartDashboard.putBoolean("Photon use calculated", true);
   }
 
   public void periodic (){
@@ -62,15 +62,59 @@ public class PhotonCam extends SubsystemBase {
 
       // Calculate our current equation, just for dashbard display to compare
       double area = 0;
+      double ambiguity = 0;
+      double score = 0;
       for(PhotonTrackedTarget x : e.targetsUsed)
       {
+        double amb = x.getPoseAmbiguity();
+        
         area += x.getArea();
+        ambiguity += x.getPoseAmbiguity();
+
+        // Don't use overly ambiguous poses or invalid (-1) poses
+        if(amb < 0)
+        {
+          // Tags estimated as a MultiTag are invalid, but are extremely accurate
+          // Hell, double it!
+          score += x.getArea() * 2;
+        }
+        // Docs suggest anything above 0.2 is useless
+        // Scale down score down to nothing at or beyond 0.2
+        else if(amb < 0.2)
+        {
+          score += x.getArea() * (x.getPoseAmbiguity() * -5 + 1);
+
+          // Linear from 1 to 0 for x from 0 to 0.2:
+          // -5x+1
+        }
       }
 
-      double calculatedConf = Math.pow(area,2) * 8.0/3.0 - 0.83333333;
+      // About 2 seems to be the highest score I can achieve with 3 tags inview
+      // 1 mid range tag is almost 0
+      // 2 far tags is 0.5
+      // 2 close is 1
+      // 1 close tag is .45
 
-      SmartDashboard.putNumber(cam.getName()+" total area", area);
-      SmartDashboard.putNumber(cam.getName()+" calculated conf", calculatedConf);
+      // Final confidence values:
+      // 10 slides slowly
+      // 1 moves pretty quick
+      // 0 is instant
+      // Negative values are treated as positive
+
+      // Would like to scale from 5 to 0.5 as score increases from 0 to 1.5?
+      // x * (-4.5 / 1.5)+5
+      double calculatedConf = Math.max(score * (-9.5 / 1.5) + 10, 0.5);
+      //double calculatedConf = Math.max(Math.pow(score,2) * (-9.5 / 1.5) + 15, 0.5);
+
+      // Matt's equation from summer 2024
+      //double calculatedConf = Math.pow(area,2) * 8.0/3.0 - 0.83333333;
+
+      SmartDashboard.putNumber(cam.getName()+"/total area", area);     
+      SmartDashboard.putNumber(cam.getName()+"/ambiguity", ambiguity);
+      SmartDashboard.putNumber(cam.getName()+"/score", score);
+
+
+      SmartDashboard.putNumber(cam.getName()+"/calculated conf", calculatedConf);
 
       double xy; SmartDashboard.getNumber("Photon XY Confidence", 0);
       double r; SmartDashboard.getNumber("Photon R Confidence", 0);
@@ -78,12 +122,13 @@ public class PhotonCam extends SubsystemBase {
       if(SmartDashboard.getBoolean("Photon use calculated", false))
       {
         xy = calculatedConf;
-        r = calculatedConf;
+        //r = calculatedConf;
+        r = SmartDashboard.getNumber("Photon R Confidence", 1000);
       }
       else
       {
-        xy = SmartDashboard.getNumber("Photon XY Confidence", 0);
-        r = SmartDashboard.getNumber("Photon R Confidence", 0);
+        xy = SmartDashboard.getNumber("Photon XY Confidence", 1000);
+        r = SmartDashboard.getNumber("Photon R Confidence", 1000);
       }
 
       RobotContainer.s_Swerve.swerveOdometry.addVisionMeasurement(
