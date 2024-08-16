@@ -9,18 +9,12 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import com.revrobotics.SparkMaxRelativeEncoder;
-
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
@@ -38,6 +32,8 @@ public class PhotonCam extends SubsystemBase {
   // Construct PhotonPoseEstimator
   PhotonPoseEstimator photonPoseEstimator;
 
+  Matrix<N3, N1> confidenceMatrix =  new Matrix<N3,N1>(new SimpleMatrix(new double[]{100,100,10000}));
+
   public PhotonCam (String camera, Transform3d robotToCam)  {
     cam = new PhotonCamera(camera);
     photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cam, robotToCam);
@@ -45,7 +41,7 @@ public class PhotonCam extends SubsystemBase {
     publisher = NetworkTableInstance.getDefault().getStructTopic(camera, Pose3d.struct).publish();
 
     SmartDashboard.putNumber("Photon XY Confidence", 1000);
-    SmartDashboard.putNumber("Photon R Confidence", 1000);
+    SmartDashboard.putNumber("Photon R Confidence", 10000);
     SmartDashboard.putBoolean("Photon use calculated", true);
   }
 
@@ -123,7 +119,7 @@ public class PhotonCam extends SubsystemBase {
       {
         xy = calculatedConf;
         //r = calculatedConf;
-        r = SmartDashboard.getNumber("Photon R Confidence", 1000);
+        r = SmartDashboard.getNumber("Photon R Confidence", 10000);
       }
       else
       {
@@ -131,10 +127,16 @@ public class PhotonCam extends SubsystemBase {
         r = SmartDashboard.getNumber("Photon R Confidence", 1000);
       }
 
+      // Fill existing matrix instead of making a new one to save on memory allocations
+      confidenceMatrix.set(0, 0, xy);
+      confidenceMatrix.set(1, 0, xy);
+      //confidenceMatrix.set(2, 0, r);
+
+
       RobotContainer.s_Swerve.swerveOdometry.addVisionMeasurement(
         e.estimatedPose.toPose2d(), 
         e.timestampSeconds,
-        new Matrix<N3,N1>(new SimpleMatrix(new double[]{xy, xy, r})));
+        confidenceMatrix);
 
     }
   }
