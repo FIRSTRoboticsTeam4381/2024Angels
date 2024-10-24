@@ -69,7 +69,8 @@ public class Intake extends SubsystemBase
   {
     //new InstantCommand(() -> intake.set(1))
     return new SequentialCommandGroup( new FunctionalCommand(
-      () -> intake.set(1),
+      () -> {intake.set(1);
+            conveyor2.set(0);},
       () -> {},
       (isInterupted) -> {} ,
       this::hasNote

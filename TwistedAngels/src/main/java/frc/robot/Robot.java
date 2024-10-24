@@ -41,6 +41,12 @@ public class Robot extends TimedRobot {
       PortForwarder.add(port, "limelight.local", port);
     }
 
+    PortForwarder.add(5806, "angelspi1.local", 5800);
+
+    for (int port = 1180; port <= 1190; port++){
+      PortForwarder.add(port, "angelspi1.local", port);
+    }
+
     pdp = new PowerDistribution(1, ModuleType.kRev);
 
     SmartDashboard.putData(pdp);
