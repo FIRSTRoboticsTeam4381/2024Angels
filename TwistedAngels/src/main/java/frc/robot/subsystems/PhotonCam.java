@@ -33,6 +33,7 @@ public class PhotonCam extends SubsystemBase {
   PhotonPoseEstimator photonPoseEstimator;
 
   Matrix<N3, N1> confidenceMatrix =  new Matrix<N3,N1>(new SimpleMatrix(new double[]{100,100,10000}));
+  
 
   public PhotonCam (String camera, Transform3d robotToCam)  {
     cam = new PhotonCamera(camera);
@@ -131,15 +132,34 @@ public class PhotonCam extends SubsystemBase {
       confidenceMatrix.set(0, 0, xy);
       confidenceMatrix.set(1, 0, xy);
       //confidenceMatrix.set(2, 0, r);
-
-
-      RobotContainer.s_Swerve.swerveOdometry.addVisionMeasurement(
+         if (inField(e)) {
+     RobotContainer.s_Swerve.swerveOdometry.addVisionMeasurement(
         e.estimatedPose.toPose2d(), 
         e.timestampSeconds,
         confidenceMatrix);
-
+      }  
     }
-  }
-      
-      
-}
+    }
+  
+  
+    //8.2106y m 16.5418x m
+    public boolean inField(EstimatedRobotPose e) { 
+    { if (e.estimatedPose.getY() > 8.31) {
+      return false;
+    } else if (e.estimatedPose.getY() < -0.1) {
+      return false;
+    } if (e.estimatedPose.getX() > 16.6) {
+      return false;
+    } else if (e.estimatedPose.getX() < -0.1) {
+      return false;
+    } if (e.estimatedPose.getZ() > 0.5) {
+      return false;
+    } else if (e.estimatedPose.getZ() > -0.5) {
+      return false;
+      }
+     return true;
+    }
+   }
+  } 
+                
+ 
