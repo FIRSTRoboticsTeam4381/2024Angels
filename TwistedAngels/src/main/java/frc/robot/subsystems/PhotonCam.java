@@ -154,7 +154,7 @@ public class PhotonCam extends SubsystemBase {
       return false;
     } if (e.estimatedPose.getZ() > 0.5) {
       return false;
-    } else if (e.estimatedPose.getZ() > -0.5) {
+    } else if (e.estimatedPose.getZ() < -0.5) {
       return false;
       }
      return true;
