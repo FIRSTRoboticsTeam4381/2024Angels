@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
+import java.io.ObjectInputStream.GetField;
 import java.util.Optional;
+
+import org.photonvision.EstimatedRobotPose;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -218,6 +221,8 @@ public class Swerve extends SubsystemBase{
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getPositions());
+
+        // Call here
         
         LogOrDash.logNumber("Gyro Angle", getYaw().getDegrees());
 
@@ -312,5 +317,15 @@ public class Swerve extends SubsystemBase{
         }
     }).ignoringDisable(true);         
     }
-
+    
+    public void ResetToEdge() {
+        if (getPose().getY() > 8.31) {
+            swerveOdometry.resetPosition(getYaw(), getPositions(), getPose());// Need to replace getPose(), getPost gets the current position, we need the desired position in the field
+          } else if (getPose().getY() < -0.1) {
+            return -0.1;
+          } if (getPose().getX() > 16.6) {
+            return 16.6;
+          } else if (getPose().getX() < -0.1) {
+            return -0.1;
+          }
 }
