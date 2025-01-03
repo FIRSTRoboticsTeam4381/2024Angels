@@ -15,11 +15,17 @@ import frc.robot.subsystems.SPivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.NoteTracker;
+import frc.robot.subsystems.PhotonCam;
 
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -39,6 +45,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Aimbot;
+import frc.robot.commands.NoteLineup;
 //import frc.robot.commands.Ampbot;
 import frc.robot.commands.ShootingMode;
 
@@ -70,6 +77,9 @@ public class RobotContainer {
     public static AddressableLED led1;
     public static AddressableLEDBuffer ledBuffer1;
     public static Limelight limelight;
+    public static PhotonCam camA; 
+     public static PhotonCam camB;
+     public static NoteTracker nt;
 
     //Auto Chooser
     SendableChooser<Autos.PreviewAuto> m_AutoChooser = new SendableChooser<>();
@@ -88,6 +98,9 @@ public class RobotContainer {
         hang = new Hang();
         shooter = new Shooter();
         sPivot = new SPivot();
+        camA = new PhotonCam("Camera A", new Transform3d(new Translation3d(Units.inchesToMeters(-10.375), Units.inchesToMeters(-7.3125),  Units.inchesToMeters(8.5)), new Rotation3d(0,Math.PI/-6,Math.PI/-4-Math.PI)) );
+        camB = new PhotonCam("Camera B", new Transform3d(new Translation3d(Units.inchesToMeters(-10.375), Units.inchesToMeters(7.3125),  Units.inchesToMeters(8.5)), new Rotation3d(0,Math.PI/-6,Math.PI/4-Math.PI)) );
+        nt = new NoteTracker("NoteTracker"); 
         leds = new LEDs();
         limelight = new Limelight();
         shooterMode = new ShootingMode(driver, specialist);
@@ -204,8 +217,11 @@ public class RobotContainer {
                 intake.toShoot()//,
                  //sPivot.pivotBack()
             )
+
         ));
+    driver.triangle().whileTrue(new NoteLineup(s_Swerve, nt,false));
     }
+
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

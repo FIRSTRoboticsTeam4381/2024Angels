@@ -54,7 +54,7 @@ public class LogOrDash {
         booleans = new HashMap<String, BooleanLogEntry>();
         strings = new HashMap<String, StringLogEntry>();
 
-        sendToDash = false;
+        sendToDash = true;
 
         SmartDashboard.putBoolean("Sending Debug Data", sendToDash);
         SmartDashboard.putData("Toggle Debug Data", new InstantCommand(() -> {
