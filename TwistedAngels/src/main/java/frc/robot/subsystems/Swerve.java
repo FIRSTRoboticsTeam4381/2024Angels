@@ -222,6 +222,8 @@ public class Swerve extends SubsystemBase{
     public void periodic(){
         swerveOdometry.update(getYaw(), getPositions());
 
+        ResetToEdge();
+
         // Call here
         
         LogOrDash.logNumber("Gyro Angle", getYaw().getDegrees());
