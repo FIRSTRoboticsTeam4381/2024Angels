@@ -320,12 +320,13 @@ public class Swerve extends SubsystemBase{
     
     public void ResetToEdge() {
         if (getPose().getY() > 8.31) {
-            swerveOdometry.resetPosition(getYaw(), getPositions(), getPose());// Need to replace getPose(), getPost gets the current position, we need the desired position in the field
+            swerveOdometry.resetPosition(getYaw(), getPositions(), new Pose2d(getPose().getX(), 8.31, getYaw()));        // Need to replace getPose(), getPost gets the current position, we need the desired position in the field
           } else if (getPose().getY() < -0.1) {
-            return -0.1;
+            swerveOdometry.resetPosition(getYaw(), getPositions(), new Pose2d(getPose().getX(), -0.1, getYaw()));      
           } if (getPose().getX() > 16.6) {
-            return 16.6;
+            swerveOdometry.resetPosition(getYaw(), getPositions(), new Pose2d(16.6, getPose().getY(), getYaw())); 
           } else if (getPose().getX() < -0.1) {
-            return -0.1;
+            swerveOdometry.resetPosition(getYaw(), getPositions(), new Pose2d(-0.1, getPose().getY(), getYaw())); 
           }
+    }
 }
